@@ -1,8 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const Home = () => {
   return (
-    <section className=" bg-gray-100 shadow-2xl rounded-2xl w-11/12 m-auto mt-10 px-5 py-5 flex flex-wrap ">
+    <section className=" w-11/12 m-auto mt-10 px-5 py-5 flex flex-wrap ">
       <div className="m-auto ">
         <Image
           src="/jamal.jpg"
@@ -13,7 +14,7 @@ const Home = () => {
         />
       </div>
       <div className=" flex flex-col justify-center m-auto my-4 py-8 ">
-        <p className="px-4 text-black text-xl text-center ">
+        <p className="px-4 text-black dark:text-slate-200 text-xl text-center ">
           Hey there,<br></br> I am Jamal Ibrahim Umar <br></br>A FullStack Software Engineer.
           {/* Add Social Links  */}
           {/* fix typography */}
@@ -23,22 +24,25 @@ const Home = () => {
           {/* Add prvious projects live and github link */}
           {/* ADD email and phone number to reach out */}
         </p>
-        <div className="pt-2 flex justify-center space-x-4">
-          <Image
-            src="/github.svg"
-            className="rounded-full shadow-2xl"
-            width={35}
-            height={35}
-            alt="Jamal's Picture"
-          />
-
-          <Image
-            src="/linkedin.svg"
-            className="rounded-full shadow-2xl"
-            width={35}
-            height={35}
-            alt="Jamal's Picture"
-          />
+        <div className="pt-6 flex justify-center space-x-4">
+          <Link href="https://www.github.com/captjay98">
+            <Image
+              src="/github.svg"
+              className="rounded-full shadow-2xl"
+              width={35}
+              height={35}
+              alt="Jamal's Picture"
+            />
+          </Link>
+          <Link href="https://www.linkedin.com/in/captjay98">
+            <Image
+              src="/linkedin.svg"
+              className="rounded-full shadow-2xl"
+              width={35}
+              height={35}
+              alt="Jamal's Picture"
+            />
+          </Link>
         </div>
       </div>
     </section>

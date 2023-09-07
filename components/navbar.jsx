@@ -6,11 +6,13 @@ const NavBar = () => {
   const [drop, toggleDrop] = useState(false);
   return (
     <>
-      <nav className="w-11/12 m-auto bg-gray-100 shadow-2xl rounded-2xl flex sticky justify-around text-gray-900 ">
+      <nav
+        className="w-11/12 m-auto shadow-xl rounded-2xl flex sticky justify-around
+        text-slate-800 dark:text-slate-200"
+      >
         <div className="logo">
-          <h3 className="bg-gray-100  py-4 px-2 text-2xl">Capt Jay</h3>
+          <h3 className="py-4 px-2 text-2xl dark:text-slate-200">Capt Jay</h3>
         </div>
-
         <div className="md:flex hidden navbaritems">
           <ul className="py-5 px-2 flex space-x-3 ">
             <li className="px-2 hover:border-b-2 hover:border-l-2 hover:border-slate-900 hover:text-slate-900 hover:px-2 rounded-lg">

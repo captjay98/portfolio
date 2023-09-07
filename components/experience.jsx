@@ -2,11 +2,16 @@ import Image from "next/image";
 
 const Experience = () => {
   return (
-    <section className="w-11/12 m-auto bg-gray-100 shadow-2xl rounded-2xl">
-      <p className="px-8 py-8 text-black text-xl text-center">Some Technologies I Work With</p>
-      <div className=" w-11/12 m-auto text-slate-700 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-        <div className="bg-gray-100 shadow-2xl px-8 py-4 my-4 w-72 m-auto border-2 border-t-slate-300 border-l-gray-300 rounded-lg">
-          <h4 className="pb-8 px-2 text-lg font-bold  ">Frontend</h4>
+    <section className="w-11/12 m-auto text-slate-800 dark:text-slate-200 ">
+      <p className="px-8 py-8 text-xl text-center dark:text-slate-300">
+        Some Technologies I Work With
+      </p>
+      <div className=" w-11/12 m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        <div
+          className="bg-gray-100 dark:bg-slate-900 shadow-xl px-8 py-4 my-4 w-10/12 m-auto
+          border-2 border-t-slate-300 border-l-gray-300 dark:border-slate-800 rounded-lg"
+        >
+          <h4 className="pb-8 px-2 text-lg font-bold  dark:text-slate-400">Frontend</h4>
           <div className="flex ">
             <Image
               src="/html5.svg"
@@ -79,8 +84,11 @@ const Experience = () => {
           </div>
         </div>
 
-        <div className="bg-gray-100 shadow-2xl px-8 py-4 my-4 m-auto w-72  border-2 border-t-slate-300 border-r-gray-300 rounded-lg">
-          <h4 className=" px-2 pb-4 text-lg font-bold ">Backend</h4>
+        <div
+          className="bg-gray-100 dark:bg-slate-900 shadow-xl px-8 py-4 my-4 m-auto w-10/12
+          border-2 border-t-slate-300 border-r-gray-300 dark:border-slate-800 rounded-lg"
+        >
+          <h4 className=" px-2 pb-4 text-lg font-bold  dark:text-slate-400">Backend</h4>
           <div className="flex ">
             <Image
               src="/django-plain.svg"
@@ -143,8 +151,11 @@ const Experience = () => {
           </div>
         </div>
 
-        <div className="bg-gray-100 shadow-2xl m-auto w-72 px-8 py-4 my-4 border-2 border-b-slate-300 border-l-gray-300 rounded-lg">
-          <h4 className="px-2 pb-4 text-lg font-bold ">Devops</h4>
+        <div
+          className="bg-gray-100  dark:bg-slate-900 shadow-xl m-auto w-10/12 px-8 py-4 my-4
+          border-2 border-b-slate-300 border-l-gray-300  dark:border-slate-800 rounded-lg"
+        >
+          <h4 className="px-2 pb-4 text-lg font-bold  dark:text-slate-400">Devops</h4>
           <div className="flex ">
             <Image
               src="/linux-plain.svg"
@@ -199,8 +210,11 @@ const Experience = () => {
           {/* <p>Haproxy</p> */}
           {/* <p>Gunicorn</p> */}
         </div>
-        <div className="bg-gray-100 shadow-2xl m-auto w-72 px-8 py-4 my-4 border-2 border-b-slate-300 border-r-gray-300 rounded-lg">
-          <h4 className="px-2 pb-4 text-lg font-bold ">Languages</h4>
+        <div
+          className="bg-gray-100 dark:bg-slate-900 shadow-xl m-auto w-10/12 px-8 py-4 my-4
+          dark:border-slate-800 border-2 border-b-slate-300 border-r-gray-300 rounded-lg"
+        >
+          <h4 className="px-2 pb-4 text-lg font-bold  dark:text-slate-400">Languages</h4>
           <div className="flex ">
             <Image
               src="/python.svg"
