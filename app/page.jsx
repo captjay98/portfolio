@@ -1,16 +1,27 @@
-import Image from "next/image";
-import Link from "next/link";
-
-const Home = () => {
+// import Image from "next/image";
+// import Link from "next/link";
+import Home from "@components/home";
+import About from "@components/about";
+import Experience from "@components/experience";
+import Projects from "@components/projects";
+import NavBar from "@components/navbar";
+import Footer from "@components/footer";
+const App = () => {
   return (
-    <div className="h-screen flex">
-      <section className=" w-11/12 m-auto px-9 py-9 ">
-        <h1 className="text-slate-300 text-3xl text-center">Building....</h1>
+    <>
+      <NavBar />
+      <Home />
+      <About />
+      <Experience />
+      <Projects />
+      <section className="w-11/12 m-auto">
+        <p className="px-8 py-8 text-black text-xl text-center">Reach Out</p>
       </section>
-    </div>
+
+      <Footer />
+    </>
   );
 };
-
 // EDUCATION
 //Prestige, Danbo, Penfield, Esae Benin, ALX SE
 //
@@ -29,4 +40,4 @@ const Home = () => {
 //Node, Express, Mongodb
 //Docker, Nginx, Linux
 //
-export default Home;
+export default App;
