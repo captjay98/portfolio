@@ -38,7 +38,7 @@ const Projects = () => {
             height={150}
             alt="JILTicketing Picture"
           />
-          <h3 className="mt-4">JILTicketing</h3>
+          <h3 className="py-4">JILTicketing</h3>
           <p className="my-2 text-sm">
             I built the Backend Of this project using Django and Mysql.<br></br>
             It is a Platform for booking Train Tickets.
