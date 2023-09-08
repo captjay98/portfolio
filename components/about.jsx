@@ -23,7 +23,7 @@ const About = () => {
         </div>
         <div className=" my-4 ">
           <Image
-            src="/jamal2.jpg"
+            src="/jay2.jpg"
             className="rounded-2xl border-2 border-slate-200 dark:border-slate-800 shadow-2xl "
             width={200}
             height={150}
