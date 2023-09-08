@@ -2,13 +2,13 @@ import Image from "next/image";
 
 const About = () => {
   return (
-    <section className="w-11/12 m-auto my-8 py-4 text-slate-800 dark:text-slate-200">
+    <section className="w-11/12 animate-bounce repeat-1 m-auto my-8 bg-gray-100 dark:bg-slate-900 rounded-2xl shadow-2xl py-4 text-slate-800 dark:text-slate-200">
       <div className="mx-5 mt-5 ">
-        <p className="px-8 py-2 text-md text-center">A little More</p>
-        <p className="px-8 mb-6 text-2xl text-center">About Me</p>
+        <p className="px-8 py-2 font-normal text-sm text-center">A little More</p>
+        <p className="px-8 mb-6 font-normal text-2xl text-center">About Me</p>
       </div>
 
-      <div className="my-4 flex flex-wrap justify-around ">
+      <div className="my-4 flex flex-wrap justify-around font-light tracking-wide">
         <div
           className="bg-gray-100 dark:bg-slate-900 flex w-76 flex-col shadow-2xl dark:shadow-2xl rounded-2xl px-4 py-8 my-4 
           border-2 border-t-slate-300 border-l-gray-300 dark:border-slate-800 "
@@ -39,7 +39,7 @@ const About = () => {
       </div>
       <div className="mx-5 my-4 ">
         <p
-          className="w-11/12 px-8 py-8 m-auto bg-gray-100 dark:bg-slate-900 text-center 
+          className="indent-8 w-11/12 px-8 py-8 m-auto bg-gray-100 dark:bg-slate-900 text-center 
          text-sm/6 border-white shadow-2xl  dark:shadow-2xl rounded-2xl dark:border-slate-800"
         >
           I have been a tech geek since i was a kid, I knew from an early age i will have a future

@@ -2,11 +2,11 @@ import Image from "next/image";
 
 const Experience = () => {
   return (
-    <section className="w-11/12 m-auto text-slate-800 dark:text-slate-200 ">
+    <section className="w-11/12 m-auto my-8 bg-gray-100 dark:bg-slate-900 rounded-2xl shadow-2xl text-slate-800 dark:text-slate-200 ">
       <p className="px-8 py-8 text-xl text-center dark:text-slate-300">
         Some Technologies I Work With
       </p>
-      <div className=" w-11/12 m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+      <div className=" font-light tracking-wide w-11/12 m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         <div
           className="bg-gray-100 dark:bg-slate-900 shadow-xl px-8 py-4 my-4 w-10/12 m-auto
           border-2 border-t-slate-300 border-l-gray-300 dark:border-slate-800 rounded-lg"

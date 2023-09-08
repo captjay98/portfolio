@@ -3,9 +3,9 @@ import Link from "next/link";
 
 const Projects = () => {
   return (
-    <section className="w-11/12 m-auto text-slate-800 dark:text-slate-300 text-xl text-center">
+    <section className="w-11/12 m-auto my-8 bg-gray-100 dark:bg-slate-900 rounded-2xl shadow-2xl text-slate-800 dark:text-slate-300 text-xl text-center">
       <p className="px-8 py-8 text-xl text-center"> Recent Projects</p>
-      <div className="flex flex-wrap justify-around">
+      <div className=" font-light tracking-wide flex flex-wrap justify-around">
         <div className="px-8 py-4 my-4 border-slate-200 dark:border-slate-800 border-2 rounded-lg">
           <Image
             src="/sbtravel.JPG"
@@ -15,7 +15,7 @@ const Projects = () => {
             alt="SbTravel Picture"
           />
 
-          <h3 className="py-4">SBTravels</h3>
+          <h3 className="py-4 font-normal">SBTravels</h3>
           <p className="text-sm py-2">This was built with the latest NextJs13</p>
           <div className="my-2 py-2 flex justify-evenly">
             <Link href="https://www.github.com/captjay98/sbtravels">
@@ -38,7 +38,7 @@ const Projects = () => {
             height={150}
             alt="JILTicketing Picture"
           />
-          <h3 className="py-4">JILTicketing</h3>
+          <h3 className="py-4 font-normal">JILTicketing</h3>
           <p className="my-2 text-sm">
             I built the Backend Of this project using Django and Mysql.<br></br>
             It is a Platform for booking Train Tickets.
@@ -58,14 +58,14 @@ const Projects = () => {
         </div>
         <div className="px-8 py-4 my-4 border-slate-200 dark:border-slate-800 border-2 rounded-lg">
           <Image
-            src="/js.jpg"
+            src="/inter.JPG"
             className="rounded-2xl m-auto shadow-2xl"
-            width={250}
-            height={100}
+            width={450}
+            height={150}
             alt="Interview Django Picture"
           />
-          <h3>Interview Django</h3>
-          <p className="text-sm">
+          <h3 className="py-4 font-normal">Interview Django</h3>
+          <p className="text-sm py-4">
             This is an Api server for a Job Platform <br></br> built with, Django,
             Django-Rest-Framework and Postgres-Sql.
             <br></br>It has most of the features available on most Job Platforms.
@@ -86,14 +86,14 @@ const Projects = () => {
 
         <div className="px-8 py-4 my-4 border-slate-200 border-2 dark:border-slate-800 rounded-lg">
           <Image
-            src="/sbt.jpg"
+            src="/inter.JPG"
             className="rounded-2xl m-auto shadow-2xl"
-            width={250}
-            height={100}
+            width={450}
+            height={150}
             alt="Interview Node Picture"
           />
-          <h3>Interview Node</h3>
-          <p className="text-sm">
+          <h3 className="py-4 font-normal">Interview Node</h3>
+          <p className="text-sm py-4">
             This is the same project as the previous, built with ExpressJs and MongoD.<br></br>
           </p>
           <div className="my-2 flex justify-evenly">
@@ -119,7 +119,7 @@ const Projects = () => {
             alt="Kalbites Picture"
           />
 
-          <h3 className="py-4">Kalbites</h3>
+          <h3 className="py-4 font-normal">Kalbites</h3>
           <p className="text-sm/6 w-10/12 m-auto py-2">
             The Backend was built with NodeJs and MongoDb.
             <br></br>

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Home = () => {
   return (
-    <section className=" w-11/12 m-auto mt-10 px-5 py-5 flex flex-wrap ">
+    <section className=" w-11/12 animate-pulse repeat-1 my-8 m-auto bg-gray-100 dark:bg-slate-900 rounded-2xl shadow-2xl mt-10 px-5 py-5 flex flex-wrap ">
       <div className="m-auto ">
         <Image
           src="/jamal.jpg"
@@ -14,7 +14,7 @@ const Home = () => {
         />
       </div>
       <div className=" flex flex-col justify-center m-auto my-4 py-8 ">
-        <p className="px-4 text-black dark:text-slate-200 text-xl text-center ">
+        <p className="px-4 font-light tracking-wide text-black dark:text-slate-200 text-xl text-center ">
           Hey there,<br></br> I am Jamal Ibrahim Umar <br></br>A FullStack Software Engineer.
           {/* Add Social Links  */}
           {/* fix typography */}
