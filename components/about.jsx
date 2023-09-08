@@ -13,7 +13,7 @@ const About = () => {
           className="bg-gray-100 dark:bg-slate-900 flex w-76 flex-col shadow-2xl dark:shadow-2xl rounded-2xl px-4 py-8 my-4 
           border-2 border-t-slate-300 border-l-gray-300 dark:border-slate-800 "
         >
-          <h4 className="pb-4 font-bold text-center ">Experience</h4>
+          <h4 className="pb-4 font-normal text-center ">Experience</h4>
           <p className="text-md/4 py-2 px-2">2+ Years Backend Development</p>
           <p className="text-md/4 py-2 px-2">2+ Years Frontend Development</p>
           <p className="text-md/4 py-2 px-2">2+ Years Devops</p>
@@ -32,14 +32,14 @@ const About = () => {
           className="bg-gray-100 dark:bg-slate-900 my-4 w-76 shadow-2xl dark:shadow-2xl px-4 py-8
           border-2 border-b-slate-300 border-r-gray-300 rounded-2xl dark:border-slate-800"
         >
-          <h4 className="pb-4 text-lg font-bold text-center">Education</h4>
-          <p className="text-md/4 py-2 px-2">BSc Computer Science</p>
+          <h4 className="pb-4 text-lg font-normal text-center">Education</h4>
+          <p className="text-md/4 py-2 px-2">B.S.c Computer Science</p>
           <p className="text-md/4 py-2 px-2">ALX SE Certified Software Engineer</p>
         </div>
       </div>
       <div className="mx-5 my-4 ">
         <p
-          className="indent-8 w-11/12 px-8 py-8 m-auto bg-gray-100 dark:bg-slate-900 text-center 
+          className="indent-4 w-11/12 px-8 py-8 m-auto bg-gray-100 dark:bg-slate-900 text-center 
          text-sm/6 border-white shadow-2xl  dark:shadow-2xl rounded-2xl dark:border-slate-800"
         >
           I have been a tech geek since i was a kid, I knew from an early age i will have a future
