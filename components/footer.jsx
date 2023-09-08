@@ -5,6 +5,13 @@ const Footer = () => {
         © 2023 Copyright
         <p class="text-slate-800 dark:text-slate-400">Jamal Ibrahim Umar</p>
       </div>
+      <p className="px-2 py-2 text-xs text-slate-600 relative top-1 text-right">
+        powered by nextjs13
+      </p>
+
+      <p className="px-2 py-2 text-xs text-slate-600 relative  bottom-1 text-right">
+        built by thecodecaptain
+      </p>
     </footer>
   );
 };
