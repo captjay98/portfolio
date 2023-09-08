@@ -40,7 +40,7 @@ const About = () => {
           <p className="text-md/4 py-2 px-2">ALX SE Certified Software Engineer</p>
         </div>
       </div>
-      <div className="mx-5 my-4 ">
+      <div className="mx-5 my-4 grid grid-cols-1 lg:grid-cols-3 justify-around">
         <p
           className="indent-4 w-11/12 my-4 px-8 py-8 m-auto bg-gray-100 dark:bg-slate-900 text-center 
          text-sm/6 border-white shadow-2xl  dark:shadow-2xl rounded-2xl dark:border-slate-800"
