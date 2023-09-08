@@ -2,7 +2,10 @@ import Image from "next/image";
 
 const Experience = () => {
   return (
-    <section className="w-11/12 m-auto my-8 bg-gray-100 dark:bg-slate-900 rounded-2xl shadow-2xl text-slate-800 dark:text-slate-200 ">
+    <section
+      id="experience"
+      className="w-11/12 m-auto my-8 bg-gray-100 dark:bg-slate-900 rounded-2xl shadow-2xl text-slate-800 dark:text-slate-200 "
+    >
       <p className="px-8 py-8 text-xl text-center dark:text-slate-300">
         Some Technologies I Work With
       </p>

@@ -2,7 +2,10 @@ import Image from "next/image";
 
 const About = () => {
   return (
-    <section className="w-11/12 animate-bounce repeat-1 m-auto my-8 bg-gray-100 dark:bg-slate-900 rounded-2xl shadow-2xl py-4 text-slate-800 dark:text-slate-200">
+    <section
+      id="about"
+      className="w-11/12 animate-bounce repeat-1 m-auto my-8 bg-gray-100 dark:bg-slate-900 rounded-2xl shadow-2xl py-4 text-slate-800 dark:text-slate-200"
+    >
       <div className="mx-5 mt-5 ">
         <p className="px-8 py-2 font-normal text-sm text-center">A little More</p>
         <p className="px-8 mb-6 font-normal text-2xl text-center">About Me</p>

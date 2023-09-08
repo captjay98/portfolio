@@ -4,6 +4,7 @@ import Home from "@components/home";
 import About from "@components/about";
 import Experience from "@components/experience";
 import Projects from "@components/projects";
+import Contact from "@components/contact";
 import NavBar from "@components/navbar";
 import Footer from "@components/footer";
 const App = () => {
@@ -14,10 +15,7 @@ const App = () => {
       <About />
       <Experience />
       <Projects />
-      <section className="w-11/12 m-auto">
-        <p className="px-8 py-8 text-black text-xl text-center">Reach Out</p>
-      </section>
-
+      <Contact />
       <Footer />
     </>
   );

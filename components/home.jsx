@@ -3,7 +3,10 @@ import Link from "next/link";
 
 const Home = () => {
   return (
-    <section className=" w-11/12 animate-pulse repeat-1 my-8 m-auto bg-gray-100 dark:bg-slate-900 rounded-2xl shadow-2xl mt-10 px-5 py-5 flex flex-wrap ">
+    <section
+      id="home"
+      className=" w-11/12 animate-pulse repeat-1 my-8 m-auto bg-gray-100 dark:bg-slate-900 rounded-2xl shadow-2xl mt-10 px-5 py-5 flex flex-wrap "
+    >
       <div className="m-auto ">
         <Image
           src="/jamal.jpg"

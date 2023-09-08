@@ -3,7 +3,10 @@ import Link from "next/link";
 
 const Projects = () => {
   return (
-    <section className="w-11/12 m-auto my-8 bg-gray-100 dark:bg-slate-900 rounded-2xl shadow-2xl text-slate-800 dark:text-slate-300 text-xl text-center">
+    <section
+      id="projects"
+      className="w-11/12 m-auto my-8 bg-gray-100 dark:bg-slate-900 rounded-2xl shadow-2xl text-slate-800 dark:text-slate-300 text-xl text-center"
+    >
       <p className="px-8 py-8 text-xl text-center"> Recent Projects</p>
       <div className=" font-light tracking-wide flex flex-wrap justify-around">
         <div className="px-8 py-4 my-4 border-slate-200 dark:border-slate-800 border-2 rounded-lg">

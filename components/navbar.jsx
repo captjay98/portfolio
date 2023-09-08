@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import Home from "@components/home";
 
 const NavBar = () => {
   const [drop, toggleDrop] = useState(false);
@@ -15,36 +17,46 @@ const NavBar = () => {
         </div>
         <div className="md:flex hidden navbaritems">
           <ul className="py-5 px-2 mb-4 flex space-x-3 ">
-            <li
-              className="px-2 underline-offset-4 hover:py-2 hover:underline hover:decoration-slate-800 hover:decoration-2
+            <Link href="#home">
+              <li
+                className="px-2 underline-offset-4 hover:py-2 hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-600 rounded-lg"
-            >
-              Home
-            </li>
-            <li
-              className="px-2 underline-offset-4 hover:py-2 hover:underline hover:decoration-slate-800 hover:decoration-2
+              >
+                Home
+              </li>
+            </Link>
+            <Link href="#about">
+              <li
+                className="px-2 underline-offset-4 hover:py-2 hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-600 rounded-lg"
-            >
-              About
-            </li>
-            <li
-              className="px-2  underline-offset-4 hover:py-2 hover:underline hover:decoration-slate-800 hover:decoration-2
+              >
+                About
+              </li>
+            </Link>
+            <Link href="#experience">
+              <li
+                className="px-2  underline-offset-4 hover:py-2 hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-600 rounded-lg"
-            >
-              Experience
-            </li>
-            <li
-              className="px-2 underline-offset-4 hover:py-2 hover:underline hover:decoration-slate-800 hover:decoration-2
+              >
+                Experience
+              </li>
+            </Link>
+            <Link href="#projects">
+              <li
+                className="px-2 underline-offset-4 hover:py-2 hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-600 rounded-lg"
-            >
-              Projects
-            </li>
-            <li
-              className="px-2 underline-offset-4 hover:py-2 hover:underline hover:decoration-slate-800 hover:decoration-2
+              >
+                Projects
+              </li>
+            </Link>
+            <Link href="#contact">
+              <li
+                className="px-2 underline-offset-4 hover:py-2 hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-600  rounded-lg"
-            >
-              Contact
-            </li>
+              >
+                Contact
+              </li>
+            </Link>
           </ul>
         </div>
         <div className="md:hidden flex h-16 ">
