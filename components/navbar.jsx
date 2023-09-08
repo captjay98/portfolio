@@ -70,11 +70,21 @@ const NavBar = () => {
           />
           {drop && (
             <ul className=" h-56 animate-bounce repeat-1 shadow-2xl pl-1 pr-5 py-2 rounded-lg mr-6 absolute top-20">
-              <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">Home</li>
-              <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">About</li>
-              <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">Experience</li>
-              <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">Projects</li>
-              <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">Contact</li>
+              <Link href="#home">
+                <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">Home</li>
+              </Link>
+              <Link href="#home">
+                <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">About</li>
+              </Link>
+              <Link href="#home">
+                <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">Experience</li>
+              </Link>
+              <Link href="#home">
+                <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">Projects</li>
+              </Link>
+              <Link href="#home">
+                <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">Contact</li>
+              </Link>
             </ul>
           )}
         </div>
