@@ -20,22 +20,4 @@ const App = () => {
     </>
   );
 };
-// EDUCATION
-//Prestige, Danbo, Penfield, Esae Benin, ALX SE
-//
-//
-// PROJECT LIST
-// Jilticketing html css django
-// kalbytes react express
-// interview js express mongo
-// interview py django postgres
-// sbtravels nextjs
-//
-//LANGUAGES AND TOOLS
-//Python, Javascript, TypeScript, C, RUST, BASH
-//
-//Django, Mysql, Postgres
-//Node, Express, Mongodb
-//Docker, Nginx, Linux
-//
 export default App;
