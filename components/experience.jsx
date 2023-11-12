@@ -4,9 +4,9 @@ const Experience = () => {
   return (
     <section
       id="experience"
-      className="w-11/12 m-auto my-8 bg-gray-100 dark:bg-slate-900 rounded-2xl shadow-2xl text-slate-800 dark:text-slate-200 "
+      className="w-[99%] tracking-wide m-auto pt-5 pb-10 my-8 bg-gray-100 dark:bg-slate-900 rounded-lg shadow-lg text-slate-800 dark:text-slate-200 "
     >
-      <p className="px-8 py-8 text-xl text-center dark:text-slate-300">
+      <p className="px-8 py-8 text-2xl font-semibold text-center dark:text-slate-300">
         Some Technologies I Work With
       </p>
       <div className=" font-light tracking-wide w-11/12 m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
@@ -45,6 +45,17 @@ const Experience = () => {
             />
             <p className="px-2 py-4 text-md text-center">JavaScript </p>
           </div>
+          <div className="flex ">
+            <Image
+              src="/react.svg"
+              className="py-2 px-2 rounded-full shadow-2xl"
+              width={40}
+              height={30}
+              alt="hamburger"
+            />
+            <p className="px-2 py-4 text-md text-center">Vue</p>
+          </div>
+
           <div className="flex ">
             <Image
               src="/react.svg"
@@ -101,6 +112,16 @@ const Experience = () => {
               alt="hamburger"
             />
             <p className="px-2 py-4 text-md text-center">Django</p>
+          </div>
+          <div className="flex ">
+            <Image
+              src="/django-plain.svg"
+              className="py-2 px-2 rounded-full shadow-2xl"
+              width={40}
+              height={30}
+              alt="hamburger"
+            />
+            <p className="px-2 py-4 text-md text-center">Laravel</p>
           </div>
           <div className="flex ">
             <Image
@@ -227,6 +248,17 @@ const Experience = () => {
               alt="hamburger"
             />
             <p className="px-2 py-4 text-md text-center">Python</p>
+          </div>
+
+          <div className="flex ">
+            <Image
+              src="/python.svg"
+              className="py-2 px-2 rounded-full shadow-2xl"
+              width={40}
+              height={30}
+              alt="hamburger"
+            />
+            <p className="px-2 py-4 text-md text-center">PHP</p>
           </div>
 
           <div className="flex ">

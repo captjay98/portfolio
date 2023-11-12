@@ -2,24 +2,25 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Home from "@components/home";
 
 const NavBar = () => {
   const [drop, toggleDrop] = useState(false);
   return (
     <>
       <nav
-        className=" font-light tracking-wide w-11/12 h-20 m-auto shadow-xl rounded-2xl flex sticky justify-around
+        className="pt-2 px-4 bg-gray-100 top-0 tracking-wide w-[99%] h-20 m-auto shadow-xl rounded-lg flex sticky justify-between
         text-slate-800 dark:text-slate-200"
       >
         <div className="logo">
-          <h3 className="py-4 px-2 text-2xl dark:text-slate-200">Capt Jay</h3>
+          <h3 className="py-4 px-2 text-2xl font-semibold tracking-wide dark:text-slate-200">
+            Capt Jay
+          </h3>
         </div>
         <div className="md:flex hidden navbaritems">
           <ul className="py-5 px-2 mb-4 flex space-x-3 ">
             <Link href="#home">
               <li
-                className="px-2 underline-offset-4 hover:py-2 hover:underline hover:decoration-slate-800 hover:decoration-2
+                className="px-2 underline-offset-4 hover:translate-y-1 hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-600 rounded-lg"
               >
                 Home
@@ -27,7 +28,7 @@ const NavBar = () => {
             </Link>
             <Link href="#about">
               <li
-                className="px-2 underline-offset-4 hover:py-2 hover:underline hover:decoration-slate-800 hover:decoration-2
+                className="px-2 underline-offset-4 hover:translate-y-1 hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-600 rounded-lg"
               >
                 About
@@ -35,7 +36,7 @@ const NavBar = () => {
             </Link>
             <Link href="#experience">
               <li
-                className="px-2  underline-offset-4 hover:py-2 hover:underline hover:decoration-slate-800 hover:decoration-2
+                className="px-2  underline-offset-4 hover:translate-y-1 hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-600 rounded-lg"
               >
                 Experience
@@ -43,7 +44,7 @@ const NavBar = () => {
             </Link>
             <Link href="#projects">
               <li
-                className="px-2 underline-offset-4 hover:py-2 hover:underline hover:decoration-slate-800 hover:decoration-2
+                className="px-2 underline-offset-4 hover:translate-y-1 hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-600 rounded-lg"
               >
                 Projects
@@ -51,7 +52,7 @@ const NavBar = () => {
             </Link>
             <Link href="#contact">
               <li
-                className="px-2 underline-offset-4 hover:py-2 hover:underline hover:decoration-slate-800 hover:decoration-2
+                className="px-2 underline-offset-4 hover:translate-y-1 hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-600  rounded-lg"
               >
                 Contact
@@ -69,20 +70,20 @@ const NavBar = () => {
             onClick={() => toggleDrop((prev) => !prev)}
           />
           {drop && (
-            <ul className=" h-56 animate-bounce repeat-1 shadow-2xl pl-1 pr-5 py-2 rounded-lg mr-6 absolute top-20">
+            <ul className=" h-56 animate-bounce repeat-1 bg-gray-100 shadow-xl pl-1 pr-6 py-2 rounded-lg  absolute right-1 top-20">
               <Link href="#home">
                 <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">Home</li>
               </Link>
-              <Link href="#home">
+              <Link href="#about">
                 <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">About</li>
               </Link>
-              <Link href="#home">
+              <Link href="#experience">
                 <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">Experience</li>
               </Link>
-              <Link href="#home">
+              <Link href="#projects">
                 <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">Projects</li>
               </Link>
-              <Link href="#home">
+              <Link href="#contact">
                 <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">Contact</li>
               </Link>
             </ul>

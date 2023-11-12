@@ -5,10 +5,10 @@ const Projects = () => {
   return (
     <section
       id="projects"
-      className="w-11/12 m-auto my-8 bg-gray-100 dark:bg-slate-900 rounded-2xl shadow-2xl text-slate-800 dark:text-slate-300 text-xl text-center"
+      className=" tracking-wide w-[99%] m-auto my-8 py-14 bg-gray-100 dark:bg-slate-900 rounded-lg shadow-lg text-slate-800 dark:text-slate-300 text-xl text-center"
     >
-      <p className="px-8 py-8 text-xl text-center"> Recent Projects</p>
-      <div className=" font-light tracking-wide flex flex-wrap justify-around">
+      <p className="px-8 py-8 text-2xl font-semibold text-center"> Recent Projects</p>
+      <div className="font-light tracking-wide flex flex-wrap justify-around">
         <div className="px-8 py-4 my-4 border-slate-200 dark:border-slate-800 border-2 rounded-lg">
           <Image
             src="/sbtravel.JPG"
@@ -18,16 +18,16 @@ const Projects = () => {
             alt="SbTravel Picture"
           />
 
-          <h3 className="py-4 font-normal">SBTravels</h3>
+          <h3 className="py-4 text-xl font-">SBTravels</h3>
           <p className="text-sm py-2">This was built with the latest NextJs13</p>
           <div className="my-2 py-2 flex justify-evenly">
             <Link href="https://www.github.com/captjay98/sbtravels">
-              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:text-sm">
+              <p className="py-2 px-2  rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:translate-x-2">
                 Github
               </p>
             </Link>
             <Link href="https://sbtravels.vercel.app/ ">
-              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:text-sm">
+              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:translate-x-2">
                 Live
               </p>
             </Link>
@@ -41,19 +41,19 @@ const Projects = () => {
             height={150}
             alt="JILTicketing Picture"
           />
-          <h3 className="py-4 font-normal">JILTicketing</h3>
+          <h3 className="py-4 font-xl">JILTicketing</h3>
           <p className="my-2 text-sm">
             I built the Backend Of this project using Django and Mysql.<br></br>
             It is a Platform for booking Train Tickets.
           </p>
           <div className="my-2 flex justify-evenly">
             <Link href="https://www.github.com/captjay98/jilticketing">
-              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:text-sm">
+              <p className="py-2 px-2 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:translate-x-2">
                 Github
               </p>
             </Link>
             <Link href="https://jilticketing.onrender.com">
-              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:text-sm">
+              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:translate-x-2">
                 Live
               </p>
             </Link>
@@ -67,7 +67,7 @@ const Projects = () => {
             height={150}
             alt="Interview Django Picture"
           />
-          <h3 className="py-4 font-normal">Interview Django</h3>
+          <h3 className="py-4 text-xl tracking-wide">Interview Django</h3>
           <p className="text-sm py-4">
             This is an Api server for a Job Platform <br></br> built with, Django,
             Django-Rest-Framework and Postgres-Sql.
@@ -75,12 +75,12 @@ const Projects = () => {
           </p>
           <div className="my-2 flex justify-evenly">
             <Link href="https://www.github.com/captjay98/arb-prj1">
-              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:text-sm">
+              <p className="py-2 px-2 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:translate-x-2">
                 Github
               </p>
             </Link>
             <Link href="https://ab-prj1-production.up.railway.app/ ">
-              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:text-sm">
+              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:translate-x-2">
                 Live
               </p>
             </Link>
@@ -101,12 +101,12 @@ const Projects = () => {
           </p>
           <div className="my-2 flex justify-evenly">
             <Link href="https://www.github.com/captjay98/inter-view">
-              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:text-sm">
+              <p className="py-2 px-2 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300  hover:translate-x-2">
                 Github
               </p>
             </Link>
             <Link href="https://inter-view-production.up.railway.app/">
-              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:text-sm">
+              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300  hover:translate-x-2">
                 Live
               </p>
             </Link>
@@ -135,12 +135,12 @@ const Projects = () => {
           </p>
           <div className="my-2 py-2 flex justify-evenly">
             <Link href="https://www.github.com/captjay98/kalbites-js">
-              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:text-sm">
+              <p className="py-2 px-2 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300  hover:translate-x-2">
                 Github
               </p>
             </Link>
             <Link href="https://kalbites.vercel.app/ ">
-              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:text-sm">
+              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:translate-x-2">
                 Live
               </p>
             </Link>
