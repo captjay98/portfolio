@@ -25,7 +25,7 @@ const About = () => {
           <Image
             src="/me3.jpg"
             className="rounded-lg border-2 border-slate-200 dark:border-slate-800 shadow-xl "
-            width={250}
+            width={350}
             height={150}
             alt="Jamal's Picture"
           />
