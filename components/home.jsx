@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <section
       id="home"
-      className="lg:h-screen w-[99%] animate-pulse repeat-1 my-8 m-auto bg-gray-100 dark:bg-slate-900 rounded-lg shadow-2xl mt-10 px-5 py-5 flex flex-wrap "
+      className="lg:h-screen w-[99%] animate-pulse repeat-1 my-8 m-auto bg-gray-100 dark:bg-gray-900 rounded-lg shadow-2xl mt-10 px-5 py-5 flex flex-wrap "
     >
       <div className="flex flex-col justify-center m-auto my-4 py-8 ">
         <p className=" text-3xl max-sm:text-2xl px-4 font-light tracking-wide leading-normal text-black dark:text-slate-200  text-center ">
@@ -43,9 +43,9 @@ const Home = () => {
       </div>
       <div className="m-auto ">
         <Image
-          src="/jamal.jpg"
+          src="/me2.jpg"
           className="rounded-lg shadow-2xl"
-          width={250}
+          width={350}
           height={50}
           alt="A picture of Jamal wearing glasses"
         />

@@ -8,13 +8,11 @@ const NavBar = () => {
   return (
     <>
       <nav
-        className="pt-2 px-4 bg-gray-100 top-0 tracking-wide w-[99%] h-20 m-auto shadow-xl rounded-lg flex sticky justify-between
-        text-slate-800 dark:text-slate-200"
+        className="pt-2 px-4 bg-gray-100 dark:bg-gray-900 top-0 tracking-wide w-[99%] h-20 m-auto shadow-xl rounded-lg flex sticky justify-between
+        text-slate-800 dark:text-slate-300"
       >
         <div className="logo">
-          <h3 className="py-4 px-2 text-2xl font-semibold tracking-wide dark:text-slate-200">
-            Capt Jay
-          </h3>
+          <h3 className="py-4 px-2 text-2xl font-semibold tracking-widest ">Capt Jay</h3>
         </div>
         <div className="md:flex hidden navbaritems">
           <ul className="py-5 px-2 mb-4 flex space-x-3 ">

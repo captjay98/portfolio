@@ -5,11 +5,11 @@ const Projects = () => {
   return (
     <section
       id="projects"
-      className=" tracking-wide w-[99%] m-auto my-8 py-14 bg-gray-100 dark:bg-slate-900 rounded-lg shadow-lg text-slate-800 dark:text-slate-300 text-xl text-center"
+      className=" tracking-wide w-[99%] m-auto my-8 py-14 bg-gray-100 dark:bg-gray-900 rounded-lg shadow-lg text-slate-800 dark:text-slate-300 text-xl text-center"
     >
       <p className="px-8 py-8 text-2xl font-semibold text-center"> Recent Projects</p>
       <div className="font-light tracking-wide flex flex-wrap justify-around">
-        <div className="px-8 py-4 my-4 border-slate-200 dark:border-slate-800 border-2 rounded-lg">
+        <div className="px-8 py-4 my-4 border-slate-200 dark:border-gray-800 border-2 rounded-lg">
           <Image
             src="/sbtravel.JPG"
             className="rounded-2xl m-auto shadow-2xl"
@@ -22,18 +22,18 @@ const Projects = () => {
           <p className="text-sm py-2">This was built with the latest NextJs13</p>
           <div className="my-2 py-2 flex justify-evenly">
             <Link href="https://www.github.com/captjay98/sbtravels">
-              <p className="py-2 px-2  rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:translate-x-2">
+              <p className="py-2 px-2  rounded-2xl border-2 border-gray-200 dark:border-gray-800 hover:bg-slate-300 hover:translate-x-2">
                 Github
               </p>
             </Link>
             <Link href="https://sbtravels.vercel.app/ ">
-              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:translate-x-2">
+              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-gray-800 hover:bg-slate-300 hover:translate-x-2">
                 Live
               </p>
             </Link>
           </div>
         </div>
-        <div className="flex flex-col px-8 py-4 my-4 border-slate-200 dark:border-slate-800 border-2 rounded-lg">
+        <div className="flex flex-col px-8 py-4 my-4 border-slate-200 dark:border-gray-800 border-2 rounded-lg">
           <Image
             src="/jil.JPG"
             className="rounded-2xl m-auto shadow-2xl"
@@ -48,18 +48,18 @@ const Projects = () => {
           </p>
           <div className="my-2 flex justify-evenly">
             <Link href="https://www.github.com/captjay98/jilticketing">
-              <p className="py-2 px-2 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:translate-x-2">
+              <p className="py-2 px-2 rounded-2xl border-2 border-gray-200 dark:border-gray-800 hover:bg-slate-300 hover:translate-x-2">
                 Github
               </p>
             </Link>
             <Link href="https://jilticketing.onrender.com">
-              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:translate-x-2">
+              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-gray-800 hover:bg-slate-300 hover:translate-x-2">
                 Live
               </p>
             </Link>
           </div>
         </div>
-        <div className="px-8 py-4 my-4 border-slate-200 dark:border-slate-800 border-2 rounded-lg">
+        <div className="px-8 py-4 my-4 border-slate-200 dark:border-gray-800 border-2 rounded-lg">
           <Image
             src="/inter.JPG"
             className="rounded-2xl m-auto shadow-2xl"
@@ -75,19 +75,19 @@ const Projects = () => {
           </p>
           <div className="my-2 flex justify-evenly">
             <Link href="https://www.github.com/captjay98/arb-prj1">
-              <p className="py-2 px-2 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:translate-x-2">
+              <p className="py-2 px-2 rounded-2xl border-2 border-gray-200 dark:border-gray-800 hover:bg-slate-300 hover:translate-x-2">
                 Github
               </p>
             </Link>
             <Link href="https://ab-prj1-production.up.railway.app/ ">
-              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:translate-x-2">
+              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-gray-800 hover:bg-slate-300 hover:translate-x-2">
                 Live
               </p>
             </Link>
           </div>
         </div>
 
-        <div className="px-8 py-4 my-4 border-slate-200 border-2 dark:border-slate-800 rounded-lg">
+        <div className="px-8 py-4 my-4 border-slate-200 border-2 dark:border-gray-800 rounded-lg">
           <Image
             src="/inter.JPG"
             className="rounded-2xl m-auto shadow-2xl"
@@ -101,19 +101,19 @@ const Projects = () => {
           </p>
           <div className="my-2 flex justify-evenly">
             <Link href="https://www.github.com/captjay98/inter-view">
-              <p className="py-2 px-2 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300  hover:translate-x-2">
+              <p className="py-2 px-2 rounded-2xl border-2 border-gray-200 dark:border-gray-800 hover:bg-slate-300  hover:translate-x-2">
                 Github
               </p>
             </Link>
             <Link href="https://inter-view-production.up.railway.app/">
-              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300  hover:translate-x-2">
+              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-gray-800 hover:bg-slate-300  hover:translate-x-2">
                 Live
               </p>
             </Link>
           </div>{" "}
         </div>
 
-        <div className="px-8 py-4 my-4 border-slate-200 dark:border-slate-800  border-2 rounded-lg">
+        <div className="px-8 py-4 my-4 border-slate-200 dark:border-gray-800  border-2 rounded-lg">
           <Image
             src="/bitesjs.JPG"
             className="rounded-2xl m-auto shadow-2xl"
@@ -135,12 +135,12 @@ const Projects = () => {
           </p>
           <div className="my-2 py-2 flex justify-evenly">
             <Link href="https://www.github.com/captjay98/kalbites-js">
-              <p className="py-2 px-2 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300  hover:translate-x-2">
+              <p className="py-2 px-2 rounded-2xl border-2 border-gray-200 dark:border-gray-800 hover:bg-slate-300  hover:translate-x-2">
                 Github
               </p>
             </Link>
             <Link href="https://kalbites.vercel.app/ ">
-              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-slate-800 hover:bg-slate-300 hover:translate-x-2">
+              <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-gray-800 hover:bg-slate-300 hover:translate-x-2">
                 Live
               </p>
             </Link>

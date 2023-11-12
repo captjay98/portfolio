@@ -4,14 +4,14 @@ const Experience = () => {
   return (
     <section
       id="experience"
-      className="w-[99%] tracking-wide m-auto pt-5 pb-10 my-8 bg-gray-100 dark:bg-slate-900 rounded-lg shadow-lg text-slate-800 dark:text-slate-200 "
+      className="w-[99%] tracking-wide m-auto pt-5 pb-10 my-8 bg-gray-100 dark:bg-gray-900 rounded-lg shadow-lg text-slate-800 dark:text-slate-200 "
     >
       <p className="px-8 py-8 text-2xl font-semibold text-center dark:text-slate-300">
         Some Technologies I Work With
       </p>
       <div className=" font-light tracking-wide w-11/12 m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         <div
-          className="bg-gray-100 dark:bg-slate-900 shadow-xl px-8 py-4 my-4 w-10/12 m-auto
+          className="bg-gray-100 dark:bg-gray-900 shadow-xl px-8 py-4 my-4 w-10/12 m-auto
           border-2 border-t-slate-300 border-l-gray-300 dark:border-slate-800 rounded-lg"
         >
           <h4 className="pb-8 px-2 text-lg font-bold  dark:text-slate-400">Frontend</h4>
@@ -47,7 +47,7 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
-              src="/react.svg"
+              src="/vuee.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -78,7 +78,7 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
-              src="/tailwindcss-plain.svg"
+              src="/tailwind.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -99,13 +99,13 @@ const Experience = () => {
         </div>
 
         <div
-          className="bg-gray-100 dark:bg-slate-900 shadow-xl px-8 py-4 my-4 m-auto w-10/12
+          className="bg-gray-100 dark:bg-gray-900 shadow-xl px-8 py-4 my-4 m-auto w-10/12
           border-2 border-t-slate-300 border-r-gray-300 dark:border-slate-800 rounded-lg"
         >
           <h4 className=" px-2 pb-4 text-lg font-bold  dark:text-slate-400">Backend</h4>
           <div className="flex ">
             <Image
-              src="/django-plain.svg"
+              src="/django.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -115,7 +115,7 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
-              src="/django-plain.svg"
+              src="/laravelll.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -145,7 +145,7 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
-              src="/postgresql-original.svg"
+              src="/postgresql.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -155,7 +155,7 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
-              src="/mysql-original.svg"
+              src="/mysqll.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -165,7 +165,7 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
-              src="/mongodb-original.svg"
+              src="/mongodbb.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -176,7 +176,7 @@ const Experience = () => {
         </div>
 
         <div
-          className="bg-gray-100  dark:bg-slate-900 shadow-xl m-auto w-10/12 px-8 py-4 my-4
+          className="bg-gray-100  dark:bg-gray-900 shadow-xl m-auto w-10/12 px-8 py-4 my-4
           border-2 border-b-slate-300 border-l-gray-300  dark:border-slate-800 rounded-lg"
         >
           <h4 className="px-2 pb-4 text-lg font-bold  dark:text-slate-400">Devops</h4>
@@ -202,7 +202,7 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
-              src="/nginx-original.svg"
+              src="/nginxx.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -212,7 +212,7 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
-              src="/docker-plain.svg"
+              src="/docker.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -222,7 +222,7 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
-              src="/nixos-plain.svg"
+              src="/nixx.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -235,7 +235,7 @@ const Experience = () => {
           {/* <p>Gunicorn</p> */}
         </div>
         <div
-          className="bg-gray-100 dark:bg-slate-900 shadow-xl m-auto w-10/12 px-8 py-4 my-4
+          className="bg-gray-100 dark:bg-gray-900 shadow-xl m-auto w-10/12 px-8 py-4 my-4
           dark:border-slate-800 border-2 border-b-slate-300 border-r-gray-300 rounded-lg"
         >
           <h4 className="px-2 pb-4 text-lg font-bold  dark:text-slate-400">Languages</h4>
@@ -252,7 +252,7 @@ const Experience = () => {
 
           <div className="flex ">
             <Image
-              src="/python.svg"
+              src="/phpp.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -274,7 +274,7 @@ const Experience = () => {
 
           <div className="flex ">
             <Image
-              src="/typescript-plain.svg"
+              src="/typescript.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
