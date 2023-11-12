@@ -105,7 +105,8 @@ const Projects = () => {
                 Github
               </p>
             </Link>
-            <Link href="https://inter-view-production.up.railway.app/">
+            {/* "https://inter-view-production.up.railway.app/" */}
+            <Link href="https://nodeinterview.onrender.com">
               <p className="py-2 px-2 w-20 rounded-2xl border-2 border-gray-200 dark:border-gray-800 hover:bg-slate-300  hover:translate-x-2">
                 Live
               </p>

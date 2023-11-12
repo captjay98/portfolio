@@ -22,7 +22,6 @@ const Home = () => {
               className="rounded-full shadow-2xl w-auto h-auto"
               width={35}
               height={35}
-              loading="eager"
               alt="Jamal's Picture"
             />
           </Link>
@@ -45,6 +44,7 @@ const Home = () => {
           width={350}
           height={350}
           alt="A picture of Jamal wearing glasses"
+          loading="eager"
         />
       </div>
     </section>
