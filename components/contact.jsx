@@ -16,7 +16,7 @@ const Contact = () => {
           <Image
             src="/envelope.svg"
             className="py-2 px-2 rounded-full shadow-2xl"
-            width={40}
+            width={60}
             height={30}
             alt="hamburger"
           />
@@ -29,7 +29,7 @@ const Contact = () => {
           <Image
             src="/phone.svg"
             className="py-2 px-2 rounded-full shadow-2xl"
-            width={40}
+            width={60}
             height={30}
             alt="hamburger"
           />

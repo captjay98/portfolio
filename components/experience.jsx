@@ -27,7 +27,7 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
-              src="/css3-alt.svg"
+              src="/css3.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -37,7 +37,7 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
-              src="/square-js.svg"
+              src="/javascript.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -47,13 +47,13 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
-              src="/vuee.svg"
+              src="/vue.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
               alt="hamburger"
             />
-            <p className="px-2 py-4 text-md text-center">Vue</p>
+            <p className="px-2 py-4 text-md text-center">Vue.js</p>
           </div>
 
           <div className="flex ">
@@ -64,17 +64,17 @@ const Experience = () => {
               height={30}
               alt="hamburger"
             />
-            <p className="px-2 py-4 text-md text-center">React</p>
+            <p className="px-2 py-4 text-md text-center">React.js</p>
           </div>
           <div className="flex ">
             <Image
-              src="/nextjs-line.svg"
+              src="/next.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
               alt="hamburger"
             />
-            <p className="px-2 py-4 text-md text-center">NextJs13</p>
+            <p className="px-2 py-4 text-md text-center">Next.js13</p>
           </div>
           <div className="flex ">
             <Image
@@ -88,7 +88,7 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
-              src="/figma-plain.svg"
+              src="/figma.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -115,7 +115,7 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
-              src="/laravelll.svg"
+              src="/laravel.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -135,7 +135,7 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
-              src="/express-original.svg"
+              src="/express.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -155,7 +155,7 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
-              src="/mysqll.svg"
+              src="/mysql.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -165,7 +165,7 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
-              src="/mongodbb.svg"
+              src="/mongodb.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -182,7 +182,7 @@ const Experience = () => {
           <h4 className="px-2 pb-4 text-lg font-bold  dark:text-slate-400">Devops</h4>
           <div className="flex ">
             <Image
-              src="/linux-plain.svg"
+              src="/linux.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -202,7 +202,7 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
-              src="/nginxx.svg"
+              src="/nginx.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -222,7 +222,7 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
-              src="/nixx.svg"
+              src="/nixos.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -252,7 +252,7 @@ const Experience = () => {
 
           <div className="flex ">
             <Image
-              src="/phpp.svg"
+              src="/php.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -263,7 +263,7 @@ const Experience = () => {
 
           <div className="flex ">
             <Image
-              src="/square-js.svg"
+              src="/javascript.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
@@ -306,7 +306,7 @@ const Experience = () => {
 
           <div className="flex ">
             <Image
-              src="/bash-original.svg"
+              src="/bash.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}

@@ -16,74 +16,65 @@ const NavBar = () => {
         </div>
         <div className="md:flex hidden navbaritems">
           <ul className="py-5 px-2 mb-4 flex space-x-3 ">
-            <Link href="#home">
-              <li
-                className="px-2 underline-offset-4 hover:translate-y-1 hover:underline hover:decoration-slate-800 hover:decoration-2
+            <li
+              className="px-2 underline-offset-4 hover:translate-y-1 hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-600 rounded-lg"
-              >
-                Home
-              </li>
-            </Link>
-            <Link href="#about">
-              <li
-                className="px-2 underline-offset-4 hover:translate-y-1 hover:underline hover:decoration-slate-800 hover:decoration-2
+            >
+              <Link href="#home">Home</Link>
+            </li>
+            <li
+              className="px-2 underline-offset-4 hover:translate-y-1 hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-600 rounded-lg"
-              >
-                About
-              </li>
-            </Link>
-            <Link href="#experience">
-              <li
-                className="px-2  underline-offset-4 hover:translate-y-1 hover:underline hover:decoration-slate-800 hover:decoration-2
+            >
+              <Link href="#about">About</Link>
+            </li>
+            <li
+              className="px-2  underline-offset-4 hover:translate-y-1 hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-600 rounded-lg"
-              >
-                Experience
-              </li>
-            </Link>
-            <Link href="#projects">
-              <li
-                className="px-2 underline-offset-4 hover:translate-y-1 hover:underline hover:decoration-slate-800 hover:decoration-2
+            >
+              <Link href="#experience">Experience</Link>
+            </li>
+            <li
+              className="px-2 underline-offset-4 hover:translate-y-1 hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-600 rounded-lg"
-              >
-                Projects
-              </li>
-            </Link>
-            <Link href="#contact">
-              <li
-                className="px-2 underline-offset-4 hover:translate-y-1 hover:underline hover:decoration-slate-800 hover:decoration-2
+            >
+              <Link href="#projects">Projects</Link>
+            </li>
+            <li
+              className="px-2 underline-offset-4 hover:translate-y-1 hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-600  rounded-lg"
-              >
-                Contact
-              </li>
-            </Link>
+            >
+              <Link href="#contact">Contact</Link>
+            </li>
           </ul>
         </div>
         <div className="md:hidden flex h-16 ">
           <Image
             src="/bars.svg"
-            className="py-5 px-5 animate-pulse"
+            className="py-5 px-5 animate-pulse w-auto h-auto"
             width={60}
             height={40}
             alt="hamburger"
             onClick={() => toggleDrop((prev) => !prev)}
           />
           {drop && (
-            <ul className=" h-56 animate-bounce repeat-1 bg-gray-100 shadow-xl pl-1 pr-6 py-2 rounded-lg  absolute right-1 top-20">
-              <Link href="#home">
-                <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">Home</li>
-              </Link>
-              <Link href="#about">
-                <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">About</li>
-              </Link>
-              <Link href="#experience">
-                <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">Experience</li>
-              </Link>
-              <Link href="#projects">
-                <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">Projects</li>
-              </Link>
-              <Link href="#contact">
-                <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">Contact</li>
-              </Link>
+            <ul className=" h-56 animate-bounce repeat-1 bg-gray-100 dark:bg-slate-900 dark:text-slate-200 shadow-xl pl-1 pr-6 py-2 rounded-lg  absolute right-1 top-20">
+              <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">
+                <Link href="#home">Home</Link>
+              </li>
+              <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">
+                <Link href="#about">About</Link>
+              </li>
+              <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">
+                <Link href="#experience">Experience </Link>
+              </li>
+
+              <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">
+                <Link href="#projects">Projects</Link>
+              </li>
+              <li className="px-2 py-2 hover:bg-sky-500 rounded-lg">
+                <Link href="#contact">Contact</Link>
+              </li>
             </ul>
           )}
         </div>

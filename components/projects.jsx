@@ -11,8 +11,8 @@ const Projects = () => {
       <div className="font-light tracking-wide flex flex-wrap justify-around">
         <div className="px-8 py-4 my-4 border-slate-200 dark:border-gray-800 border-2 rounded-lg">
           <Image
-            src="/sbtravel.JPG"
-            className="rounded-2xl m-auto shadow-2xl"
+            src="/sbtravel.webp"
+            className="rounded-2xl m-auto shadow-2xl w-auto h-auto"
             width={450}
             height={150}
             alt="SbTravel Picture"
@@ -35,8 +35,8 @@ const Projects = () => {
         </div>
         <div className="flex flex-col px-8 py-4 my-4 border-slate-200 dark:border-gray-800 border-2 rounded-lg">
           <Image
-            src="/jil.JPG"
-            className="rounded-2xl m-auto shadow-2xl"
+            src="/jil.webp"
+            className="rounded-2xl m-auto shadow-2xl w-auto h-auto"
             width={450}
             height={150}
             alt="JILTicketing Picture"
@@ -61,8 +61,8 @@ const Projects = () => {
         </div>
         <div className="px-8 py-4 my-4 border-slate-200 dark:border-gray-800 border-2 rounded-lg">
           <Image
-            src="/inter.JPG"
-            className="rounded-2xl m-auto shadow-2xl"
+            src="/inter.webp"
+            className="rounded-2xl m-auto shadow-2xl w-auto h-auto"
             width={450}
             height={150}
             alt="Interview Django Picture"
@@ -89,8 +89,8 @@ const Projects = () => {
 
         <div className="px-8 py-4 my-4 border-slate-200 border-2 dark:border-gray-800 rounded-lg">
           <Image
-            src="/inter.JPG"
-            className="rounded-2xl m-auto shadow-2xl"
+            src="/inter.webp"
+            className="rounded-2xl m-auto shadow-2xl w-auto h-auto"
             width={450}
             height={150}
             alt="Interview Node Picture"
@@ -115,8 +115,8 @@ const Projects = () => {
 
         <div className="px-8 py-4 my-4 border-slate-200 dark:border-gray-800  border-2 rounded-lg">
           <Image
-            src="/bitesjs.JPG"
-            className="rounded-2xl m-auto shadow-2xl"
+            src="/bitesjs.webp"
+            className="rounded-2xl m-auto shadow-2xl w-auto h-auto"
             width={250}
             height={100}
             alt="Kalbites Picture"

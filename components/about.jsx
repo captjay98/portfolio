@@ -23,8 +23,8 @@ const About = () => {
         </div>
         <div className=" my-4 ">
           <Image
-            src="/me3.jpg"
-            className="rounded-lg border-2 border-slate-200 dark:border-slate-800 shadow-xl "
+            src="/jamal2.webp"
+            className="rounded-lg border-2 border-slate-200 dark:border-slate-800 shadow-xl  w-auto h-auto"
             width={350}
             height={150}
             alt="Jamal's Picture"
