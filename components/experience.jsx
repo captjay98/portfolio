@@ -11,7 +11,7 @@ const Experience = () => {
       </p>
       <div className=" font-light tracking-wide w-11/12 m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         <div
-          className="bg-gray-100 dark:bg-gray-900 shadow-xl px-8 py-4 my-4 w-10/12 m-auto
+          className="bg-gray-100 dark:bg-gray-900 shadow-xl px-4 py-4 my-4 w-10/12 m-auto
           border-2 border-t-slate-300 border-l-gray-300 dark:border-slate-800 rounded-lg"
         >
           <h4 className="pb-8 px-2 text-lg font-bold  dark:text-slate-400">Frontend</h4>
@@ -86,20 +86,20 @@ const Experience = () => {
             />
             <p className="px-2 py-4 text-md text-center">TailwindCSS</p>
           </div>
-          <div className="flex ">
-            <Image
-              src="/figma.svg"
-              className="py-2 px-2 rounded-full shadow-2xl"
-              width={40}
-              height={30}
-              alt="hamburger"
-            />
-            <p className="px-2 py-4 text-md text-center">Figma</p>
-          </div>
+          {/* <div className="flex "> */}
+          {/*   <Image */}
+          {/*     src="/figma.svg" */}
+          {/*     className="py-2 px-2 rounded-full shadow-2xl" */}
+          {/*     width={40} */}
+          {/*     height={30} */}
+          {/*     alt="hamburger" */}
+          {/*   /> */}
+          {/*   <p className="px-2 py-4 text-md text-center">Figma</p> */}
+          {/* </div> */}
         </div>
 
         <div
-          className="bg-gray-100 dark:bg-gray-900 shadow-xl px-8 py-4 my-4 m-auto w-10/12
+          className="bg-gray-100 dark:bg-gray-900 shadow-xl px-4 py-4 my-4 m-auto w-10/12
           border-2 border-t-slate-300 border-r-gray-300 dark:border-slate-800 rounded-lg"
         >
           <h4 className=" px-2 pb-4 text-lg font-bold  dark:text-slate-400">Backend</h4>
@@ -176,7 +176,7 @@ const Experience = () => {
         </div>
 
         <div
-          className="bg-gray-100  dark:bg-gray-900 shadow-xl m-auto w-10/12 px-8 py-4 my-4
+          className="bg-gray-100  dark:bg-gray-900 shadow-xl m-auto w-10/12 px-4 py-4 my-4
           border-2 border-b-slate-300 border-l-gray-300  dark:border-slate-800 rounded-lg"
         >
           <h4 className="px-2 pb-4 text-lg font-bold  dark:text-slate-400">Devops</h4>
@@ -235,7 +235,7 @@ const Experience = () => {
           {/* <p>Gunicorn</p> */}
         </div>
         <div
-          className="bg-gray-100 dark:bg-gray-900 shadow-xl m-auto w-10/12 px-8 py-4 my-4
+          className="bg-gray-100 dark:bg-gray-900 shadow-xl m-auto w-10/12 px-4 py-4 my-4
           dark:border-slate-800 border-2 border-b-slate-300 border-r-gray-300 rounded-lg"
         >
           <h4 className="px-2 pb-4 text-lg font-bold  dark:text-slate-400">Languages</h4>
