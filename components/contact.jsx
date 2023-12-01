@@ -6,7 +6,7 @@ const Contact = () => {
       id="#contact"
       className="w-[99%] dark:shadow-lg rounded-lg m-auto my-4 py-14
          bg-gray-900/10
-          dark:bg-slate-700/30 dark:bg-gradient-to-r from-gray-700/50 via-gray   "
+          dark:bg-slate-700/50 from-gray-700/50 via-gray   "
     >
       <p className="px-8 py-4 text-xl text-slate-800 dark:text-slate-300  text-center">Reach Out</p>
 

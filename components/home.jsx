@@ -40,7 +40,7 @@ const Home = () => {
           </Link>
         </div>
       </div>
-      <div className="m-auto my-8  max-sm:my-1 lg:w-[350px] ">
+      <div className="m-auto my-8  max-sm:my-1 max-sm:w-[350px] lg:w-[350px] ">
         <Image
           src="/jamal.webp"
           className="rounded-md shadow-2xl w-full h-auto"

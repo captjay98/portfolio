@@ -21,7 +21,7 @@ const NavBar = () => {
       <nav
         className="pt-2 mb-2 px-4 bg-background  top-0 tracking-wide w-[99%] lg:h-16 m-auto shadow-xl rounded-md flex sticky justify-between items-center align-middle
                  bg-gray-900/10 
-        text-slate-800 dark:text-slate-300  dark:bg-slate-900/30 dark:bg-gradient-to-br from-gray-700/50 via-transparent "
+        text-slate-800 dark:text-slate-300  dark:bg-slate-700/30 "
       >
         <div className="logo justify-center">
           <h3 className=" text-[20px] font-semibold tracking-widest ">IUJ</h3>
@@ -32,31 +32,31 @@ const NavBar = () => {
         <div className="md:flex hidden navbaritems   ">
           <ul className="flex space-x-3 ">
             <li
-              className="px-2 underline-offset-4  hover:underline hover:decoration-slate-800 hover:decoration-2
+              className="px-2 underline-offset-4 hover:text-blue-600  hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-400 rounded-md"
             >
               <Link href="#home">Home</Link>
             </li>
             <li
-              className="px-2 underline-offset-4  hover:underline hover:decoration-slate-800 hover:decoration-2
+              className="px-2 underline-offset-4  hover:text-blue-600  hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-400 rounded-md"
             >
               <Link href="#about">About</Link>
             </li>
             <li
-              className="px-2  underline-offset-4  hover:underline hover:decoration-slate-800 hover:decoration-2
+              className="px-2  underline-offset-4  hover:text-blue-600  hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-400 rounded-md"
             >
               <Link href="#experience">Experience</Link>
             </li>
             <li
-              className="px-2 underline-offset-4  hover:underline hover:decoration-slate-800 hover:decoration-2
+              className="px-2 underline-offset-4  hover:text-blue-600  hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-400 rounded-md"
             >
               <Link href="#projects">Projects</Link>
             </li>
             <li
-              className="px-2 underline-offset-4  hover:underline hover:decoration-slate-800 hover:decoration-2
+              className="px-2 underline-offset-4  hover:text-blue-600  hover:underline hover:decoration-slate-800 hover:decoration-2
                dark:hover:underline dark:hover:decoration-slate-400  dark:hover:text-slate-400  rounded-md"
             >
               <Link href="#contact">Contact</Link>

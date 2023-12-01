@@ -19,7 +19,7 @@ const Experience = () => {
            from-gray-500/50 bg-gray-100/10 bg-gradient-to-tl
            dark:bg-gray-700/50 dark:bg-gradient-to-tr dark:from-gray-700/50 via-transparent"
         >
-          <h4 className="pb-8 px-2 text-lg font-bold  dark:text-slate-400">Frontend</h4>
+          <h4 className="pb-4 px-2 text-lg font-bold dark:text-slate-400">Frontend</h4>
           <div className="flex ">
             <Image
               src="/html5.svg"
@@ -79,7 +79,7 @@ const Experience = () => {
               height={30}
               alt="hamburger"
             />
-            <p className="px-2 py-4 text-md text-center">Next.js13</p>
+            <p className="px-2 py-4 text-md text-center">Next.js</p>
           </div>
           <div className="flex ">
             <Image
@@ -218,6 +218,16 @@ const Experience = () => {
               alt="hamburger"
             />
             <p className="px-2 py-4 text-md text-center">NginX</p>
+          </div>
+          <div className="flex ">
+            <Image
+              src="/nginx.svg"
+              className="py-2 px-2 rounded-full shadow-2xl"
+              width={40}
+              height={30}
+              alt="hamburger"
+            />
+            <p className="px-2 py-4 text-md text-center">Apache</p>
           </div>
           <div className="flex ">
             <Image
