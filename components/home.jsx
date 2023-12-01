@@ -9,10 +9,10 @@ const Home = () => {
       bg-gray-900/10
          dark:bg-slate-900/30 dark:bg-gradient-to-br from-gray-700/50 via-transparent   "
     >
-      <div className="md:w-[50%] lg:w-auto flex flex-col max-sm:mt-20 max-sm:mx-2 max-sm:w-full justify-center m-auto my-4  py-10 ">
-        <p className="md:text-[21px] lg:text-3xl lg:leading-tight max-sm:text-[19px] font-light tracking-wide leading-normal text-black dark:text-slate-400  text- ">
+      <div className="flex flex-col max-sm:mt-28 max-sm:mx-2 max-sm:w-full justify-center m-auto my-4  py-10 ">
+        <p className="md:text-[21px] lg:text-3xl lg:leading-tight max-sm:text-[21px] font-light tracking-wide leading-normal text-black dark:text-slate-400  text- ">
           Hey there,<br></br> I am{" "}
-          <span className="text-blue-600 font-italic max-sm:text-[24px] md:text-[28px] lg:text-[40px]">
+          <span className="text-blue-600 font-italic max-sm:text-[26px] md:text-[28px] lg:text-[40px]">
             Jamal Ibrahim Umar,
           </span>{" "}
           <br></br>
@@ -40,7 +40,7 @@ const Home = () => {
           </Link>
         </div>
       </div>
-      <div className="m-auto my-8  max-sm:my-1 w-[350px] ">
+      <div className="m-auto my-8  max-sm:my-1 lg:w-[350px] ">
         <Image
           src="/jamal.webp"
           className="rounded-md shadow-2xl w-full h-auto"

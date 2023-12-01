@@ -2,7 +2,7 @@ const About = () => {
   return (
     <section
       id="about"
-      className="w-[99%] tracking-wide animate-pulse repeat-1 m-auto my-8 
+      className="w-[99%] h-auto tracking-wide animate-pulse repeat-1 m-auto my-8 
       bg-gray-500/10
       rounded-lg dark:shadow-2xl py-4 text-slate-800 dark:text-slate-200
        dark:bg-slate-900/30 dark:bg-gradient-to-tr from-gray-700/50 via-transparent "
@@ -13,33 +13,33 @@ const About = () => {
       </div>
 
       <div
-        className="flex flex-wrap xl:ml-36 xl: justify-center
+        className="flex flex-wrap xl:ml-36 mb-12 justify-center
         rounded-md items-center
         font-light tracking-wide "
       >
         <div
           className="
-           md:w-[330px] max-sm:w-[99%]  lg:h-[400px] flex flex-col justify-around rounded-md mx-4"
+          md:w-[320px] lg:w-[330px] max-sm:w-[99%]  lg:-[400px] flex flex-wrap justify-around rounded-md mx-4"
         >
           <div
-            className="h-72 mb-8 px-4 py-8 rounded-md flex flex-col justify-center 
+            className="h-60 mb-8 px-4 py-4 rounded-md flex flex-col justify-center 
             from-gray-500/50 bg-gray-100/10 bg-gradient-to-tl shadow-2xl dark:shadow-gray-800
             dark:text-slate-300 dark:bg-slate-900/30 dark:bg-gradient-to-br dark:from-gray-700/50 via-transparent                          "
           >
             <h4 className="pb-4 px-2 font-semibold text-left ">Experience</h4>
-            <p className="text-md/2 py-2 px-2">3+ Years Backend Development</p>
-            <p className="text-md/2 py-2 px-2">3+ Years Frontend Development</p>
-            <p className="text-md/4 py-2 px-2">2+ Years Devops</p>
+            <p className="text-md/2 py-2 pl-2">3+ Years Backend Development</p>
+            <p className="text-md/2 py-2 pl-2">3+ Years Frontend Development</p>
+            <p className="text-md/4 py-2 pl-2">2+ Years Devops</p>
           </div>
           <div
-            className="h-72 px-4 py-8 rounded-md  flex flex-col justify-center dark:text-gray-300
+            className="h-60 px-4 py-4 rounded-md  flex flex-col justify-center dark:text-gray-300
             from-gray-500/50 bg-slate-100/10 bg-gradient-to-bl  shadow-2xl dark:shadow-gray-800
             dark:bg-slate-900/30 dark:bg-gradient-to-br dark:from-gray-700/50 via-transparent               "
           >
             <h4 className="pb-4 px-2 text-lg font-semibold text-left">Education</h4>
-            <p className="text-md/4 py-2 px-2">BSc Computer Science</p>
-            <p className="text-md/4 py-2 px-2">ALX Certified Software Engineer</p>
-            <p className="text-md/4 py-2 px-2">Youtube Champ</p>
+            <p className="text-md/4 py-2 pl-2">BSc Computer Science</p>
+            <p className="text-md/4 py-2 pl-2">ALX Certified Software Engineer</p>
+            <p className="text-md/4 py-2 pl-2">Youtube Champ</p>
           </div>
         </div>
 
@@ -53,7 +53,7 @@ const About = () => {
         {/*   /> */}
         {/* </div> */}
         <div
-          className="md:w-[550px] lg:w-[600px] w-[700px]h-[770px]
+          className="md:w-[400px] lg:w-[550px] w-[700px]h-[770px]
                     max-sm:w-[99%] max-sm:my-8  overflow-auto 
                     px-4 py-6 xl:ml-36 rounded-md"
         >
