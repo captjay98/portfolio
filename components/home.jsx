@@ -18,11 +18,11 @@ const Home = () => {
           <br></br>
           <span class="leading-loose ">A FullStack Software Engineer.</span>
         </p>
-        <div className="pt-6 flex justify-center space-x-4">
+        <div className="pt-6 h-20 flex justify-center space-x-4">
           <Link href="https://www.github.com/captjay98">
             <Image
               src="/github.svg"
-              className="rounded-full shadow-2xl w-auto h-auto"
+              className=" dark:bg-blue-500/70 rounded-full shadow-2xl shadow-blue-500 w-10 h-auto"
               width={35}
               height={35}
               alt="Jamal's Picture"
@@ -31,7 +31,7 @@ const Home = () => {
           <Link href="https://www.linkedin.com/in/captjay98">
             <Image
               src="/linkedin.svg"
-              className="rounded-full shadow-2xl w-auto h-auto"
+              className=" dark:bg-blue-500/70 rounded-full shadow-2xl shadow-blue-500 w-10 hover:w-12 h-auto"
               width={35}
               height={35}
               loading="eager"
