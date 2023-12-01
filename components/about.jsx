@@ -1,12 +1,13 @@
-import Image from "next/image";
-
 const About = () => {
   return (
     <section
       id="about"
-      className="w-[99%] tracking-wide animate-pulse repeat-1 m-auto my-8 bg-gray-100 dark:bg-gray-900 rounded-lg shadow-2xl py-4 text-slate-800 dark:text-slate-200"
+      className="w-[99%] tracking-wide animate-pulse repeat-1 m-auto my-8 
+      bg-gray-500/10
+      rounded-lg dark:shadow-2xl py-4 text-slate-800 dark:text-slate-200
+       dark:bg-slate-900/30 dark:bg-gradient-to-tr from-gray-700/50 via-transparent "
     >
-      <div className="mx-5 mt-5 ">
+      <div className="mx-5 mt-5 dark:text-slate-400">
         <p className="px-8 py-2 font-normal text-md tracking-wide text-center">A little More</p>
         <p className="px-8 mb-6 text-2xl text-center font-semibold tracking-wide">About Me</p>
       </div>
@@ -18,21 +19,27 @@ const About = () => {
       >
         <div
           className="
-           md:w-[330px] max-sm:w-[99%] flex flex-col lg:h-[400px] justify-around rounded-md"
+           md:w-[330px] max-sm:w-[99%]  lg:h-[400px] flex flex-col justify-around rounded-md mx-4"
         >
           <div
-            className="px-4 py-8  border dark:border-gray-800 dark:shadow-2xl rounded-md flex flex-col   
-           "
+            className="h-72 mb-8 px-4 py-8 rounded-md flex flex-col justify-center 
+            from-gray-500/50 bg-gray-100/10 bg-gradient-to-tl shadow-2xl dark:shadow-gray-800
+            dark:text-slate-300 dark:bg-slate-900/30 dark:bg-gradient-to-br dark:from-gray-700/50 via-transparent                          "
           >
-            <h4 className="pb-4 font-semibold text-center ">Experience</h4>
-            <p className="text-md/4 py-4 px-2">3+ Years Backend Development</p>
-            <p className="text-md/4 py-2 px-2">3+ Years Frontend Development</p>
+            <h4 className="pb-4 px-2 font-semibold text-left ">Experience</h4>
+            <p className="text-md/2 py-2 px-2">3+ Years Backend Development</p>
+            <p className="text-md/2 py-2 px-2">3+ Years Frontend Development</p>
             <p className="text-md/4 py-2 px-2">2+ Years Devops</p>
           </div>
-          <div className="px-4 py-8   border dark:border-gray-800 dark:shadow-2xl rounded-md  flex flex-col">
-            <h4 className="pb-4 text-lg font-semibold text-center">Education</h4>
+          <div
+            className="h-72 px-4 py-8 rounded-md  flex flex-col justify-center dark:text-gray-300
+            from-gray-500/50 bg-slate-100/10 bg-gradient-to-bl  shadow-2xl dark:shadow-gray-800
+            dark:bg-slate-900/30 dark:bg-gradient-to-br dark:from-gray-700/50 via-transparent               "
+          >
+            <h4 className="pb-4 px-2 text-lg font-semibold text-left">Education</h4>
             <p className="text-md/4 py-2 px-2">BSc Computer Science</p>
             <p className="text-md/4 py-2 px-2">ALX Certified Software Engineer</p>
+            <p className="text-md/4 py-2 px-2">Youtube Champ</p>
           </div>
         </div>
 
@@ -46,16 +53,17 @@ const About = () => {
         {/*   /> */}
         {/* </div> */}
         <div
-          className="md:w-[550px] lg:w-[600px] w-[700px] overflow-auto h-[770px]
-                    max-sm:w-[99%] max-sm:my-8
+          className="md:w-[550px] lg:w-[600px] w-[700px]h-[770px]
+                    max-sm:w-[99%] max-sm:my-8  overflow-auto 
                     px-4 py-6 xl:ml-36 rounded-md"
         >
           <div
-            className="rounded-md border dark:border-gray-800
-            dark:shadow-2xl xl:px-12 px-4 flex flex-col
-            justify-center items-center text-[14px]
+            className="rounded-md 
+            xl:px-12 px-4 flex flex-col
+            justify-center items-center text-[14px] dark:text-slate-300 
             max-sm:px-4 py-8 max-sm:my-8 m-auto
-            "
+            from-gray-500/50  bg-gray-100/10 bg-gradient-to-tl dark:shadow-gray-800 dark:shadow-xl
+            dark:bg-slate-900/30 dark:bg-gradient-to-br dark:from-gray-700/50 via-transparent   "
           >
             <p className="indent-8">
               Since my childhood, I've been a tech geek with an insatiable curiosity for all things,

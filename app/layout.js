@@ -13,7 +13,7 @@ export const metadata = {
 
 const RootLayout = ({ children }) => {
   return (
-    <html lang="en" className="bg-gray-100 dark:bg-gray-900 text-slate-200">
+    <html lang="en" className="bg-white dark:bg-black text-slate-200">
       <body>
         <div className="main "></div>
         <main className={montserrat.className}>{children}</main>

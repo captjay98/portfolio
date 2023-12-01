@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
-    <footer className=" w-[99%] m-auto my-8 dark:bg-slate-900 dark:border-slate-800 shadow-lg rounded-lg border-2 border-slate-200">
-      <div class=" p-4 text-center text-slate-800 dark:bg-slate-900 dark:text-slate-300">
+    <footer className=" w-[99%]  bg-gray-900/10 m-auto my-4 shadow-lg rounded-lg border-slate-200                                                    dark:bg-slate-900/30 dark:bg-gradient-to-br from-gray-700/50 via-transparent  ">
+      <div class=" p-4 text-center text-slate-800 dark:text-slate-300">
         © 2023 Copyright
         <p class="text-slate-800 dark:text-slate-400">Jamal Ibrahim Umar</p>
       </div>

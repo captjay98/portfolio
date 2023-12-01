@@ -5,12 +5,14 @@ const Home = () => {
   return (
     <section
       id="home"
-      className="lg:h-auto w-[99%] animate-pulse repeat-1 my-2 m-auto bg-gray-100 dark:bg-gray-900 rounded-lg shadow-2xl mt-0 px-8 py-1 flex flex-wrap "
+      className="lg:h-auto w-[99%] animate-pulse repeat-1 my-2 m-auto rounded-md shadow-2xl mt-0 px-8 py-1 flex flex-wrap
+      bg-gray-900/10
+         dark:bg-slate-900/30 dark:bg-gradient-to-br from-gray-700/50 via-transparent   "
     >
-      <div className="md:w-[50%] lg:w-auto flex flex-col max-sm:h-96 max-sm:w-full justify-center m-auto my-4 max-sm:my-1 py-10 ">
-        <p className="md:text-[21px] lg:text-3xl lg:leading-tight max-sm:text-[19px] font-light tracking-wide leading-normal text-black dark:text-slate-200  text- ">
+      <div className="md:w-[50%] lg:w-auto flex flex-col max-sm:mt-20 max-sm:mx-2 max-sm:w-full justify-center m-auto my-4  py-10 ">
+        <p className="md:text-[21px] lg:text-3xl lg:leading-tight max-sm:text-[19px] font-light tracking-wide leading-normal text-black dark:text-slate-400  text- ">
           Hey there,<br></br> I am{" "}
-          <span className="text-blue-400 font-italic max-sm:text-[24px] md:text-[28px] lg:text-[40px]">
+          <span className="text-blue-600 font-italic max-sm:text-[24px] md:text-[28px] lg:text-[40px]">
             Jamal Ibrahim Umar,
           </span>{" "}
           <br></br>
@@ -41,7 +43,7 @@ const Home = () => {
       <div className="m-auto my-8  max-sm:my-1 w-[350px] ">
         <Image
           src="/jamal.webp"
-          className="rounded-lg shadow-2xl w-full h-auto"
+          className="rounded-md shadow-2xl w-full h-auto"
           width={350}
           height={350}
           alt="A picture of Jamal wearing glasses"

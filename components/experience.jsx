@@ -4,21 +4,26 @@ const Experience = () => {
   return (
     <section
       id="experience"
-      className="w-[99%] tracking-wide m-auto pt-5 pb-10 my-8 bg-gray-100 dark:bg-gray-900 rounded-lg shadow-lg text-slate-800 dark:text-slate-200 "
+      className="w-[99%] tracking-wide m-auto pt-5 pb-10 my-4 rounded-lg dark:shadow-lg text-slate-800 
+            dark:text-slate-300  dark:bg-slate-900/30 dark:bg-gradient-to-br from-gray-700/50 via-transparent  
+
+      "
     >
       <p className="px-8 py-8 text-2xl font-semibold text-center dark:text-slate-300">
         Some Technologies I Work With
       </p>
       <div className=" font-light tracking-wide w-11/12 m-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         <div
-          className="bg-gray-100 dark:bg-gray-900 shadow-xl px-4 py-4 my-4 w-10/12 m-auto
-          border-2 border-t-slate-300 border-l-gray-300 dark:border-slate-800 rounded-lg"
+          className="px-4 py-4 my-4 w-10/12 m-auto rounded-lg
+           shadow-2xl shadow-current dark:shadow-gray-700 
+           from-gray-500/50 bg-gray-100/10 bg-gradient-to-tl
+           dark:bg-gray-700/50 dark:bg-gradient-to-tr dark:from-gray-700/50 via-transparent"
         >
           <h4 className="pb-8 px-2 text-lg font-bold  dark:text-slate-400">Frontend</h4>
           <div className="flex ">
             <Image
               src="/html5.svg"
-              className="py-2 px-2 rounded-full shadow-2xl"
+              className=" py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
               alt="hamburger"
@@ -99,8 +104,10 @@ const Experience = () => {
         </div>
 
         <div
-          className="bg-gray-100 dark:bg-gray-900 shadow-xl px-4 py-4 my-4 m-auto w-10/12
-          border-2 border-t-slate-300 border-r-gray-300 dark:border-slate-800 rounded-lg"
+          className="px-4 py-4 my-4 w-10/12 m-auto rounded-lg
+           shadow-2xl shadow-current dark:shadow-gray-700 
+           from-gray-500/50 bg-gray-100/10 bg-gradient-to-tl
+           dark:bg-gray-700/50 dark:bg-gradient-to-tr dark:from-gray-700/50 via-transparent"
         >
           <h4 className=" px-2 pb-4 text-lg font-bold  dark:text-slate-400">Backend</h4>
           <div className="flex ">
@@ -176,8 +183,10 @@ const Experience = () => {
         </div>
 
         <div
-          className="bg-gray-100  dark:bg-gray-900 shadow-xl m-auto w-10/12 px-4 py-4 my-4
-          border-2 border-b-slate-300 border-l-gray-300  dark:border-slate-800 rounded-lg"
+          className="px-4 py-4 my-4 w-10/12 m-auto rounded-lg
+           shadow-2xl shadow-current dark:shadow-gray-700 
+           from-gray-500/50 bg-gray-100/10 bg-gradient-to-tl
+           dark:bg-gray-700/50 dark:bg-gradient-to-tr dark:from-gray-700/50 via-transparent"
         >
           <h4 className="px-2 pb-4 text-lg font-bold  dark:text-slate-400">Devops</h4>
           <div className="flex ">
@@ -235,8 +244,10 @@ const Experience = () => {
           {/* <p>Gunicorn</p> */}
         </div>
         <div
-          className="bg-gray-100 dark:bg-gray-900 shadow-xl m-auto w-10/12 px-4 py-4 my-4
-          dark:border-slate-800 border-2 border-b-slate-300 border-r-gray-300 rounded-lg"
+          className="px-4 py-4 my-4 w-10/12 m-auto rounded-lg
+           shadow-2xl shadow-current dark:shadow-gray-700 
+           from-gray-500/50 bg-gray-100/10 bg-gradient-to-tl
+           dark:bg-gray-700/50 dark:bg-gradient-to-tr dark:from-gray-700/50 via-transparent"
         >
           <h4 className="px-2 pb-4 text-lg font-bold  dark:text-slate-400">Languages</h4>
           <div className="flex ">
