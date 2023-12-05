@@ -17,11 +17,11 @@ const Projects = () => {
         >
           {" "}
           <Image
-            src="/jobsite.webp"
+            src="/ticketer.png"
             className="rounded-md m-auto shadow-2xl w-auto h-auto"
             width={500}
             height={400}
-            alt="JobSite Picture"
+            alt="Ticketer Picture"
           />
           <h3 className="py-2 mt-2  font-xl">Ticketer</h3>
           <p className="my-2 text-[12px]">
