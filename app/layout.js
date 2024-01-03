@@ -1,4 +1,5 @@
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "@styles/globals.css";
 import { Raleway } from "next/font/google";
 const raleway = Raleway({
@@ -17,7 +18,7 @@ const RootLayout = ({ children }) => {
       <body className="bg-white dark:bg-black text-slate-200">
         <div className="main"></div>
         <main className={raleway.className}>
-          {children} <Analytics />
+          {children} <Analytics /> <SpeedInsights />
         </main>
       </body>
     </html>
