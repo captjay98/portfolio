@@ -149,7 +149,7 @@ const Projects = () => {
             <br></br>
           </p>
           <div className="flex justify-evenly my-2">
-            <Link href="https://www.github.com/captjay98/arb-prj1">
+            <Link href="https://www.github.com/captjay98/jobsite-django">
               <p className="py-1 px-1 w-24 tracking-wider rounded-lg border-2 border-gray-200 dark:border-gray-800 hover:bg-gray-800 text-[16px] hover:text-slate-200">
                 Github
               </p>
@@ -180,7 +180,7 @@ const Projects = () => {
             <br></br>
           </p>
           <div className="flex relative bottom-0 justify-evenly my-2">
-            <Link href="https://www.github.com/captjay98/inter-view">
+            <Link href="https://www.github.com/captjay98/jobsite-express">
               <p className="py-1 px-1 w-24 tracking-wider rounded-lg border-2 border-gray-200 dark:border-gray-800 hover:bg-gray-800 text-[16px] hover:text-slate-200">
                 Github
               </p>
