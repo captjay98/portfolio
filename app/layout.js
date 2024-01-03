@@ -3,7 +3,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "@styles/globals.css";
 import { Raleway } from "next/font/google";
 const raleway = Raleway({
-  weight: "400,500,600,700",
+  weights: ["400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
