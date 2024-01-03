@@ -14,9 +14,7 @@ const Projects = () => {
         Recent Projects
       </p>
       <div className="flex flex-wrap justify-around font-light tracking-wide">
-        <div
-          className="flex flex-col py-4 px-4 my-4 rounded-lg shadow-2xl w-[400px] hover:shadow-gray-700"
-        >
+        <div className="flex flex-col py-4 px-4 my-4 rounded-lg shadow-2xl w-[400px] hover:shadow-gray-700">
           {" "}
           <Image
             src="/ticketer.png"
@@ -45,9 +43,7 @@ const Projects = () => {
           </div>
         </div>
 
-        <div
-          className="flex flex-col py-4 px-4 my-4 rounded-lg shadow-2xl w-[400px] hover:shadow-gray-700"
-        >
+        <div className="flex flex-col py-4 px-4 my-4 rounded-lg shadow-2xl w-[400px] hover:shadow-gray-700">
           {" "}
           <Image
             src="/jobsite.webp"
@@ -77,9 +73,7 @@ const Projects = () => {
           </div>
         </div>
 
-        <div
-          className="flex flex-col py-4 px-4 my-4 rounded-lg shadow-2xl w-[400px] hover:shadow-gray-700"
-        >
+        <div className="flex flex-col py-4 px-4 my-4 rounded-lg shadow-2xl w-[400px] hover:shadow-gray-700">
           <Image
             src="/sbtravel.webp"
             className="m-auto w-auto h-auto rounded-md shadow-2xl"
@@ -109,9 +103,7 @@ const Projects = () => {
             </Link>
           </div>
         </div>
-        <div
-          className="flex flex-col py-4 px-4 my-4 rounded-lg shadow-2xl w-[400px] ] hover:shadow-gray-700"
-        >
+        <div className="flex flex-col py-4 px-4 my-4 rounded-lg shadow-2xl w-[400px] ] hover:shadow-gray-700">
           {" "}
           <Image
             src="/jil.webp"
@@ -140,9 +132,7 @@ const Projects = () => {
             </Link>
           </div>
         </div>
-        <div
-          className="flex flex-col justify-between py-4 px-4 my-4 rounded-lg shadow-2xl w-[400px] ] hover:shadow-gray-700"
-        >
+        <div className="flex flex-col justify-between py-4 px-4 my-4 rounded-lg shadow-2xl w-[400px] ] hover:shadow-gray-700">
           {" "}
           <Image
             src="/inter.webp"
@@ -164,7 +154,8 @@ const Projects = () => {
                 Github
               </p>
             </Link>
-            <Link href="https://ab-prj1-production.up.railway.app/ ">
+            {/* "https://jobsite-django.up.railway.app/" */}
+            <Link href="https://jobsite-django.onrender.com/ ">
               <p className="py-1 px-1 w-24 tracking-wider rounded-lg border-2 border-gray-200 dark:border-gray-800 hover:bg-gray-800 text-[16px] hover:text-slate-200">
                 Live
               </p>
@@ -172,9 +163,7 @@ const Projects = () => {
           </div>
         </div>
 
-        <div
-          className="flex flex-col justify-between py-4 px-4 my-4 rounded-lg shadow-2xl w-[400px] ] hover:shadow-gray-700"
-        >
+        <div className="flex flex-col justify-between py-4 px-4 my-4 rounded-lg shadow-2xl w-[400px] ] hover:shadow-gray-700">
           {" "}
           <Image
             src="/inter.webp"
@@ -196,8 +185,8 @@ const Projects = () => {
                 Github
               </p>
             </Link>
-            {/* "https://inter-view-production.up.railway.app/" */}
-            <Link href="https://nodeinterview.onrender.com">
+            {/* "https://jobsite-express.up.railway.app/" */}
+            <Link href="https://jobsite-express.onrender.com">
               <p className="py-1 px-1 w-24 tracking-wider rounded-lg border-2 border-gray-200 dark:border-gray-800 hover:bg-gray-800 text-[16px] hover:text-slate-200">
                 Live
               </p>
@@ -205,9 +194,7 @@ const Projects = () => {
           </div>{" "}
         </div>
 
-        <div
-          className="flex flex-col justify-between py-4 px-4 my-4 rounded-lg shadow-2xl h-[600px] w-[400px] ] hover:shadow-gray-700"
-        >
+        <div className="flex flex-col justify-between py-4 px-4 my-4 rounded-lg shadow-2xl h-[600px] w-[400px] ] hover:shadow-gray-700">
           {" "}
           <Image
             src="/bitesjs.webp"
