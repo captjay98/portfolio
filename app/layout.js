@@ -1,8 +1,8 @@
+import { Analytics } from "@vercel/analytics/react";
 import "@styles/globals.css";
-import { Montserrat } from "next/font/google";
-
-const montserrat = Montserrat({
-  weight: "400",
+import { Raleway } from "next/font/google";
+const raleway = Raleway({
+  weight: "400,500,600,700",
   subsets: ["latin"],
 });
 
@@ -15,8 +15,10 @@ const RootLayout = ({ children }) => {
   return (
     <html lang="en">
       <body className="bg-white dark:bg-black text-slate-200">
-        <div className="main "></div>
-        <main className={montserrat.className}>{children}</main>
+        <div className="main"></div>
+        <main className={raleway.className}>
+          {children} <Analytics />
+        </main>
       </body>
     </html>
   );
@@ -31,6 +33,12 @@ const RootLayout = ({ children }) => {
 // import { Inter } from "next/font/google";
 // import { Poppins } from "next/font/google";
 // import { Raleway } from "next/font/google";
+// import { Montserrat } from "next/font/google";
+//
+//const montserrat = Montserrat({
+//   weight: "400",
+//   subsets: ["latin"],
+// });
 
 // const roboto = Roboto({
 //   weight: "400",
