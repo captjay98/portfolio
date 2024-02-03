@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <section
       id="home"
-      className="lg:h-auto w-[99%] md:py-20 animate-pulse repeat-1 my-2 m-auto rounded-md shadow-2xl mt-0 px-8 py-1 flex flex-wrap
+      className="lg:h-auto w-[99%] md:py-10 animate-pulse repeat-1 my-2 m-auto rounded-md shadow-2xl mt-0 px-8 py-1 flex flex-wrap
       bg-gray-900/10
          dark:bg-slate-900/30 dark:bg-gradient-to-br from-gray-700/50 via-transparent   "
     >
@@ -43,9 +43,9 @@ const Home = () => {
       <div className="m-auto rounded-full max-sm:my-1 max-sm:w-[350px] lg:w-[350px]">
         <Image
           src="/jamalbaby.webp"
-          className="m-auto rounded-md shadow-2xl shadow-gray-900 h-[30rem] w-[20rem]"
+          className="m-auto rounded-md shadow-2xl shadow-gray-900"
           width={300}
-          height={300}
+          height={200}
           alt="A picture of Jamal "
           loading="eager"
         />
