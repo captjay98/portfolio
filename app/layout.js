@@ -1,5 +1,5 @@
 import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+// import { SpeedInsights } from "@vercel/speed-insights/next";
 import "@styles/globals.css";
 import { Space_Grotesk } from "next/font/google";
 const inter = Space_Grotesk({
@@ -18,13 +18,13 @@ const RootLayout = ({ children }) => {
       <body className="bg-white dark:bg-black text-slate-200">
         <div className="main"></div>
         <main className={inter.className}>
-          {children} <Analytics /> <SpeedInsights />
+          {children} <Analytics />
         </main>
       </body>
     </html>
   );
 };
-
+// <SpeedInsights />
 // const poppins = Poppins({
 //   weight: "400",
 //   subsets: ["latin"],
