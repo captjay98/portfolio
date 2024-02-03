@@ -31,7 +31,7 @@ const Home = () => {
           <Link href="https://www.linkedin.com/in/captjay98">
             <Image
               src="/linkedin.svg"
-              className="w-full h-full rounded-full shadow-2xl hover:w-12 shadow-blue-500 dark:bg-blue-500/70"
+              className="w-10 h-auto rounded-full shadow-2xl hover:w-12 shadow-blue-500 dark:bg-blue-500/70"
               width={35}
               height={35}
               loading="eager"
