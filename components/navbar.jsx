@@ -31,19 +31,19 @@ const NavBar = () => {
         </div>
         <div className="hidden md:flex navbaritems">
           <ul className="flex space-x-3 text-[0.9rem]">
-            <li className="px-2 rounded-md hover:text-blue-600 hover:underline underline-offset-4 dark:hover:underline dark:hover:decoration-slate-400 dark:hover:text-slate-400 hover:decoration-slate-800 hover:decoration-2">
+            <li className="px-2 rounded-md hover:text-blue-600 hover:underline underline-offset-4 dark:hover:underline dark:hover:decoration-slate-400 hover:decoration-slate-800 hover:decoration-2">
               <Link href="#home">Home</Link>
             </li>
-            <li className="px-2 rounded-md hover:text-blue-600 hover:underline underline-offset-4 dark:hover:underline dark:hover:decoration-slate-400 dark:hover:text-slate-400 hover:decoration-slate-800 hover:decoration-2">
+            <li className="px-2 rounded-md hover:text-blue-600 hover:underline underline-offset-4 dark:hover:underline dark:hover:decoration-slate-400 hover:decoration-slate-800 hover:decoration-2">
               <Link href="#about">About</Link>
             </li>
-            <li className="px-2 rounded-md hover:text-blue-600 hover:underline underline-offset-4 dark:hover:underline dark:hover:decoration-slate-400 dark:hover:text-slate-400 hover:decoration-slate-800 hover:decoration-2">
+            <li className="px-2 rounded-md hover:text-blue-600 hover:underline underline-offset-4 dark:hover:underline dark:hover:decoration-slate-400 hover:decoration-slate-800 hover:decoration-2">
               <Link href="#experience">Experience</Link>
             </li>
-            <li className="px-2 rounded-md hover:text-blue-600 hover:underline underline-offset-4 dark:hover:underline dark:hover:decoration-slate-400 dark:hover:text-slate-400 hover:decoration-slate-800 hover:decoration-2">
+            <li className="px-2 rounded-md hover:text-blue-600 hover:underline underline-offset-4 dark:hover:underline dark:hover:decoration-slate-400 hover:decoration-slate-800 hover:decoration-2">
               <Link href="#projects">Projects</Link>
             </li>
-            <li className="px-2 rounded-md hover:text-blue-600 hover:underline underline-offset-4 dark:hover:underline dark:hover:decoration-slate-400 dark:hover:text-slate-400 hover:decoration-slate-800 hover:decoration-2">
+            <li className="px-2 rounded-md hover:text-blue-600 hover:underline underline-offset-4 dark:hover:underline dark:hover:decoration-slate-400 hover:decoration-slate-800 hover:decoration-2">
               <Link href="#contact">Contact</Link>
             </li>
           </ul>
