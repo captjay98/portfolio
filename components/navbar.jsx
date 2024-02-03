@@ -30,7 +30,7 @@ const NavBar = () => {
           <Toggle />
         </div>
         <div className="hidden md:flex navbaritems">
-          <ul className="flex space-x-3 text-[0.9rem]">
+          <ul className="flex space-x-3 font-normal tracking-wide text-[0.9rem]">
             <li className="px-2 rounded-md hover:text-blue-600 hover:underline underline-offset-4 dark:hover:underline dark:hover:decoration-slate-400 hover:decoration-slate-800 hover:decoration-2">
               <Link href="#home">Home</Link>
             </li>
