@@ -10,7 +10,7 @@ const Projects = () => {
       src: "/bumsa.webp",
       alt: "Bumsa Picture",
       description:
-        "I utilized Laravel and PostgreSQl for the Backend Of this project. The Frontend was buitlt with Inertiajs/Vue3. It is a Voting platform for BUK Medical Students.",
+        "I utilized Laravel and PostgreSQl for the Backend Of this project. The Frontend was buitlt with Inertiajs/Vue3. It is a Voting platform for BUK Medical Students Association Elections.",
       github: "https://www.github.com/captjay98/jobsite",
       live: "https://bumsa-election-4f50699d.koyeb.app/",
     },
@@ -30,7 +30,7 @@ const Projects = () => {
       src: "/rafflesuites.webp",
       alt: "Raffle Suites Picture",
       description:
-        "This is a Full-Stack App cooked up with nextjs14 with Top Notch SEO. It is also visually appealing. Has all the features required for a Hotel Website to work.",
+        "This is a Full-Stack App cooked up with nextjs14 with Top Notch SEO. It is also visually appealing and also has all the basic features required for a Hotel Website to work.",
       github: "https://www.github.com/captjay98/rafflesuites",
       live: "https://raffle-suites.vercel.app/",
     },
