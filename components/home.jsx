@@ -45,8 +45,8 @@ const Home = () => {
         <div className="m-auto rounded-full max-sm:my-1 max-sm:w-[350px] lg:w-[350px]">
           <h1 class="text-blue-700 mb-2">Current Tech Stacks:</h1>
       
-          <p class='text-slate-300 dark:text-slate-600 mb-1'> Laravel - Vue/Next - Postgres.</p>
-          <p class='text-slate-300  dark:text-slate-600'> Express - Vue/React/Next - Mongo/Postgres.</p>
+          <p class='text-slate-600 dark:text-slate-300 mb-1'> Laravel - Vue/Next - Postgres.</p>
+          <p class='text-slate-600  dark:text-slate-300'> Express - Vue/React/Next - Mongo/Postgres.</p>
           
         </div>
       {/* <div className="m-auto rounded-full max-sm:my-1 max-sm:w-[350px] lg:w-[350px]"> */}
