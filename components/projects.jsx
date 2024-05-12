@@ -30,7 +30,7 @@ const Projects = () => {
       src: "/rafflesuites.webp",
       alt: "Raffle Suites Picture",
       description:
-        "This is a Full-Stack App cooked up with nextjs14 with Top Notch SEO. It is also visually appealing and also has all the basic features required for a Hotel Website to work.",
+        "This is a Full-Stack App cooked up with nextjs14 with Top Notch SEO. It is also visually appealing and also has all the basic features required for a Hotel Website to work, with room for additional features.",
       github: "https://www.github.com/captjay98/rafflesuites",
       live: "https://raffle-suites.vercel.app/",
     },
