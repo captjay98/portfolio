@@ -8,8 +8,8 @@ const About = () => {
        dark:bg-slate-900/30 dark:bg-gradient-to-tr from-gray-700/50 via-transparent "
     >
       <div className="mx-5 mt-5 dark:text-slate-400">
-        <p className="px-8 py-2 font-normal text-md tracking-wide text-center">A little More</p>
-        <p className="px-8 mb-6 text-2xl text-center font-semibold tracking-wide">About Me</p>
+        <p className="px-8 py-2 font-normal text-md tracking-wide text-center mb-5">$user-{'>'}information;</p>
+        {/* <p className="px-8 mb-6 text-2xl text-center font-semibold tracking-wide">About Me</p> */}
       </div>
 
       <div

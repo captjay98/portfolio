@@ -5,18 +5,20 @@ const Home = () => {
   return (
     <section
       id="home"
-      className="lg:h-auto w-[99%] md:py-10 animate-pulse repeat-1 my-2 m-auto rounded-md shadow-2xl mt-0 px-8 py-1 flex flex-wrap
+      className="h-screen w-[99%] text-center md:py-10 animate-pulse repeat-1 my-2 m-auto rounded-md shadow-2xl mt-0 px-8 max-sm:px-2 py-1 flex flex-wrap
       bg-gray-900/10
          dark:bg-slate-900/30 dark:bg-gradient-to-br from-gray-700/50 via-transparent   "
     >
       <div className="flex flex-col justify-center py-10 m-auto my-4 max-sm:mt-28 max-sm:mx-2 max-sm:w-full">
-        <p className="font-light tracking-wide leading-normal text-black lg:text-3xl lg:leading-tight max-sm:text-[1.2rem] text- md:text-[21px] dark:text-slate-400">
-          Hey there,<br></br> I am{" "}
-          <span className="text-blue-600 font-italic max-sm:text-[1.6rem] md:text-[28px] lg:text-[40px]">
-            Jamal Ibrahim Umar,
+        <p className=" font-light tracking-tight leading-normal text-black lg:text-xl lg:leading-tight max-sm:text-[1.25rem] text- md:text-[21px] dark:text-slate-400">
+          <br></br>
+          <span class="leading-loose">$user-{'>'}fullstack_software_engineer;</span>
+          <br></br>
+          <span className="text-blue-600 font-italic max-sm:text-[1.75rem] md:text-[28px] lg:text-[40px]">
+            Jamal Ibrahim Umar
           </span>{" "}
           <br></br>
-          <span class="leading-loose">A FullStack Software Engineer.</span>
+          <span class="text-[0.5rem]">known as a baka to close ties</span>
         </p>
         <div className="flex justify-center pt-6 space-x-4 h-20">
           <Link href="https://www.github.com/captjay98">
@@ -40,17 +42,23 @@ const Home = () => {
           </Link>
         </div>
       </div>
-      <div className="m-auto rounded-full max-sm:my-1 max-sm:w-[350px] lg:w-[350px]">
-        <Image
-          src="/jamalbaby.webp"
-          className="m-auto rounded-md shadow-2xl shadow-gray-900"
-          width={300}
-          height={200}
-          alt="A picture of Jamal "
-          loading="eager"
-        />
-        {/* jamal.webp */}
-      </div>
+        <div className="m-auto rounded-full max-sm:my-1 max-sm:w-[350px] lg:w-[350px]">
+          <h1 class="text-blue-500 mb-2">Current Tech Stacks:</h1>
+      
+          <p class='text-slate-300 mb-1'> Laravel - Vue/Next - Postgres.</p>
+          <p class='text-slate-300'> Express - Vue/React/Next - Mongo/Postgres.</p>
+          
+        </div>
+      {/* <div className="m-auto rounded-full max-sm:my-1 max-sm:w-[350px] lg:w-[350px]"> */}
+      {/*   <Image */}
+      {/*     src="/jamal.webp" */}
+      {/*     className="m-auto rounded-md shadow-2xl shadow-gray-900" */}
+      {/*     width={300} */}
+      {/*     height={200} */}
+      {/*     alt="A picture of Jamal " */}
+      {/*     loading="eager" */}
+      {/*   /> */}
+      {/* </div> */}
     </section>
   );
 };
