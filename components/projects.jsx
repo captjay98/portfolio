@@ -107,18 +107,18 @@ const Projects = () => {
                 rounded-lg dark:shadow-lg text-slate-800 dark:text-slate-300 text-xl text-center
                 dark:bg-slate-900/30 dark:bg-gradient-to-tr from-gray-700/50 via-transparent   "
     >
-      <p className="py-8 px-8 text-2xl font-semibold text-center"> Recent Projects</p>
+      <p className="py-2 px-8 text-2xl font-semibold text-center"> Recent Projects</p>
       <div className="flex flex-wrap justify-around font-light tracking-wide">
         {projects.map((project) => (
           <div
             key={project.name}
-            className="flex flex-col py-4 px-4 my-4 rounded-lg shadow-2xl w-[400px] hover:shadow-gray-700"
+            className="flex flex-col py-4 px-4 my-4 rounded-lg shadow-2xl max-h-[550px] w-[400px] hover:shadow-gray-700"
           >
             <Image
               src={project.src}
-              className="m-auto w-auto h-auto rounded-md shadow-2xl"
-              width={500}
-              height={400}
+              className="m-auto w-auto max-h-[50%] rounded-md shadow-2xl"
+              width={400}
+              height={300}
               alt={project.alt}
             />
             <h3 className="py-2 mt-2 font-xl">{project.name}</h3>
