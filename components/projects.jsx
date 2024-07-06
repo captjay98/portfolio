@@ -4,13 +4,13 @@ import Link from "next/link";
 const Projects = () => {
   const projects = [
     {
-      name: "Bumsa Election Portal",
-      src: "/bumsa.webp",
-      alt: "Bumsa Picture",
+      name: "Kalbites",
+      src: "/kalbites.jpg",
+      alt: "Kalbites Picture",
       description:
-        "I utilized Laravel and PostgreSQl for the Backend Of this project. The Frontend was buitlt with Inertiajs/Vue3. It is a Voting platform for BUK Medical Students Association Elections.",
-      github: "https://www.github.com/captjay98/jobsite",
-      live: "https://bumsa-election-4f50699d.koyeb.app/",
+        "The Backend was built with NodeJs and MongoDb. There are 3 different frontends, one is built with jsx and bundles with the ExpressJs Backend. The ExpressJs Backend serves as an Api Server, for the other two built with React and NextJs13.It is a Goodies shopping Platform.",
+      github: "https://www.github.com/captjay98/kalbites-js",
+      live: "https://kalbites.vercel.app/",
     },
 
     {
@@ -31,6 +31,15 @@ const Projects = () => {
         "This is a Full-Stack App cooked up with nextjs14 with Top Notch SEO. It is also visually appealing and also has all the basic features required for a Hotel Website to work, with room for additional features.",
       github: "https://www.github.com/captjay98/rafflesuites",
       live: "https://raffle-suites.vercel.app/",
+    },
+    {
+      name: "Bumsa Election Portal",
+      src: "/bumsa.webp",
+      alt: "Bumsa Picture",
+      description:
+        "I utilized Laravel and PostgreSQl for the Backend Of this project. The Frontend was buitlt with Inertiajs/Vue3. It is a Voting platform for BUK Medical Students Association Elections.",
+      github: "https://www.github.com/captjay98/jobsite",
+      live: "https://bumsa-election-4f50699d.koyeb.app/",
     },
 
     {
@@ -88,15 +97,6 @@ const Projects = () => {
         "I built the Backend Of this project using Django and MySQL. It is a Platform for booking Train Tickets In Nigeria(A dummy). A friend built the frontend",
       github: "https://www.github.com/captjay98/jilticketing",
       live: "https://jilticketing.onrender.com",
-    },
-    {
-      name: "Kalbites",
-      src: "/kalbites.jpg",
-      alt: "Kalbites Picture",
-      description:
-        "The Backend was built with NodeJs and MongoDb. There are 3 different frontends, one is built with jsx and bundles with the ExpressJs Backend. The ExpressJs Backend serves as an Api Server, for the other two built with React and NextJs13.It is a Goodies shopping Platform.",
-      github: "https://www.github.com/captjay98/kalbites-js",
-      live: "https://kalbites.vercel.app/",
     },
   ];
 
