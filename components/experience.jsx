@@ -132,13 +132,33 @@ const Experience = () => {
           </div>
           <div className="flex ">
             <Image
+              src="/bun.svg"
+              className="py-2 px-2 rounded-full shadow-2xl"
+              width={40}
+              height={30}
+              alt="hamburger"
+            />
+            <p className="px-2 py-4 text-md text-center">Bun</p>
+          </div>
+          <div className="flex ">
+            <Image
+              src="/fire.svg"
+              className="py-2 px-2 rounded-full shadow-2xl"
+              width={40}
+              height={30}
+              alt="hamburger"
+            />
+            <p className="px-2 py-4 text-md text-center">Hono</p>
+          </div>
+          <div className="flex ">
+            <Image
               src="/node-js.svg"
               className="py-2 px-2 rounded-full shadow-2xl"
               width={40}
               height={30}
               alt="hamburger"
             />
-            <p className="px-2 py-4 text-md text-center">NodeJs</p>
+            <p className="px-2 py-4 text-md text-center">Node.js</p>
           </div>
           <div className="flex ">
             <Image
@@ -148,7 +168,7 @@ const Experience = () => {
               height={30}
               alt="hamburger"
             />
-            <p className="px-2 py-4 text-md text-center">ExpressJs</p>
+            <p className="px-2 py-4 text-md text-center">Express.js</p>
           </div>
           <div className="flex ">
             <Image
