@@ -8,7 +8,7 @@ const Projects = () => {
       src: "/kalbites.jpg",
       alt: "Kalbites Picture",
       description:
-        "The Backend was built with NodeJs and MongoDb. There are 3 different frontends, one is built with jsx and bundles with the ExpressJs Backend. The ExpressJs Backend serves as an Api Server, for the other two built with React and NextJs13.It is a Goodies shopping Platform.",
+        "Backend is currently built with Hono running on Bun with PostgreSQl as DB. The Backend was previously built with Express.js running on NodeJs with MongoDb as DB. The frontend is still React, previous one was built with JSX.",
       github: "https://www.github.com/captjay98/kalbites-js",
       live: "https://kalbites.vercel.app/",
     },
