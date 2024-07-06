@@ -150,16 +150,16 @@ const Experience = () => {
             />
             <p className="px-2 py-4 text-md text-center">Hono</p>
           </div>
-          <div className="flex ">
-            <Image
-              src="/node-js.svg"
-              className="py-2 px-2 rounded-full shadow-2xl"
-              width={40}
-              height={30}
-              alt="hamburger"
-            />
-            <p className="px-2 py-4 text-md text-center">Node.js</p>
-          </div>
+          {/* <div className="flex "> */}
+          {/*   <Image */}
+          {/*     src="/node-js.svg" */}
+          {/*     className="py-2 px-2 rounded-full shadow-2xl" */}
+          {/*     width={40} */}
+          {/*     height={30} */}
+          {/*     alt="hamburger" */}
+          {/*   /> */}
+          {/*   <p className="px-2 py-4 text-md text-center">Node.js</p> */}
+          {/* </div> */}
           <div className="flex ">
             <Image
               src="/express.svg"
@@ -180,16 +180,16 @@ const Experience = () => {
             />
             <p className="px-2 py-4 text-md text-center">Postgres</p>
           </div>
-          <div className="flex ">
-            <Image
-              src="/mysql.svg"
-              className="py-2 px-2 rounded-full shadow-2xl"
-              width={40}
-              height={30}
-              alt="hamburger"
-            />
-            <p className="px-2 py-4 text-md text-center">MySQL</p>
-          </div>
+          {/* <div className="flex "> */}
+          {/*   <Image */}
+          {/*     src="/mysql.svg" */}
+          {/*     className="py-2 px-2 rounded-full shadow-2xl" */}
+          {/*     width={40} */}
+          {/*     height={30} */}
+          {/*     alt="hamburger" */}
+          {/*   /> */}
+          {/*   <p className="px-2 py-4 text-md text-center">MySQL</p> */}
+          {/* </div> */}
           <div className="flex ">
             <Image
               src="/mongodb.svg"
