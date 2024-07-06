@@ -3,7 +3,7 @@ import Image from "next/image";
 const Contact = () => {
   return (
     <section
-      id="#contact"
+      id="contact"
       className="w-[99%] dark:shadow-lg rounded-lg m-auto my-4 py-14
          bg-gray-900/10
           dark:bg-slate-700/50 from-gray-700/50 via-gray   "
