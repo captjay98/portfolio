@@ -3,8 +3,6 @@ import Link from "next/link";
 
 const Projects = () => {
   const projects = [
-
-
     {
       name: "Bumsa Election Portal",
       src: "/bumsa.webp",
@@ -54,7 +52,6 @@ const Projects = () => {
       live: "https://jobsite.fly.dev",
     },
 
-    
     {
       name: "SBTravels",
       src: "/sbtravel.webp",
@@ -64,7 +61,7 @@ const Projects = () => {
       github: "https://www.github.com/captjay98/sbtravels",
       live: "https://sbtravels.vercel.app/",
     },
-    
+
     {
       name: "Interview Django",
       src: "/inter.webp",
@@ -94,15 +91,13 @@ const Projects = () => {
     },
     {
       name: "Kalbites",
-      src: "/bitesjs.webp",
+      src: "/kalbites.jpg",
       alt: "Kalbites Picture",
       description:
         "The Backend was built with NodeJs and MongoDb. There are 3 different frontends, one is built with jsx and bundles with the ExpressJs Backend. The ExpressJs Backend serves as an Api Server, for the other two built with React and NextJs13.It is a Goodies shopping Platform.",
       github: "https://www.github.com/captjay98/kalbites-js",
       live: "https://kalbites.vercel.app/",
     },
-
-
   ];
 
   return (
@@ -112,13 +107,13 @@ const Projects = () => {
                 rounded-lg dark:shadow-lg text-slate-800 dark:text-slate-300 text-xl text-center
                 dark:bg-slate-900/30 dark:bg-gradient-to-tr from-gray-700/50 via-transparent   "
     >
-      <p className="py-8 px-8 text-2xl font-semibold text-center">
-        {" "}
-        Recent Projects
-      </p>
+      <p className="py-8 px-8 text-2xl font-semibold text-center"> Recent Projects</p>
       <div className="flex flex-wrap justify-around font-light tracking-wide">
         {projects.map((project) => (
-          <div key={project.name} className="flex flex-col py-4 px-4 my-4 rounded-lg shadow-2xl w-[400px] hover:shadow-gray-700">
+          <div
+            key={project.name}
+            className="flex flex-col py-4 px-4 my-4 rounded-lg shadow-2xl w-[400px] hover:shadow-gray-700"
+          >
             <Image
               src={project.src}
               className="m-auto w-auto h-auto rounded-md shadow-2xl"
@@ -148,4 +143,3 @@ const Projects = () => {
 };
 
 export default Projects;
-
