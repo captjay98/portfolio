@@ -58,7 +58,7 @@ const Projects = () => {
       description:
         "I built the Backend Of this project using Laravel and PGSQl. The Frontend was buitlt with Inertiajs/Vue3. It is a Jobsite with all the features required for a jobsite to work, Seeker, Employer and Admin Features.",
       github: "https://www.github.com/captjay98/jobsite",
-      live: "https://jobsiter.fly.dev",
+      live: "https://jobsite-fejw.onrender.com",
     },
 
     {
