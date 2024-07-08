@@ -9,7 +9,7 @@ const Projects = () => {
       alt: "Kalbites Picture",
       description:
         "Backend is currently built with Hono running on Bun with PostgreSQl as DB. The Backend was previously built with Express.js running on NodeJs with MongoDb as DB. The frontend is still React, previous one was built with JSX.",
-      github: "https://www.github.com/captjay98/kalbites-js",
+      github: "https://www.github.com/captjay98/kalbites_frontend",
       live: "https://kalbites.vercel.app/",
     },
 
@@ -38,8 +38,8 @@ const Projects = () => {
       alt: "Bumsa Picture",
       description:
         "I utilized Laravel and PostgreSQl for the Backend Of this project. The Frontend was buitlt with Inertiajs/Vue3. It is a Voting platform for BUK Medical Students Association Elections.",
-      github: "https://www.github.com/captjay98/jobsite",
-      live: "https://bumsa-election-4f50699d.koyeb.app/",
+      github: "https://www.github.com/captjay98/bumsa",
+      live: "https://bumsa.fly.dev/",
     },
 
     {
@@ -58,7 +58,7 @@ const Projects = () => {
       description:
         "I built the Backend Of this project using Laravel and PGSQl. The Frontend was buitlt with Inertiajs/Vue3. It is a Jobsite with all the features required for a jobsite to work, Seeker, Employer and Admin Features.",
       github: "https://www.github.com/captjay98/jobsite",
-      live: "https://jobsite.fly.dev",
+      live: "https://jobsiter.fly.dev",
     },
 
     {
