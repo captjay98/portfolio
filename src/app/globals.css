@@ -1,0 +1,581 @@
+@import "tailwindcss";
+
+@plugin "@tailwindcss/typography";
+
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Light Mode Colors (Ayu Light) - Keep existing background and accent */
+  --color-light-background: #fafafa;
+  --color-light-text: #5c6773;
+  --color-light-subtle: #abb0b6;
+  --color-light-accent: #2563eb; 
+  --color-light-border: #e2e4e7;
+
+  /* Enhanced Ayu Light palette */
+  --color-light-syntax-tag: #55b4d4; /* Ayu light cyan for tags/parameters */
+  --color-light-syntax-func: #f2ae49; /* Ayu light yellow for functions/methods */
+  --color-light-syntax-entity: #399ee6; /* Ayu light blue for entities/classes */
+  --color-light-syntax-string: #86b300; /* Ayu light green for strings */
+  --color-light-syntax-regexp: #4cbf99; /* Ayu light teal for special elements */
+  --color-light-syntax-markup: #f07171; /* Ayu light red for emphasis */
+  --color-light-syntax-keyword: #fa8d3e; /* Ayu light orange for keywords */
+  --color-light-syntax-special: #e6ba7e; /* Ayu light gold for special items */
+
+  /* Dark Mode Colors (Ayu Dark) - Keep existing background and accent */
+  --color-dark-background: #0a0e14;
+  --color-dark-text: #d9d7d3; /* Brightened from #b3b1ad for better legibility */
+  --color-dark-subtle: #949dab; /* Brightened from #5c6773 for better legibility */
+  --color-dark-accent: #e6b450;
+  --color-dark-border: #131721;
+
+  /* Enhanced Ayu Dark palette */
+  --color-dark-syntax-tag: #39bae6; /* Ayu dark cyan for tags/parameters */
+  --color-dark-syntax-func: #ffb454; /* Ayu dark yellow for functions/methods */
+  --color-dark-syntax-entity: #59c2ff; /* Ayu dark blue for entities/classes */
+  --color-dark-syntax-string: #aad94c; /* Ayu dark green for strings */
+  --color-dark-syntax-regexp: #95e6cb; /* Ayu dark teal for special elements */
+  --color-dark-syntax-markup: #f07178; /* Ayu dark red for emphasis */
+  --color-dark-syntax-keyword: #ff8f40; /* Ayu dark orange for keywords */
+  --color-dark-syntax-special: #e6b673; /* Ayu dark gold for special items */
+
+  /* Enhanced Gradient Effects - Using Ayu colors */
+  --color-dark-gradient: linear-gradient(180deg, #0a0e14, #131721);
+  --color-light-gradient: linear-gradient(180deg, #fafafa, #f2f3f5);
+  --color-aboutme-gradient: linear-gradient(180deg, #0a0e14, #1a1f29);
+  --color-accent-gradient-light: linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  ); /* Keeping your blue gradient */
+  --color-accent-gradient-dark: linear-gradient(135deg, #e6b450, #f5a623);
+  --color-glass-gradient-light: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0.3)
+  );
+  --color-glass-gradient-dark: linear-gradient(
+    135deg,
+    rgba(10, 14, 20, 0.8),
+    rgba(19, 23, 33, 0.3)
+  );
+  --color-card-gradient-light: linear-gradient(
+    to bottom right,
+    rgba(240, 245, 255, 0.95),
+    rgba(230, 235, 250, 0.85)
+  );
+  --color-card-gradient-dark: linear-gradient(
+    to bottom right,
+    rgba(19, 23, 33, 0.9),
+    rgba(10, 14, 20, 0.7)
+  );
+
+  /* Enhanced Shadow Effects with Ayu accents */
+  --shadow-glow:
+    0 0 10px rgba(230, 180, 80, 0.5), 0 0 20px rgba(230, 180, 80, 0.3);
+  --shadow-subtle-light: 0 2px 10px rgba(0, 0, 0, 0.05);
+  --shadow-subtle-dark: 0 2px 10px rgba(0, 0, 0, 0.3);
+  --shadow-elevated-light:
+    0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-elevated-dark:
+    0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+  --shadow-3d-light:
+    0 8px 16px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.05);
+  --shadow-3d-dark:
+    0 8px 16px rgba(0, 0, 0, 0.25), 0 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-inner-light: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-inner-dark: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  --shadow-accent-light: 0 0 15px rgba(37, 99, 235, 0.5);
+  --shadow-accent-dark: 0 0 15px rgba(230, 180, 80, 0.5);
+
+  /* 3D Effects */
+  --effect-3d-card-light: 0px 5px 15px rgba(0, 0, 0, 0.05);
+  --effect-3d-card-dark: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  --effect-3d-pressed-light: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  --effect-3d-pressed-dark: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  --effect-3d-text-light: 0px 2px 2px rgba(0, 0, 0, 0.1);
+  --effect-3d-text-dark: 0px 2px 2px rgba(0, 0, 0, 0.3);
+
+  /* Glass Effects */
+  --glass-backdrop-light: blur(12px) saturate(180%);
+  --glass-backdrop-dark: blur(10px) saturate(180%);
+  --glass-background-light: rgba(255, 255, 255, 0.7);
+  --glass-background-dark: rgba(10, 14, 20, 0.6);
+  --glass-border-light: rgba(255, 255, 255, 0.8);
+  --glass-border-dark: rgba(255, 255, 255, 0.1);
+
+  /* Border Effects */
+  --border-glow-light:
+    0 0 0 1px rgba(37, 99, 235, 0.3), 0 0 0 4px rgba(37, 99, 235, 0.15);
+  --border-glow-dark:
+    0 0 0 1px rgba(230, 180, 80, 0.3), 0 0 0 4px rgba(230, 180, 80, 0.15);
+  --border-gradient-light: linear-gradient(to right, #e2e4e7, #ffffff, #e2e4e7);
+  --border-gradient-dark: linear-gradient(to right, #131721, #1e2430, #131721);
+
+  /* Animation Definitions - Keep as is */
+  --animation-fade-in: fadeIn 0.5s ease-in-out;
+  --animation-fade-in-up: fadeInUp 0.6s ease-out;
+  --animation-slide-in-right: slideInRight 0.5s ease-out;
+  --animation-slide-in-left: slideInLeft 0.5s ease-out;
+  --animation-scale-in: scaleIn 0.4s cubic-bezier(0.5, 1.6, 0.4, 1);
+  --animation-float: float 3s ease-in-out infinite;
+  --animation-wiggle: wiggle 0.75s ease-in-out;
+  --animation-bounce: bounce 1s infinite;
+  --animation-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animation-ping: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  --animation-glow: glow 2s ease-in-out infinite alternate;
+
+  /* Keyframes for animations - Keep as is */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    0% {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInLeft {
+    0% {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(-2deg) scale(1);
+    }
+    25% {
+      transform: rotate(0deg) scale(1.025);
+    }
+    50% {
+      transform: rotate(2deg) scale(1.05);
+    }
+    75% {
+      transform: rotate(0deg) scale(1.025);
+    }
+  }
+
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateY(-15%);
+      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+      transform: translateY(0);
+      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
+
+  @keyframes glow {
+    0% {
+      box-shadow: 0 0 5px rgba(230, 180, 80, 0.5);
+    }
+    100% {
+      box-shadow: 0 0 20px rgba(230, 180, 80, 0.8);
+    }
+  }
+}
+
+/* Apply animations as utility classes - Keep as is */
+.animate-fade-in {
+  animation: var(--animation-fade-in);
+}
+.animate-fade-in-up {
+  animation: var(--animation-fade-in-up);
+}
+.animate-slide-in-right {
+  animation: var(--animation-slide-in-right);
+}
+.animate-slide-in-left {
+  animation: var(--animation-slide-in-left);
+}
+.animate-scale-in {
+  animation: var(--animation-scale-in);
+}
+.animate-float {
+  animation: var(--animation-float);
+}
+.animate-wiggle {
+  animation: var(--animation-wiggle);
+}
+.animate-bounce {
+  animation: var(--animation-bounce);
+}
+.animate-pulse {
+  animation: var(--animation-pulse);
+}
+.animate-ping {
+  animation: var(--animation-ping);
+}
+.animate-glow {
+  animation: var(--animation-glow);
+}
+
+/* Apply shadow effects - Keep as is */
+.shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+.shadow-subtle {
+  box-shadow: var(--shadow-subtle-light);
+}
+.dark .shadow-subtle {
+  box-shadow: var(--shadow-subtle-dark);
+}
+.shadow-elevated {
+  box-shadow: var(--shadow-elevated-light);
+}
+.dark .shadow-elevated {
+  box-shadow: var(--shadow-elevated-dark);
+}
+.shadow-3d {
+  box-shadow: var(--shadow-3d-light);
+}
+.dark .shadow-3d {
+  box-shadow: var(--shadow-3d-dark);
+}
+.shadow-inner {
+  box-shadow: var(--shadow-inner-light);
+}
+.dark .shadow-inner {
+  box-shadow: var(--shadow-inner-dark);
+}
+.shadow-accent {
+  box-shadow: var(--shadow-accent-light);
+}
+.dark .shadow-accent {
+  box-shadow: var(--shadow-accent-dark);
+}
+
+/* Apply glass effects - Keep as is */
+.bg-glass {
+  backdrop-filter: var(--glass-backdrop-light);
+  background: var(--glass-background-light);
+  border: 1px solid var(--glass-border-light);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.dark .bg-glass {
+  backdrop-filter: var(--glass-backdrop-dark);
+  background: var(--glass-background-dark);
+  border: 1px solid var(--glass-border-dark);
+  box-shadow: none;
+}
+
+/* 3D effects - Enhanced with Ayu colors */
+.effect-3d {
+  box-shadow:
+    var(--effect-3d-card-light),
+    0 1px 3px rgba(37, 99, 235, 0.1);
+  transform: translateY(0);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.dark .effect-3d {
+  box-shadow: var(--effect-3d-card-dark);
+}
+.effect-3d:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    var(--shadow-elevated-light),
+    0 2px 8px rgba(37, 99, 235, 0.15);
+}
+.dark .effect-3d:hover {
+  box-shadow: var(--shadow-elevated-dark);
+}
+.effect-3d:active {
+  transform: translateY(-2px);
+  box-shadow: var(--effect-3d-pressed-light);
+}
+.dark .effect-3d:active {
+  box-shadow: var(--effect-3d-pressed-dark);
+}
+
+/* Gradient backgrounds - Keep as is */
+.bg-accent-gradient {
+  background: var(--color-accent-gradient-light);
+}
+.dark .bg-accent-gradient {
+  background: var(--color-accent-gradient-dark);
+}
+.bg-card-gradient {
+  background: var(--color-card-gradient-light);
+  border: 1px solid rgba(37, 99, 235, 0.08);
+}
+.dark .bg-card-gradient {
+  background: var(--color-card-gradient-dark);
+  border: none;
+}
+
+/* New Ayu Syntax Highlight Colors */
+.text-tag {
+  color: var(--color-light-syntax-tag);
+}
+.dark .text-tag {
+  color: var(--color-dark-syntax-tag);
+}
+.text-func {
+  color: var(--color-light-syntax-func);
+}
+.dark .text-func {
+  color: var(--color-dark-syntax-func);
+}
+.text-entity {
+  color: var(--color-light-syntax-entity);
+}
+.dark .text-entity {
+  color: var(--color-dark-syntax-entity);
+}
+.text-string {
+  color: var(--color-light-syntax-string);
+}
+.dark .text-string {
+  color: var(--color-dark-syntax-string);
+}
+.text-regexp {
+  color: var(--color-light-syntax-regexp);
+}
+.dark .text-regexp {
+  color: var(--color-dark-syntax-regexp);
+}
+.text-markup {
+  color: var(--color-light-syntax-markup);
+}
+.dark .text-markup {
+  color: var(--color-dark-syntax-markup);
+}
+.text-keyword {
+  color: var(--color-light-syntax-keyword);
+}
+.dark .text-keyword {
+  color: var(--color-dark-syntax-keyword);
+}
+.text-special {
+  color: var(--color-light-syntax-special);
+}
+.dark .text-special {
+  color: var(--color-dark-syntax-special);
+}
+
+/* Hide scrollbar but keep functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Add these overflow utilities if they don't exist */
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+/* Make sure tables stay contained properly */
+.overflow-auto table {
+  min-width: 100%;
+  width: max-content;
+}
+
+/* Updated shadcn theme variables to use Ayu theme colors */
+:root {
+  --radius: 0.625rem;
+  --background: var(--color-light-background);
+  --foreground: var(--color-light-text);
+  --card: #ffffff;
+  --card-foreground: var(--color-light-text);
+  --popover: #ffffff;
+  --popover-foreground: var(--color-light-text);
+  --primary: var(--color-light-accent);
+  --primary-foreground: #ffffff;
+  --secondary: var(--color-light-syntax-tag);
+  --secondary-foreground: #ffffff;
+  --muted: var(--color-light-border);
+  --muted-foreground: var(--color-light-subtle);
+  --accent: var(--color-light-syntax-func);
+  --accent-foreground: #ffffff;
+  --destructive: var(--color-light-syntax-markup);
+  --border: var(--color-light-border);
+  --input: var(--color-light-border);
+  --ring: var(--color-light-accent);
+  --chart-1: var(--color-light-syntax-tag);
+  --chart-2: var(--color-light-syntax-string);
+  --chart-3: var(--color-light-syntax-entity);
+  --chart-4: var(--color-light-syntax-keyword);
+  --chart-5: var(--color-light-syntax-markup);
+  --sidebar: #ffffff;
+  --sidebar-foreground: var(--color-light-text);
+  --sidebar-primary: var(--color-light-accent);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--color-light-syntax-special);
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: var(--color-light-border);
+  --sidebar-ring: var(--color-light-accent);
+}
+
+.dark {
+  --background: var(--color-dark-background);
+  --foreground: var(--color-dark-text);
+  --card: var(--color-dark-border);
+  --card-foreground: var(--color-dark-text);
+  --popover: var(--color-dark-border);
+  --popover-foreground: var(--color-dark-text);
+  --primary: var(--color-dark-accent);
+  --primary-foreground: var(--color-dark-background);
+  --secondary: var(--color-dark-syntax-tag);
+  --secondary-foreground: var(--color-dark-background);
+  --muted: var(
+    --color-dark-border
+  ); /* Changed from var(--color-dark-subtle) to improve contrast */
+  --muted-foreground: #a8b2c0; /* Brightened muted text for better visibility */
+  --accent: var(--color-dark-syntax-func);
+  --accent-foreground: var(--color-dark-background);
+  --destructive: var(--color-dark-syntax-markup);
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.15);
+  --ring: var(--color-dark-accent);
+  --chart-1: var(--color-dark-syntax-entity);
+  --chart-2: var(--color-dark-syntax-string);
+  --chart-3: var(--color-dark-syntax-func);
+  --chart-4: var(--color-dark-syntax-regexp);
+  --chart-5: var(--color-dark-syntax-markup);
+  --sidebar: var(--color-dark-border);
+  --sidebar-foreground: var(
+    --color-dark-syntax-special
+  ); /* Brightened to match main text color */
+  --sidebar-primary: var(--color-dark-accent);
+  --sidebar-primary-foreground: var(--color-dark-background);
+  --sidebar-accent: var(--color-dark-syntax-special);
+  --sidebar-accent-foreground: var(--color-dark-background);
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: var(--color-dark-accent);
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Add these 3D transform utilities at the end of the file */
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.rotate-y-0 {
+  transform: rotateY(0deg);
+}
+
+.rotate-y-30 {
+  transform: rotateY(30deg);
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
