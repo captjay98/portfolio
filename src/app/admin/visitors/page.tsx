@@ -49,7 +49,7 @@ export default function AdminVisitors() {
         await Promise.all([
           visitorService.getVisitorCount(),
           visitorService.getUniqueVisitorCount(),
-          visitorService.getRecentVisits(),
+          visitorService.getRecentVisits(500),
           visitorService.getVisitorStatsByCountry(),
         ]);
 
@@ -64,6 +64,14 @@ export default function AdminVisitors() {
     } finally {
       setIsLoading(false);
     }
+  }
+
+  // Helper to truncate user agent string
+  function getShortUserAgent(ua: string) {
+    if (!ua) return "N/A";
+    // Try to extract browser name/version, fallback to first 20 chars
+    const match = ua.match(/([A-Za-z]+)\/[\d\.]+/);
+    return match ? match[1] : ua.slice(0, 20) + (ua.length > 20 ? "..." : "");
   }
 
   const filteredVisits =
@@ -83,61 +91,73 @@ export default function AdminVisitors() {
       );
     }) || [];
 
-  const countryData = Object.entries(stats?.countryStats || {}).map(
-    ([country, count]) => ({
+  const countryData = Object.entries(stats?.countryStats || {})
+    .map(([country, count]) => ({
       country,
       count,
-    }),
-  );
+    }))
+    .sort((a, b) => b.count - a.count); // Sort by count descending
 
   if (isLoading) {
     return <TableSkeleton columns={6} rows={5} />;
   }
 
   return (
-    <div className="container mx-auto p-4 pb-16">
+    <div className="space-y-6 pb-20  mx-auto">
       <Toaster />
 
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Visitor Statistics</h1>
-        <div className="flex gap-4">
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-3xl font-bold tracking-tight">Visitor Statistics</h1>
+        <div className="flex gap-2">
           <Input
             placeholder="Search visitors..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            className="h-8 text-sm"
           />
         </div>
       </div>
 
-      <div className="grid gap-6">
+      <div className="grid gap-4">
         <Card>
-          <CardHeader>
-            <CardTitle>Statistics</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base">Statistics</CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-2 gap-4">
+          <CardContent className="grid grid-cols-2 gap-2">
             <div>
-              <h3 className="text-sm font-medium">Total Visits</h3>
-              <p className="text-2xl font-bold">{stats?.totalVisits || 0}</p>
+              <h3 className="text-xs font-medium">Total Visits</h3>
+              <p className="text-xl font-bold">{stats?.totalVisits || 0}</p>
             </div>
             <div>
-              <h3 className="text-sm font-medium">Unique Visitors</h3>
-              <p className="text-2xl font-bold">{stats?.uniqueVisitors || 0}</p>
+              <h3 className="text-xs font-medium">Unique Visitors</h3>
+              <p className="text-xl font-bold">{stats?.uniqueVisitors || 0}</p>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader>
-            <CardTitle>Visitors by Country</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base">Visitors by Country</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-64">
+            <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={countryData}>
-                  <XAxis dataKey="country" />
-                  <YAxis />
+                <BarChart
+                  data={countryData}
+                  margin={{ top: 10, right: 10, left: 0, bottom: 30 }}
+                  barCategoryGap={8}
+                >
+                  <XAxis
+                    dataKey="country"
+                    tick={{ fontSize: 10 }}
+                    interval={0}
+                    angle={-45}
+                    textAnchor="end"
+                    height={50}
+                  />
+                  <YAxis tick={{ fontSize: 10 }} width={30} />
                   <Tooltip />
-                  <Bar dataKey="count" fill="#2563eb" />
+                  <Bar dataKey="count" fill="#2563eb" maxBarSize={24} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -145,46 +165,53 @@ export default function AdminVisitors() {
         </Card>
 
         <Card>
-          <CardHeader>
-            <CardTitle>Recent Visits</CardTitle>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base">Recent Visits</CardTitle>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Country</TableHead>
-                  <TableHead>Page</TableHead>
-                  <TableHead>Browser</TableHead>
-                  <TableHead>Referrer</TableHead>
-                  <TableHead>Visit Count</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredVisits.map((visit, index) => (
-                  <TableRow key={index}>
-                    <TableCell>
-                      {new Date(visit.timestamp).toLocaleString()}
-                    </TableCell>
-                    <TableCell className="flex items-center gap-2">
-                      <Flag className="w-4 h-4" />
-                      <span>{visit.country_name}</span>
-                    </TableCell>
-                    <TableCell>{visit.page || "N/A"}</TableCell>
-                    <TableCell>
-                      <Badge variant="secondary">
-                        {visit.user_agent
-                          // ? visit.user_agent.split("(")[0].trim()
-                          // : "N/A"
-                          }
-                      </Badge>
-                    </TableCell>
-                    <TableCell>{visit.referrer || "N/A"}</TableCell>
-                    <TableCell>{visit.visit_count}</TableCell>
+            <div className="overflow-x-auto">
+              <Table className="text-xs min-w-[900px]">
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="whitespace-nowrap px-2 py-1">Date</TableHead>
+                    <TableHead className="whitespace-nowrap px-2 py-1 max-w-[90px]">Country</TableHead>
+                    <TableHead className="whitespace-nowrap px-2 py-1 max-w-[120px]">Page</TableHead>
+                    <TableHead className="whitespace-nowrap px-2 py-1 max-w-[100px]">Browser</TableHead>
+                    <TableHead className="whitespace-nowrap px-2 py-1 max-w-[120px]">Referrer</TableHead>
+                    <TableHead className="whitespace-nowrap px-2 py-1">Visit Count</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {filteredVisits.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                        No visits found
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    filteredVisits.map((visit, index) => (
+                      <TableRow key={index} className="h-8">
+                        <TableCell className="px-2 py-1">
+                          {new Date(visit.timestamp).toLocaleString()}
+                        </TableCell>
+                        <TableCell className="px-2 py-1 max-w-[90px] truncate flex items-center gap-1">
+                          <Flag className="w-3 h-3" />
+                          <span className="truncate">{visit.country_name}</span>
+                        </TableCell>
+                        <TableCell className="px-2 py-1 max-w-[120px] truncate">{visit.page || "N/A"}</TableCell>
+                        <TableCell className="px-2 py-1 max-w-[100px] truncate">
+                          <Badge variant="secondary" className="text-[10px] px-1 py-0.5">
+                            {getShortUserAgent(visit.user_agent)}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="px-2 py-1 max-w-[120px] truncate">{visit.referrer || "N/A"}</TableCell>
+                        <TableCell className="px-2 py-1">{visit.visit_count}</TableCell>
+                      </TableRow>
+                    ))
+                  )}
+                </TableBody>
+              </Table>
+            </div>
           </CardContent>
         </Card>
       </div>

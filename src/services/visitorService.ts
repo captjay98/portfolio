@@ -62,7 +62,7 @@ export const visitorService = {
         VISITORS_COLLECTION_ID,
         []
       );
-      return response.documents.length;
+      return response.total;
     } catch (error) {
       console.error("Error fetching visitor count:", error);
       return 0;
@@ -88,12 +88,14 @@ export const visitorService = {
   },
 
   // Get recent visits
-  getRecentVisits: async (limit: number = 10): Promise<VisitorType[]> => {
+  getRecentVisits: async (limit?: number): Promise<VisitorType[]> => {
     try {
+      // If limit is not provided, fetch a large number (e.g., 500)
+      const queryLimit = typeof limit === "number" ? limit : 500;
       const response = await databases.listDocuments(
         appwriteConfig.databaseId,
         VISITORS_COLLECTION_ID,
-        [Query.orderDesc("timestamp"), Query.limit(limit)],
+        [Query.orderDesc("timestamp"), Query.limit(queryLimit)],
       );
       return response.documents.map((doc) => mapDocumentToVisitor(doc));
     } catch (error) {
@@ -132,15 +134,28 @@ export const visitorService = {
   // Get visitor stats by country
   getVisitorStatsByCountry: async (): Promise<Record<string, number>> => {
     try {
-      const response = await databases.listDocuments(
-        appwriteConfig.databaseId,
-        VISITORS_COLLECTION_ID,
-        [],
-      );
-
       const stats: Record<string, number> = {};
-      response.documents.forEach((doc) => {
-        const country = doc.country_code || "Unknown";
+      let allDocs: any[] = [];
+      const limit = 500;
+      let offset = 0;
+      let total = 0;
+
+      do {
+        const response = await databases.listDocuments(
+          appwriteConfig.databaseId,
+          VISITORS_COLLECTION_ID,
+          [Query.limit(limit), Query.offset(offset)],
+        );
+        allDocs = allDocs.concat(response.documents);
+        total = response.total;
+        offset += limit;
+      } while (allDocs.length < total && offset < 5000);
+
+      allDocs.forEach((doc) => {
+        const country =
+          doc.country_name?.trim() ||
+          doc.country_code?.trim() ||
+          "Unknown";
         stats[country] = (stats[country] || 0) + 1;
       });
 
