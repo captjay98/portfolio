@@ -1,6 +1,3 @@
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
@@ -31,7 +28,6 @@ export default function RootLayout({
           <Navbar />
           <div className="mt-20 animate-fade-in">
             {children}
-            <Analytics /> <SpeedInsights />
           </div>
         </ThemeProvider>
       </body>
