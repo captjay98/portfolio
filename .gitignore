@@ -44,3 +44,4 @@ legacy-backup/
 
 # Isolated git worktrees
 .worktrees/
+.agents/
