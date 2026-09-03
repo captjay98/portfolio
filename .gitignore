@@ -37,7 +37,7 @@ next-env.d.ts
 
 # vite / cloudflare
 dist/
-.wrangler/
+.wrangler
 .env
 .dev.vars
 legacy-backup/
