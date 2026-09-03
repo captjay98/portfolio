@@ -1,0 +1,58 @@
+[
+  {
+    "platform": "GitHub",
+    "url": "https://github.com/captjay98",
+    "icon": "github",
+    "priority": 1,
+    "is_visible": true,
+    "$id": "67e993be003a9af06e69",
+    "$sequence": "1",
+    "$createdAt": "2025-03-30T18:55:59.071+00:00",
+    "$updatedAt": "2025-03-30T18:55:59.071+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "social_links"
+  },
+  {
+    "platform": "LinkedIn",
+    "url": "https://linkedin.com/in/captjay98",
+    "icon": "linkedin",
+    "priority": 2,
+    "is_visible": true,
+    "$id": "67e993bf000b0aa886f0",
+    "$sequence": "2",
+    "$createdAt": "2025-03-30T18:55:59.302+00:00",
+    "$updatedAt": "2025-03-30T18:55:59.302+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "social_links"
+  },
+  {
+    "platform": "Instagram",
+    "url": "https://instagram.com/captjay98",
+    "icon": "instagram",
+    "priority": 3,
+    "is_visible": false,
+    "$id": "67e993bf0018f15a78c7",
+    "$sequence": "3",
+    "$createdAt": "2025-03-30T18:55:59.543+00:00",
+    "$updatedAt": "2025-03-30T19:52:54.908+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "social_links"
+  },
+  {
+    "platform": "Email",
+    "url": "mailto:captjay98@gmail.com",
+    "icon": "mail",
+    "priority": 4,
+    "is_visible": false,
+    "$id": "67e993bf00281ccec549",
+    "$sequence": "4",
+    "$createdAt": "2025-03-30T18:55:59.781+00:00",
+    "$updatedAt": "2025-03-30T19:52:56.461+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "social_links"
+  }
+]

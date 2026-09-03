@@ -1,0 +1,30 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "portfolio",
+  "account_id": "9016ab965fe4980700cc9775a88812a5",
+  "main": "./app/worker.ts",
+  "compatibility_date": "2026-08-28",
+  "compatibility_flags": ["nodejs_compat"],
+  "routes": [
+    { "pattern": "jamalibrahim.dev", "custom_domain": true },
+    { "pattern": "www.jamalibrahim.dev", "custom_domain": true }
+  ],
+  "workers_dev": true,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "portfolio-db",
+      "database_id": "5fda5883-e8ea-4406-8bbc-267e22d61ecd",
+      "migrations_dir": "./migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "BUCKET",
+      "bucket_name": "portfolio-assets"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}

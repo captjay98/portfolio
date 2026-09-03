@@ -1,0 +1,23 @@
+[
+  {
+    "full_name": "Jamal Ibrahim Umar",
+    "nickname": "CaptJay",
+    "title": "Software Engineer",
+    "bio_short": "I spend most of my time building things while thoroughly enjoying the process.\nThere's nothing else I'd rather be doing.",
+    "bio_long": "Since my childhood, I've been a tech geek with an insatiable curiosity for all things, especially digital. It was clear to me from an early age that my future lay in the world of technology; I just hadn't quite figured out the specific path I wanted to take.\n\nMy proper journey into the tech world began with me spending countless hours tinkering with custom ROMs, bricking and unbricking my devices. This hands-on experience not only further fueled my passion for technology but also sparked my desire to dive deeper into the realm of software development.\n\nIn 2019, I made the decision to pursue a career in software engineering. Following my university education, I embarked on a transformative journey by enrolling in the **ALX Software Engineering** program.\n\nSince then, I've been dedicated to expanding my knowledge and skills, constantly pushing the boundaries of what I can achieve and building things while thoroughly enjoying the process\n\nI proudly stand as a Software Engineer with, a deep-rooted passion for technology, a commitment to lifelong learning and a desire to make a meaningful impact through my work.\n",
+    "location": "Kaduna, Nigeria",
+    "avatar": "/profile/default-avatar.webp",
+    "avatar_id": "",
+    "cover_image": "",
+    "cover_image_id": "",
+    "resume_url": null,
+    "meta_description": "Software Engineer currently using Laravel, Next.js and Flutter to Build scalable web and mobile applications. While exploring other modern technologies. Based in Kaduna and Abuja, Nigeria.",
+    "$id": "67e993bc0007c2156562",
+    "$sequence": "1",
+    "$createdAt": "2025-03-30T18:55:56.312+00:00",
+    "$updatedAt": "2025-07-17T22:58:01.451+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "profile"
+  }
+]

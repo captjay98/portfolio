@@ -1,0 +1,19 @@
+[
+  {
+    "content_id": "67e9a04f00231600674c",
+    "user_id": "68e6cc000002d8edf2bf",
+    "user_avatar": null,
+    "user_name": "Anonymous",
+    "user_email": "",
+    "text": "Hello world",
+    "date": "2025-10-08T20:39:28.029Z",
+    "likes": null,
+    "$id": "68e6cc000002dfbaee26",
+    "$sequence": "1",
+    "$createdAt": "2025-10-08T20:39:31.030+00:00",
+    "$updatedAt": "2025-10-08T20:39:31.030+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "comments"
+  }
+]

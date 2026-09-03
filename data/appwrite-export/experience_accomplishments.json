@@ -1,0 +1,110 @@
+[
+  {
+    "experience_id": "67e993b4000b44f8c4c5",
+    "text": "Led a team of 3 developers to deliver a brand new mobile application for SchoolTry Tertiary within 4 months",
+    "order": 1,
+    "$id": "67e993b5000bbc0b92e5",
+    "$sequence": "1",
+    "$createdAt": "2025-03-30T18:55:49.348+00:00",
+    "$updatedAt": "2025-03-30T18:55:49.348+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "experience_accomplishments"
+  },
+  {
+    "experience_id": "67e993b4000b44f8c4c5",
+    "text": "Continuously maintaining the legacy K12 SchoolTry mobile application",
+    "order": 2,
+    "$id": "67e993b5001ba46f7f81",
+    "$sequence": "2",
+    "$createdAt": "2025-03-30T18:55:49.596+00:00",
+    "$updatedAt": "2025-03-30T18:55:49.596+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "experience_accomplishments"
+  },
+  {
+    "experience_id": "67e993b4000b44f8c4c5",
+    "text": "Resumed development of the v2 K12 SchoolTry mobile application",
+    "order": 3,
+    "$id": "67e993b5002bbeb84ebf",
+    "$sequence": "3",
+    "$createdAt": "2025-03-30T18:55:49.834+00:00",
+    "$updatedAt": "2025-03-30T18:55:49.834+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "experience_accomplishments"
+  },
+  {
+    "experience_id": "67e993b4001cafa62354",
+    "text": "Squashed bugs and Refactored which lead to improved performance and stability",
+    "order": 1,
+    "$id": "67e993b5003a61f9f955",
+    "$sequence": "4",
+    "$createdAt": "2025-03-30T18:55:50.062+00:00",
+    "$updatedAt": "2025-03-30T18:55:50.062+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "experience_accomplishments"
+  },
+  {
+    "experience_id": "67e993b4001cafa62354",
+    "text": "Optimized application performance, reducing load times",
+    "order": 2,
+    "$id": "67e993b6000a94620f31",
+    "$sequence": "5",
+    "$createdAt": "2025-03-30T18:55:50.294+00:00",
+    "$updatedAt": "2025-03-30T18:55:50.294+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "experience_accomplishments"
+  },
+  {
+    "experience_id": "67e993b4001cafa62354",
+    "text": "Started development of a new K12 mobile application for SchoolTry",
+    "order": 3,
+    "$id": "67e993b60018dddf6b72",
+    "$sequence": "6",
+    "$createdAt": "2025-03-30T18:55:50.525+00:00",
+    "$updatedAt": "2025-03-30T18:55:50.525+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "experience_accomplishments"
+  },
+  {
+    "experience_id": "67e993b4003a7c5789b2",
+    "text": "Developed responsive UI components used across multiple projects",
+    "order": 1,
+    "$id": "67e993b60027369ff8f4",
+    "$sequence": "7",
+    "$createdAt": "2025-03-30T18:55:50.771+00:00",
+    "$updatedAt": "2025-03-30T18:55:50.771+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "experience_accomplishments"
+  },
+  {
+    "experience_id": "67e993b4003a7c5789b2",
+    "text": "Developed Monolithic and Microservices applications for various clients",
+    "order": 2,
+    "$id": "67e993b600371a456293",
+    "$sequence": "8",
+    "$createdAt": "2025-03-30T18:55:51.030+00:00",
+    "$updatedAt": "2025-03-30T18:55:51.030+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "experience_accomplishments"
+  },
+  {
+    "experience_id": "67e993b4003a7c5789b2",
+    "text": "Implemented CI/CD pipelines and automated deployment processes",
+    "order": 3,
+    "$id": "67e993b7000890258eee",
+    "$sequence": "9",
+    "$createdAt": "2025-03-30T18:55:51.274+00:00",
+    "$updatedAt": "2025-03-30T18:55:51.274+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "experience_accomplishments"
+  }
+]

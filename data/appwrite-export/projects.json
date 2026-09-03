@@ -1,0 +1,415 @@
+[
+  {
+    "name": "ProJavi",
+    "description": "Backend built with Laravel,PostgreSQL as DB. Frontend in NextJs and Mobile App with Flutter.",
+    "long_description": "A comprehensive platform with Laravel/PostgreSQL backend, Next.js frontend, and Flutter mobile app. Features include user authentication, real-time updates, notifcation, messages, and cross-platform compatibility.",
+    "image": "project/projavi.webp",
+    "image_id": "projects/projaavi",
+    "category_ids": [
+      "Fullstack Development",
+      "67e993a6002bee8a7b4f",
+      "67e993a7001622ce05c2",
+      "67e993a700251bfd60ef"
+    ],
+    "technology_ids": [
+      "67e993af0033b25e25c9",
+      "67e993ad002516d22dc8",
+      "67e993b100115a0255a0",
+      "67e993b000153788d55c"
+    ],
+    "github": "",
+    "live": "https://www.projavi.com/",
+    "featured": true,
+    "$id": "67e993b80018c52b6489",
+    "$sequence": "1",
+    "$createdAt": "2025-03-30T18:55:52.596+00:00",
+    "$updatedAt": "2025-03-30T18:55:52.596+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "projects"
+  },
+  {
+    "name": "SchoolTry Tertiary",
+    "description": "Mobile App for Schooltry Tertiary built with Flutter.",
+    "long_description": "Lead the development of this app with 2 others on the team. Built with a bespoke clean Multi-Tenant architecture and Riverpod for state management . Implemented offline-first capabilities, secure authentication and many features for tertiary education users.",
+    "image": "project/schooltry-tertiary.webp",
+    "image_id": "projects/schooltry-tertiary",
+    "category_ids": [
+      "67e993a700251bfd60ef"
+    ],
+    "technology_ids": [
+      "67e993b100115a0255a0"
+    ],
+    "github": "",
+    "live": "https://www.schooltry.com.",
+    "featured": true,
+    "$id": "67e993b8002bb0d624b9",
+    "$sequence": "2",
+    "$createdAt": "2025-03-30T18:55:52.834+00:00",
+    "$updatedAt": "2025-03-30T18:55:52.834+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "projects"
+  },
+  {
+    "name": "SchoolTry K12",
+    "description": "Mobile App for Schooltry K12 built with Flutter.",
+    "long_description": "Lead the development with 2 others on the team, built with a clean architecture patterns and Riverpod for efficient state management. It Includes interactive learning tools, CBT, progress tracking, parent and teacher dashboard with management tools, and age-appropriate UI/UX specifically designed for younger students in primary and secondary education.",
+    "image": "project/schooltry-k12.webp",
+    "image_id": "projects/schooltry-k12",
+    "category_ids": [
+      "67e993a700251bfd60ef"
+    ],
+    "technology_ids": [
+      "67e993b100115a0255a0"
+    ],
+    "github": "",
+    "live": "https://www.schooltry.com.",
+    "featured": true,
+    "$id": "67e993b8003a7004d797",
+    "$sequence": "3",
+    "$createdAt": "2025-03-30T18:55:53.088+00:00",
+    "$updatedAt": "2025-03-30T18:55:53.088+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "projects"
+  },
+  {
+    "name": "Kalbites",
+    "description": "Backend built with Hono running on Bun with PostgreSQL as DB. Frontend in React.",
+    "long_description": "Backend is currently built with Hono running on Bun with PostgreSQl as DB. The Backend was previously built with Express.js running on NodeJs with MongoDb as DB. The frontend is still React, previous one was built with JSX.",
+    "image": "project/kalbites.webp",
+    "image_id": "projects/kalbites",
+    "category_ids": [
+      "Fullstack Development",
+      "67e993a6002bee8a7b4f",
+      "67e993a7001622ce05c2",
+      "67e993a700251bfd60ef"
+    ],
+    "technology_ids": [
+      "67e993af00162d4acef0",
+      "67e993af0006e62358cf",
+      "67e993b000153788d55c",
+      "67e993ac003e52b71ba3"
+    ],
+    "github": "https://www.github.com/captjay98/kalbites_frontend",
+    "live": "https://www.kalbites.vercel.app/",
+    "featured": true,
+    "$id": "67e993b9000c1a43d105",
+    "$sequence": "4",
+    "$createdAt": "2025-03-30T18:55:53.311+00:00",
+    "$updatedAt": "2025-03-30T18:55:53.311+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "projects"
+  },
+  {
+    "name": "Bumsa Election Portal",
+    "description": "Voting platform for BUK Medical Students Association Elections using Laravel & Vue.",
+    "long_description": "I utilized Laravel and PostgreSQl for the Backend Of this project. The Frontend was buitlt with Inertiajs/Vue3. It is a Voting platform for BUK Medical Students Association Elections.",
+    "image": "project/bumsa.webp",
+    "image_id": "projects/bumsa",
+    "category_ids": [
+      "Fullstack Development",
+      "67e993a6002bee8a7b4f",
+      "67e993a7001622ce05c2"
+    ],
+    "technology_ids": [
+      "67e993af0033b25e25c9",
+      "67e993b000153788d55c",
+      "67e993ae00072b6a6b01",
+      "67e993ae00157b186344"
+    ],
+    "github": "https://www.github.com/captjay98/bumsa",
+    "live": "https://www.bumsa.fly.dev/",
+    "featured": false,
+    "$id": "67e993b90019f0827a4d",
+    "$sequence": "5",
+    "$createdAt": "2025-03-30T18:55:53.550+00:00",
+    "$updatedAt": "2025-03-30T18:55:53.550+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "projects"
+  },
+  {
+    "name": "Raffle Suites",
+    "description": "Full-Stack Hotel Website built with NextJS 14 with top-notch SEO.",
+    "long_description": "This is a Full-Stack App cooked up with nextjs14 with Top Notch SEO. It is also visually appealing and also has all the basic features required for a Hotel Website to work, with room for additional features.",
+    "image": "project/rafflesuites.webp",
+    "image_id": "projects/rafflesuites",
+    "category_ids": [
+      "67e993a6002bee8a7b4f"
+    ],
+    "technology_ids": [
+      "67e993ad002516d22dc8",
+      "67e993ac003e52b71ba3",
+      "67e993ad00370fb5f404"
+    ],
+    "github": "https://www.github.com/captjay98/rafflesuites",
+    "live": "https://www.raffle-suites.vercel.app/",
+    "featured": true,
+    "$id": "67e993b90029583fd1d8",
+    "$sequence": "6",
+    "$createdAt": "2025-03-30T18:55:53.813+00:00",
+    "$updatedAt": "2025-03-30T18:55:53.813+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "projects"
+  },
+  {
+    "name": "Ticketer",
+    "description": "Train Booking App built with Laravel, PostgreSQL, and Vue/Inertia.",
+    "long_description": "I utilized Laravel and PostgreSQl for the Backend Of this project. The Frontend was buitlt with Inertiajs/Vue3. It is a Train Booking App with all the features required for a Booking Platform to work.",
+    "image": "project/ticketer.webp",
+    "image_id": "projects/ticketer",
+    "category_ids": [
+      "Fullstack Development",
+      "67e993a6002bee8a7b4f",
+      "67e993a7001622ce05c2"
+    ],
+    "technology_ids": [
+      "67e993af0033b25e25c9",
+      "67e993b000153788d55c",
+      "67e993ae00072b6a6b01",
+      "67e993ae00157b186344"
+    ],
+    "github": "https://www.github.com/captjay98/jobsite",
+    "live": "https://www.ticketer.fly.dev/",
+    "featured": true,
+    "$id": "67e993b90039711b73c0",
+    "$sequence": "7",
+    "$createdAt": "2025-03-30T18:55:54.088+00:00",
+    "$updatedAt": "2025-03-30T18:55:54.088+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "projects"
+  },
+  {
+    "name": "Abata Crafts",
+    "description": "Online Shop with custom payment & delivery integrations.",
+    "long_description": "This is an online Shop built with Medusajs. I added a Paytack Integration for payment, and also built a custom fullfillment provider for delivery from Kaduna using Public Transport delivery or Gig Logistics.",
+    "image": "project/abatacrafts.webp",
+    "image_id": "projects/abatacrafts",
+    "category_ids": [
+      "Fullstack Development",
+      "67e993a6002bee8a7b4f",
+      "67e993a7001622ce05c2"
+    ],
+    "technology_ids": [
+      "67e993ac003e52b71ba3",
+      "67e993ae00257f54f541",
+      "67e993ae0034e1b10952"
+    ],
+    "github": "https://www.github.com/captjay98/abatacrafts-storefront",
+    "live": "https://www.abatacrafts.vercel.app/",
+    "featured": false,
+    "$id": "67e993ba001136edff08",
+    "$sequence": "8",
+    "$createdAt": "2025-03-30T18:55:54.433+00:00",
+    "$updatedAt": "2025-03-30T18:55:54.433+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "projects"
+  },
+  {
+    "name": "Jobsite",
+    "description": "Complete job platform with seeker, employer and admin features.",
+    "long_description": "I built the Backend Of this project using Laravel and PGSQl. The Frontend was buitlt with Inertiajs/Vue3. It is a Jobsite with all the features required for a jobsite to work, Seeker, Employer and Admin Features.",
+    "image": "project/jobsite.webp",
+    "image_id": "projects/jobsite",
+    "category_ids": [
+      "Fullstack Development",
+      "67e993a6002bee8a7b4f",
+      "67e993a7001622ce05c2"
+    ],
+    "technology_ids": [
+      "67e993af0033b25e25c9",
+      "67e993b000153788d55c",
+      "67e993ae00072b6a6b01",
+      "67e993ae00157b186344"
+    ],
+    "github": "https://www.github.com/captjay98/jobsite",
+    "live": "https://www.jobsite-fejw.onrender.com",
+    "featured": false,
+    "$id": "67e993ba002172a48db8",
+    "$sequence": "9",
+    "$createdAt": "2025-03-30T18:55:54.654+00:00",
+    "$updatedAt": "2025-03-30T18:55:54.654+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "projects"
+  },
+  {
+    "name": "SBTravels",
+    "description": "Travel agency website built with NextJS 13 focused on reach and visibility.",
+    "long_description": "I built this website with NextJS 13 for a travel agency looking to expand their online presence. It features responsive design, SEO optimization, and visually appealing UI to showcase their services effectively. While currently mostly static, the architecture allows for easy addition of dynamic features like booking and user accounts in future iterations.",
+    "image": "project/sbtravel.webp",
+    "image_id": "projects/sbtravel",
+    "category_ids": [
+      "67e993a6002bee8a7b4f"
+    ],
+    "technology_ids": [
+      "67e993ad002516d22dc8",
+      "67e993ac003e52b71ba3",
+      "67e993ad00370fb5f404"
+    ],
+    "github": "https://www.github.com/captjay98/sbtravels",
+    "live": "https://www.sbtravels.vercel.app/",
+    "featured": false,
+    "$id": "67e993ba00304cc17131",
+    "$sequence": "10",
+    "$createdAt": "2025-03-30T18:55:54.920+00:00",
+    "$updatedAt": "2025-03-30T18:55:54.920+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "projects"
+  },
+  {
+    "name": "Interview Django",
+    "description": "API server for a job platform built with Django and PostgreSQL.",
+    "long_description": "This API server powers a comprehensive job platform using Django and Django Rest Framework with PostgreSQL database. It handles job listings, applications, user profiles, authentication, and search functionality. The API includes role-based access control for job seekers, employers, and administrators with comprehensive documentation.",
+    "image": "project/inter.webp",
+    "image_id": "projects/interview-django",
+    "category_ids": [
+      "67e993a7001622ce05c2"
+    ],
+    "technology_ids": [
+      "67e993af002541ebdec8",
+      "67e993b000153788d55c"
+    ],
+    "github": "https://www.github.com/captjay98/jobsite-django",
+    "live": "https://www.jobsite-django.onrender.com/",
+    "featured": false,
+    "$id": "67e993bb00032c6160be",
+    "$sequence": "11",
+    "$createdAt": "2025-03-30T18:55:55.212+00:00",
+    "$updatedAt": "2025-03-30T18:55:55.212+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "projects"
+  },
+  {
+    "name": "Interview Node",
+    "description": "API server for a job platform built with Express and MongoDB.",
+    "long_description": "This is a Node.js implementation of the job platform API using Express and MongoDB. It provides the same functionality as the Django version but with a different tech stack. Features include JWT authentication, job management, application tracking, and user profile management with RESTful endpoints.",
+    "image": "project/inter.webp",
+    "image_id": "projects/interview-node",
+    "category_ids": [
+      "67e993a7001622ce05c2"
+    ],
+    "technology_ids": [
+      "67e993ae00257f54f541",
+      "67e993ae0034e1b10952",
+      "67e993b00004b4b4cd19"
+    ],
+    "github": "https://www.github.com/captjay98/jobsite-express",
+    "live": "https://www.jobsite-express.onrender.com",
+    "featured": false,
+    "$id": "67e993bb001850568b46",
+    "$sequence": "12",
+    "$createdAt": "2025-03-30T18:55:55.528+00:00",
+    "$updatedAt": "2025-03-30T18:55:55.528+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "projects"
+  },
+  {
+    "name": "JILTicketing",
+    "description": "Backend for a train ticketing platform built with Django and MySQL.",
+    "long_description": "I developed this train ticketing backend using Django and MySQL to handle ticket reservations, seat availability, and payment processing for a Nigerian train service concept. The system includes user authentication, booking management, and admin controls while a colleague built the frontend interface.",
+    "image": "project/jil.webp",
+    "image_id": "projects/jil-ticketing",
+    "category_ids": [
+      "67e993a7001622ce05c2"
+    ],
+    "technology_ids": [
+      "67e993af002541ebdec8",
+      "MySQL"
+    ],
+    "github": "https://www.github.com/captjay98/jilticketing",
+    "live": "https://www.jilticketing.onrender.com",
+    "featured": false,
+    "$id": "67e993bb00273952c706",
+    "$sequence": "13",
+    "$createdAt": "2025-03-30T18:55:55.762+00:00",
+    "$updatedAt": "2025-03-30T18:55:55.762+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "projects"
+  },
+  {
+    "name": "EwekoAggregate",
+    "description": "Redesigned  and Rebuilt the Back-End Entirely.",
+    "long_description": "This is a platform that aggregates fresh produce and connects farmers and buyers seamlessly.  The goal is connecting buyers with fresh produce closest to them, ultimately reducing food wastage, cutting loses for farmers, and giving buyers fresh produce.",
+    "image": "https://cloud.appwrite.io/v1/storage/buckets/portfolio/files//view?project=67de53f7003790f8388f",
+    "image_id": "",
+    "category_ids": [
+      "67e993a6002bee8a7b4f",
+      "67e993a7001622ce05c2"
+    ],
+    "technology_ids": [
+      "67e993ae00257f54f541",
+      "67e993ae0034e1b10952",
+      "67e993ac003e52b71ba3",
+      "67e993ad002516d22dc8",
+      "67e993ad0013fb6dddb3",
+      "67e993b000153788d55c",
+      "67e993b00004b4b4cd19",
+      "67e993b0003148bd297b",
+      "67e993b0002291d18fac"
+    ],
+    "github": "",
+    "live": "https://ewekoaggregate.com",
+    "featured": false,
+    "$id": "68de93eb003895305fc5",
+    "$sequence": "14",
+    "$createdAt": "2025-10-02T15:02:05.947+00:00",
+    "$updatedAt": "2025-10-02T15:02:05.947+00:00",
+    "$permissions": [
+      "read(\"user:67e993a5001b15274473\")",
+      "update(\"user:67e993a5001b15274473\")",
+      "delete(\"user:67e993a5001b15274473\")"
+    ],
+    "$databaseId": "portfolio",
+    "$collectionId": "projects"
+  },
+  {
+    "name": "DeliveryNexus",
+    "description": "Revolutionizing business and logistics in Nigeria",
+    "long_description": "This is my own project, built from scratch by me. ",
+    "image": "https://cloud.appwrite.io/v1/storage/buckets/portfolio/files//view?project=67de53f7003790f8388f",
+    "image_id": "",
+    "category_ids": [
+      "67e993a6002bee8a7b4f",
+      "67e993a7001622ce05c2",
+      "67e993a700251bfd60ef"
+    ],
+    "technology_ids": [
+      "67e993ac003e52b71ba3",
+      "67e993ad0013fb6dddb3",
+      "67e993ad002516d22dc8",
+      "67e993ad00370fb5f404",
+      "67e993af0006e62358cf",
+      "67e993af0033b25e25c9",
+      "67e993b000153788d55c",
+      "67e993b0002291d18fac",
+      "67e993b0003148bd297b",
+      "68de879e0029e01e8d7c",
+      "67e993b100115a0255a0"
+    ],
+    "github": "",
+    "live": "https://deliverynexus.ng",
+    "featured": true,
+    "$id": "68de94810038db064ccc",
+    "$sequence": "15",
+    "$createdAt": "2025-10-02T15:04:34.755+00:00",
+    "$updatedAt": "2025-10-02T15:04:34.755+00:00",
+    "$permissions": [
+      "read(\"user:67e993a5001b15274473\")",
+      "update(\"user:67e993a5001b15274473\")",
+      "delete(\"user:67e993a5001b15274473\")"
+    ],
+    "$databaseId": "portfolio",
+    "$collectionId": "projects"
+  }
+]

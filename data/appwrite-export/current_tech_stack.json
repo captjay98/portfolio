@@ -1,0 +1,48 @@
+[
+  {
+    "name": "Mobile",
+    "category_id": "67e993a700251bfd60ef",
+    "technology_ids": [
+      "67e993b100115a0255a0"
+    ],
+    "priority": 1,
+    "$id": "67e993c000074d455e27",
+    "$sequence": "1",
+    "$createdAt": "2025-03-30T18:56:00.324+00:00",
+    "$updatedAt": "2025-03-30T18:56:00.324+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "current_tech_stack"
+  },
+  {
+    "name": "Frontend ",
+    "category_id": "67e993a6002bee8a7b4f",
+    "technology_ids": [
+      "67e993ad002516d22dc8",
+      "67e993ae00072b6a6b01"
+    ],
+    "priority": 2,
+    "$id": "67e993c0001ad184ca7f",
+    "$sequence": "2",
+    "$createdAt": "2025-03-30T18:56:00.572+00:00",
+    "$updatedAt": "2025-03-30T18:56:00.572+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "current_tech_stack"
+  },
+  {
+    "name": "Backend ",
+    "category_id": "67e993a7001622ce05c2",
+    "technology_ids": [
+      "67e993af0033b25e25c9"
+    ],
+    "priority": 3,
+    "$id": "67e993c0002b1058ad20",
+    "$sequence": "3",
+    "$createdAt": "2025-03-30T18:56:00.864+00:00",
+    "$updatedAt": "2025-03-30T18:56:00.864+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "current_tech_stack"
+  }
+]

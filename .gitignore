@@ -34,3 +34,13 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .qodo
+
+# vite / cloudflare
+dist/
+.wrangler/
+.env
+.dev.vars
+legacy-backup/
+
+# Isolated git worktrees
+.worktrees/

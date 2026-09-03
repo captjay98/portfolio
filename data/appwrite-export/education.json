@@ -1,0 +1,36 @@
+[
+  {
+    "degree": "BSc, Computer Science",
+    "institution": "ESAE Benin University",
+    "location": "Cotonou, Benin",
+    "start_date": "2018",
+    "end_date": "2021",
+    "description": "Focused on software engineering and computer systems.",
+    "is_current": false,
+    "priority": 2,
+    "$id": "67e993b7001785ed7ef8",
+    "$sequence": "1",
+    "$createdAt": "2025-03-30T18:55:51.554+00:00",
+    "$updatedAt": "2025-03-30T18:55:51.554+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "education"
+  },
+  {
+    "degree": "ALX Software Engineering",
+    "institution": "ALX Africa",
+    "location": "Remote",
+    "start_date": "2022",
+    "end_date": "2023",
+    "description": "Intensive software engineering program covering full-stack Software Engineering.",
+    "is_current": false,
+    "priority": 1,
+    "$id": "67e993b70029d1a8b245",
+    "$sequence": "2",
+    "$createdAt": "2025-03-30T18:55:51.814+00:00",
+    "$updatedAt": "2025-03-30T18:55:51.814+00:00",
+    "$permissions": [],
+    "$databaseId": "portfolio",
+    "$collectionId": "education"
+  }
+]
