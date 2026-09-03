@@ -157,45 +157,46 @@ const VisitorCounter: React.FC<VisitorCounterProps> = ({ className = "" }) => {
 
   return (
     <div
-      className={`rounded-lg transition-all duration-500 shadow-lg bg-glass border border-light-subtle/10 dark:border-dark-subtle/20 shadow-accent/5 effect-3d
+      className={`rounded-lg transition-all duration-500 shadow-md editorial-stamp border border-dashed border-[#e6b450]/40 bg-[#131721]/95 text-xs text-[#d9d7d3]
         ${isVisible ? "opacity-100" : "opacity-0"}
-        ${isPulsing ? "animate-wiggle shadow-accent/20" : ""} ${className}`}
+        ${isPulsing ? "border-[#e6b450] shadow-[0_0_12px_rgba(230,180,80,0.3)]" : ""} ${className}`}
       style={{ width: isExpanded ? "320px" : "auto" }}
     >
-      {/* Header - always visible */}
+      {/* Header - always visible as editorial seal */}
       <div
         onClick={handleToggleExpand}
-        className="flex items-center justify-between p-2 sm:p-3 cursor-pointer bg-light-subtle/5 dark:bg-slate-800/50 backdrop-blur-sm hover:bg-light-subtle/10 dark:hover:bg-slate-800/70 transition-colors rounded-lg"
+        className="flex items-center justify-between p-2.5 sm:p-3 cursor-pointer hover:bg-[#e6b450]/10 transition-colors rounded-t-lg"
       >
-        <p
-          className={`text-sm sm:text-base font-medium text-light-text dark:text-dark-text flex items-center gap-2 ${isPulsing ? "animate-pulse" : ""}`}
+        <div
+          className={`flex items-center gap-2 font-mono ${isPulsing ? "text-[#e6b450]" : ""}`}
         >
-          <span className="relative">
+          <span className="relative flex items-center justify-center w-5 h-5 rounded border border-[#e6b450]/50 bg-[#e6b450]/10 text-[#e6b450]">
             {isExpanded ? (
-              <MessagesSquare
-                size={18}
-                className="text-light-accent dark:text-dark-accent"
-              />
+              <MessagesSquare size={13} />
             ) : (
-              <Users
-                size={18}
-                className="text-light-accent dark:text-dark-accent"
-              />
+              <Users size={13} />
             )}
             <span className="absolute -top-1 -right-1 flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-gradient opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-light-accent dark:bg-dark-accent"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#e6b450] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#e6b450]"></span>
             </span>
           </span>
-          {isExpanded ? "Guest Book" : "Hi, Visitor:"}
-          <span
-            className={`font-mono ${isPulsing ? "text-light-accent dark:text-dark-accent scale-110 transition-all" : ""}`}
-          >
-            {count?.toLocaleString() || "0"}
-          </span>
-        </p>
-        <button className="text-light-subtle dark:text-dark-subtle hover:text-light-accent dark:hover:text-dark-accent transition-transform hover:scale-110 ml-2">
-          {isExpanded ? <ChevronDown size={16} /> : <ChevronUp size={16} />}
+          <div className="flex flex-col">
+            <span className="text-[10px] tracking-wider uppercase text-[#949dab]">
+              {isExpanded ? "Guest Book // Journal" : "Archival Stamp"}
+            </span>
+            <span className="font-mono text-xs font-semibold text-[#d9d7d3]">
+              {isExpanded ? "Correspondence" : "Reader №"}
+              {!isExpanded && (
+                <span className="text-[#e6b450] ml-1">
+                  {count?.toLocaleString() || "0"}
+                </span>
+              )}
+            </span>
+          </div>
+        </div>
+        <button className="text-[#949dab] hover:text-[#e6b450] transition-colors ml-3 p-1">
+          {isExpanded ? <ChevronDown size={14} /> : <ChevronUp size={14} />}
         </button>
       </div>
 
