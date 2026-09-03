@@ -191,7 +191,7 @@ function About() {
                         </p>
                       )}
                       <p className="text-xs text-light-subtle dark:text-dark-subtle/80">
-                        {exp.company_name}
+                        {exp.company || exp.company_name || ''}
                       </p>
                     </div>
 
@@ -199,10 +199,10 @@ function About() {
                     <div className="md:col-span-8 space-y-3">
                       <div>
                         <h3 className="font-serif text-xl text-light-text dark:text-dark-text font-medium">
-                          {exp.job_title}
+                          {exp.title || exp.job_title || ''}
                         </h3>
                         <p className="text-xs font-mono text-light-accent dark:text-[#e6b450]">
-                          @{exp.company_name}
+                          @{exp.company || exp.company_name || ''}
                         </p>
                       </div>
 

@@ -25,15 +25,19 @@ export default {
     // 3. For public GET pages, check Cloudflare Edge Cache
     const cache = (caches as any).default;
     if (request.method === "GET" && cache) {
-      const cached = await cache.match(request);
-      if (cached) {
-        const hitHeaders = new Headers(cached.headers);
-        hitHeaders.set("X-Edge-Cache", "HIT");
-        return new Response(cached.body, {
-          status: cached.status,
-          statusText: cached.statusText,
-          headers: hitHeaders,
-        });
+      try {
+        const cached = await cache.match(request);
+        if (cached) {
+          const hitHeaders = new Headers(cached.headers);
+          hitHeaders.set("X-Edge-Cache", "HIT");
+          return new Response(cached.body, {
+            status: cached.status,
+            statusText: cached.statusText,
+            headers: hitHeaders,
+          });
+        }
+      } catch (err) {
+        // Fallback gracefully on local Miniflare SQLite lock contention (SQLITE_BUSY)
       }
     }
 
@@ -42,21 +46,27 @@ export default {
 
     // 5. Store public 200 GET responses in Cloudflare Edge Cache for 5 minutes
     if (request.method === "GET" && response.status === 200 && cache) {
-      const cacheHeaders = new Headers(response.headers);
-      cacheHeaders.set("Cache-Control", "public, max-age=60, s-maxage=300");
-      cacheHeaders.set("X-Edge-Cache", "MISS");
+      try {
+        const cacheHeaders = new Headers(response.headers);
+        cacheHeaders.set("Cache-Control", "public, max-age=60, s-maxage=300");
+        cacheHeaders.set("X-Edge-Cache", "MISS");
 
-      const responseToCache = new Response(response.clone().body, {
-        status: response.status,
-        statusText: response.statusText,
-        headers: cacheHeaders,
-      });
+        const responseToCache = new Response(response.clone().body, {
+          status: response.status,
+          statusText: response.statusText,
+          headers: cacheHeaders,
+        });
 
-      if (ctx?.waitUntil) {
-        ctx.waitUntil(cache.put(request, responseToCache.clone()));
+        if (ctx?.waitUntil) {
+          ctx.waitUntil(
+            cache.put(request, responseToCache.clone()).catch(() => {})
+          );
+        }
+
+        return responseToCache;
+      } catch (err) {
+        // Ignore cache storage errors under concurrency
       }
-
-      return responseToCache;
     }
 
     return response;
