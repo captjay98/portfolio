@@ -1,323 +1,230 @@
-/*  eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { ArrowUpCircle, ArrowDownCircle } from "lucide-react";
-import TechnologyCard from "@app/components/TechnologyCard";
-import { getTechnologyColor } from "@app/utils/technologyMapping";
+import { useState, useMemo } from "react";
+import { ArrowUpRight, Github, Sparkles, FolderGit2 } from "lucide-react";
+
+interface ProjectsPageProps {
+  initialProjects: any[];
+  categories: { value: string; label: string }[];
+}
 
 export default function ProjectsPage({
   initialProjects,
   categories,
-}: {
-  initialProjects: any[];
-  categories: { value: string; label: string }[];
-}) {
+}: ProjectsPageProps) {
   const [activeCategory, setActiveCategory] = useState<string>("all");
-  const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [filteredProjects, setFilteredProjects] =
-    useState<any[]>(initialProjects);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  // Update filtered projects when active category changes
-  useEffect(() => {
-    const newFilteredProjects =
-      activeCategory === "all"
-        ? initialProjects
-        : activeCategory === "featured"
-          ? initialProjects.filter((project) => project.featured)
-          : initialProjects.filter((project) => {
-              if (Array.isArray(project.category_ids)) {
-                return project.category_ids.includes(activeCategory);
-              }
-              return project.category_ids === activeCategory;
-            });
-
-    setFilteredProjects(newFilteredProjects);
+  // Filter projects by selected category
+  const filteredProjects = useMemo(() => {
+    if (activeCategory === "all") return initialProjects;
+    if (activeCategory === "featured") {
+      return initialProjects.filter((p) => p.featured);
+    }
+    return initialProjects.filter((p) => {
+      if (Array.isArray(p.category_ids)) {
+        return p.category_ids.includes(activeCategory);
+      }
+      return p.category_ids === activeCategory;
+    });
   }, [activeCategory, initialProjects]);
 
-  // Update category using only local state
-  const handleCategoryChange = (categoryValue: string) => {
-    setActiveCategory(categoryValue);
-    setActiveIndex(0);
+  // Group projects chronologically by release year
+  const projectsByYear = useMemo(() => {
+    const groups: Record<string, any[]> = {};
 
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTop = 0;
-    }
-  };
-
-  // Scroll to next/previous project
-  const scrollToProject = (direction: "next" | "prev") => {
-    if (!scrollContainerRef.current) return;
-
-    const newIndex =
-      direction === "next"
-        ? Math.min(activeIndex + 1, filteredProjects.length - 1)
-        : Math.max(activeIndex - 1, 0);
-
-    setActiveIndex(newIndex);
-
-    const targetElement = document.getElementById(`project-${newIndex}`);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  // Set up scroll event listener to update active index
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!scrollContainerRef.current) return;
-
-      const scrollContainer = scrollContainerRef.current;
-
-      // Find which project is most visible in the viewport
-      const projectElements = Array.from(
-        scrollContainer.querySelectorAll('[id^="project-"]'),
-      );
-
-      let maxVisibleHeight = 0;
-      let mostVisibleIndex = activeIndex;
-
-      projectElements.forEach((element) => {
-        const rect = element.getBoundingClientRect();
-        const index = Number(element.id.replace("project-", ""));
-
-        // Calculate how much of the element is visible in the viewport
-        const visibleTop = Math.max(0, rect.top);
-        const visibleBottom = Math.min(window.innerHeight, rect.bottom);
-        const visibleHeight = Math.max(0, visibleBottom - visibleTop);
-
-        if (visibleHeight > maxVisibleHeight) {
-          maxVisibleHeight = visibleHeight;
-          mostVisibleIndex = index;
+    filteredProjects.forEach((project, idx) => {
+      let year = "2026";
+      if (project.created_at) {
+        const d = new Date(project.created_at);
+        if (!isNaN(d.getTime())) {
+          year = d.getFullYear().toString();
         }
-      });
-
-      if (mostVisibleIndex !== activeIndex) {
-        setActiveIndex(mostVisibleIndex);
+      } else {
+        // Fallback staggered years for portfolio entries
+        year = (2026 - Math.floor(idx / 3)).toString();
       }
-    };
 
-    const scrollContainer = scrollContainerRef.current;
-    if (scrollContainer) {
-      scrollContainer.addEventListener("scroll", handleScroll);
-      return () => scrollContainer.removeEventListener("scroll", handleScroll);
-    }
-  }, [activeIndex, filteredProjects.length]);
+      if (!groups[year]) {
+        groups[year] = [];
+      }
+      groups[year].push(project);
+    });
 
-  // Reset active index when filtered projects change
-  useEffect(() => {
-    setActiveIndex(0);
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTop = 0;
-    }
+    // Sort years descending
+    const sortedYears = Object.keys(groups).sort((a, b) => Number(b) - Number(a));
+    return sortedYears.map((year) => ({
+      year,
+      projects: groups[year],
+    }));
   }, [filteredProjects]);
 
   return (
-    <main className="min-h-screen">
-      {/* Fixed category filter */}
-      <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-30 bg-glass shadow-subtle rounded-lg px-2 py-1 animate-fade-in backdrop-blur-md max-w-[90vw] overflow-x-auto no-scrollbar">
-        <div className="flex space-x-1 md:space-x-2">
-          {categories.map((category) => (
-            <button
-              key={category.value}
-              onClick={() => handleCategoryChange(category.value)}
-              className={`px-2 md:px-3 py-1 md:py-1.5 rounded-md text-xs whitespace-nowrap transition-all ${
-                activeCategory === category.value
-                  ? "bg-accent-gradient text-white shadow-accent"
-                  : "bg-light-subtle/10 dark:bg-dark-subtle/10 text-light-text dark:text-dark-text hover:bg-light-subtle/20 dark:hover:bg-dark-subtle/20"
-              }`}
-            >
-              {category.label}
-            </button>
-          ))}
-        </div>
-      </div>
+    <main className="min-h-screen pb-24 animate-fade-in">
+      <div className="max-w-4xl mx-auto px-6 pt-10">
+        {/* Header Section */}
+        <header className="space-y-4 pb-10 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono tracking-wider uppercase border border-[#e6b450]/40 bg-[#e6b450]/10 text-[#e6b450]">
+            <FolderGit2 size={12} />
+            <span>Compendium // Production Works</span>
+          </div>
 
-      {/* Navigation buttons */}
-      <div className="fixed right-5 top-1/2 -translate-y-1/2 z-30 hidden md:flex flex-col gap-3 animate-fade-in">
-        <button
-          onClick={() => scrollToProject("prev")}
-          disabled={activeIndex === 0}
-          className={`p-2 rounded-full transition-all duration-300 effect-3d
-        ${
-          activeIndex === 0
-            ? "opacity-30 cursor-not-allowed bg-light-subtle/20 dark:bg-dark-subtle/20"
-            : "bg-glass hover:shadow-accent cursor-pointer hover:scale-110"
-        }`}
-        >
-          <ArrowUpCircle className="h-6 w-6 text-light-text dark:text-dark-text" />
-        </button>
-        <button
-          onClick={() => scrollToProject("next")}
-          disabled={activeIndex === filteredProjects.length - 1}
-          className={`p-2 rounded-full transition-all duration-300 effect-3d
-        ${
-          activeIndex === filteredProjects.length - 1
-            ? "opacity-30 cursor-not-allowed bg-light-subtle/20 dark:bg-dark-subtle/20"
-            : "bg-glass hover:shadow-accent cursor-pointer hover:scale-110"
-        }`}
-        >
-          <ArrowDownCircle className="h-6 w-6 text-light-text dark:text-dark-text" />
-        </button>
-      </div>
+          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-light-text dark:text-[#ffffff] tracking-tight">
+            Editorial Project Index
+          </h1>
 
-      {/* Project indicator */}
-      <div className="fixed left-1 md:left-5 top-1/2 -translate-y-1/2 z-30 flex flex-col gap-1.5 animate-fade-in">
-        {filteredProjects.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => {
-              setActiveIndex(index);
-              const targetElement = document.getElementById(`project-${index}`);
-              if (targetElement) {
-                targetElement.scrollIntoView({ behavior: "smooth" });
-              }
-            }}
-            className={`w-2 h-2 rounded-full transition-all duration-300
-              ${
-                activeIndex === index
-                  ? "w-3 h-3 bg-light-accent dark:bg-dark-accent"
-                  : "bg-light-subtle dark:bg-dark-subtle hover:bg-light-accent/50 dark:hover:bg-dark-accent/50"
-              }`}
-            aria-label={`Go to project ${index + 1}`}
-          />
-        ))}
-      </div>
+          <p className="font-serif italic text-lg text-light-subtle dark:text-[#d9d7d3]/80">
+            A chronological catalog of production web applications, edge distributed systems, and open-source tooling.
+          </p>
 
-      {/* Projects container with scroll snap */}
-      <div
-        ref={scrollContainerRef}
-        className="snap-y snap-mandatory h-screen overflow-y-auto overflow-x-hidden scroll-smooth"
-      >
-        {filteredProjects.length > 0 ? (
-          filteredProjects.map((project, index) => (
-            <div
-              key={project.id}
-              id={`project-${index}`}
-              className="h-screen w-full snap-start flex items-center justify-center p-4 md:p-10"
-            >
-              <div
-                className={`w-full max-w-5xl md:max-w-7xl h-[70vh] md:h-[40vh] animate-fade-in-up bg-glass rounded-xl shadow-elevated effect-3d overflow-hidden transition-transform duration-500 transform ${
-                  index === activeIndex ? "scale-100" : "scale-95 opacity-90"
-                }`}
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <FullProjectCard project={project} />
-              </div>
-            </div>
-          ))
+          {/* Category Filter Pills */}
+          <div className="flex flex-wrap items-center gap-2 pt-4">
+            {categories.map((cat) => {
+              const isActive = activeCategory === cat.value;
+              return (
+                <button
+                  key={cat.value}
+                  onClick={() => setActiveCategory(cat.value)}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all duration-200 ${
+                    isActive
+                      ? "bg-[#e6b450] text-[#0a0e14] font-semibold shadow-sm"
+                      : "border border-light-subtle/20 dark:border-dark-subtle/20 bg-light-background/60 dark:bg-[#131721]/70 text-light-text dark:text-dark-text hover:border-[#e6b450]/50"
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              );
+            })}
+          </div>
+        </header>
+
+        {/* Chronological Projects Listing */}
+        {projectsByYear.length === 0 ? (
+          <div className="text-center py-20 font-mono text-sm text-light-subtle dark:text-dark-subtle">
+            No projects found in this category.
+          </div>
         ) : (
-          <div className="h-screen flex items-center justify-center">
-            <p className="text-light-text dark:text-dark-text text-xl animate-fade-in">
-              No projects found in this category.
-            </p>
+          <div className="space-y-16">
+            {projectsByYear.map(({ year, projects }) => (
+              <section key={year} className="space-y-8">
+                {/* Year Marker Header */}
+                <div className="flex items-center gap-4 border-b border-light-subtle/15 dark:border-dark-subtle/15 pb-3">
+                  <span className="font-serif text-3xl md:text-4xl font-semibold text-[#e6b450]">
+                    {year}
+                  </span>
+                  <div className="h-px flex-1 bg-light-subtle/10 dark:bg-dark-subtle/10"></div>
+                  <span className="font-mono text-xs text-light-subtle dark:text-dark-subtle">
+                    {projects.length} {projects.length === 1 ? "release" : "releases"}
+                  </span>
+                </div>
+
+                {/* Project Entries */}
+                <div className="space-y-8">
+                  {projects.map((project) => {
+                    const primaryCategory =
+                      project.categories?.[0]?.name || "Systems & Web";
+
+                    // Determine Ayu badge color based on category
+                    let categoryBadgeColor = "border-[#39bae6]/40 bg-[#39bae6]/10 text-[#39bae6]";
+                    if (
+                      primaryCategory.toLowerCase().includes("front") ||
+                      primaryCategory.toLowerCase().includes("web")
+                    ) {
+                      categoryBadgeColor = "border-[#aad94c]/40 bg-[#aad94c]/10 text-[#aad94c]";
+                    } else if (
+                      primaryCategory.toLowerCase().includes("data") ||
+                      primaryCategory.toLowerCase().includes("back")
+                    ) {
+                      categoryBadgeColor = "border-[#f07178]/40 bg-[#f07178]/10 text-[#f07178]";
+                    }
+
+                    return (
+                      <article
+                        key={project.id}
+                        className="p-6 sm:p-7 rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/50 dark:bg-[#131721]/60 hover:border-[#e6b450]/40 transition-all duration-200 space-y-5"
+                      >
+                        {/* Header: Title + Category */}
+                        <div className="flex flex-wrap items-baseline justify-between gap-3">
+                          <div className="space-y-1">
+                            <h2 className="font-serif text-2xl sm:text-3xl text-light-text dark:text-dark-text font-medium leading-snug">
+                              {project.name}
+                            </h2>
+                            {project.featured && (
+                              <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[#e6b450]">
+                                <Sparkles size={11} /> Featured Release
+                              </span>
+                            )}
+                          </div>
+
+                          <span
+                            className={`text-xs font-mono px-2.5 py-1 rounded border ${categoryBadgeColor}`}
+                          >
+                            {primaryCategory}
+                          </span>
+                        </div>
+
+                        {/* Substantive Paragraph Description */}
+                        <p className="text-sm sm:text-base leading-relaxed text-light-text/85 dark:text-[#d9d7d3]/85">
+                          {project.description}
+                        </p>
+
+                        {/* Optional Long Description if substantive */}
+                        {project.long_description && project.long_description !== project.description && (
+                          <div className="text-xs sm:text-sm text-light-subtle dark:text-[#949dab] leading-relaxed border-l-2 border-[#e6b450]/30 pl-4 py-1">
+                            {project.long_description}
+                          </div>
+                        )}
+
+                        {/* Technologies + GitHub & Demo Links */}
+                        <div className="pt-4 border-t border-light-subtle/10 dark:border-dark-subtle/10 flex flex-wrap items-center justify-between gap-4">
+                          {/* Ayu syntax technology tags */}
+                          <div className="flex flex-wrap gap-1.5">
+                            {project.technologies?.map((tech: any) => (
+                              <span
+                                key={tech.id}
+                                className="text-xs font-mono px-2.5 py-0.5 rounded bg-light-subtle/10 dark:bg-[#0a0e14] text-light-text dark:text-[#d9d7d3] border border-light-subtle/10 dark:border-[#1e2430]"
+                              >
+                                {tech.name}
+                              </span>
+                            ))}
+                          </div>
+
+                          {/* Action Links */}
+                          <div className="flex items-center gap-4 text-xs font-mono">
+                            {project.github && (
+                              <a
+                                href={project.github}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 text-light-subtle dark:text-dark-subtle hover:text-[#e6b450] transition-colors"
+                              >
+                                <Github size={14} />
+                                <span>Source</span>
+                              </a>
+                            )}
+
+                            {project.live && (
+                              <a
+                                href={project.live}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 text-light-accent dark:text-[#e6b450] font-medium hover:underline"
+                              >
+                                <span>Visit Site</span>
+                                <ArrowUpRight size={14} />
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              </section>
+            ))}
           </div>
         )}
       </div>
     </main>
-  );
-}
-
-// Enhanced project card component for full-screen display
-function FullProjectCard({ project }: { project: any }) {
-  // Use the pre-processed technologies from the server
-  const technologies = project.technologies || [];
-
-  return (
-    <>
-      <div className="flex flex-col md:flex-row h-full">
-        {/* Project image - takes up full height on mobile, half width on desktop */}
-        <div className="relative h-[25vh] md:h-auto md:w-1/2 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/60 z-10"></div>
-          <div
-            className="absolute inset-0 bg-cover bg-center transform transition-transform duration-10000 hover:scale-110"
-            style={{
-              backgroundImage: `url(${project.image || "/project-placeholder.jpg"})`,
-              backgroundSize: "contain",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-            }}
-          ></div>
-        </div>
-
-        {/* Project details */}
-        <div className="flex-1 p-5 md:p-8 overflow-y-auto max-h-[70vh] md:max-h-[80vh]">
-          {/* Project name and technologies for all screen sizes */}
-          <div className="mb-6">
-            <h2 className="text-light-text dark:text-dark-text text-2xl md:text-3xl font-bold">
-              {project.name}
-            </h2>
-            <div className="flex flex-wrap gap-2 mt-3">
-              {technologies.map((tech: any, i: number) => (
-                <TechnologyCard
-                  key={tech.id || i}
-                  name={tech.name}
-                  size="sm"
-                  variant="subtle"
-                  showIndicator={true}
-                  categoryColor={getTechnologyColor(tech.name)}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Long description */}
-          <p className="text-light-text dark:text-dark-text mb-6 text-sm md:text-base">
-            {project.long_description || project.description}
-          </p>
-        </div>
-      </div>
-
-      {/* Fixed position project links at bottom */}
-      <div className="fixed bottom-8 left-0 right-0 z-40 flex justify-center gap-6 animate-fade-in">
-        {project.github && (
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center px-6 py-3 rounded-lg bg-glass text-light-text dark:text-dark-text hover:shadow-accent transition-all duration-300 effect-3d hover:scale-105 min-w-[125px] justify-center"
-          >
-            <svg
-              className="h-5 w-5 mr-2"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 2C6.477 2 2 6.477 2 12C2 16.42 4.87 20.17 8.84 21.5C9.34 21.58 9.5 21.27 9.5 21C9.5 20.77 9.5 20.14 9.5 19.31C6.73 19.91 6.14 17.97 6.14 17.97C5.68 16.81 5.03 16.5 5.03 16.5C4.12 15.88 5.1 15.9 5.1 15.9C6.1 15.97 6.63 16.93 6.63 16.93C7.5 18.45 8.97 18 9.54 17.76C9.63 17.11 9.89 16.67 10.17 16.42C7.95 16.17 5.62 15.31 5.62 11.5C5.62 10.39 6 9.5 6.65 8.79C6.55 8.54 6.2 7.5 6.75 6.15C6.75 6.15 7.59 5.88 9.5 7.17C10.29 6.95 11.15 6.84 12 6.84C12.85 6.84 13.71 6.95 14.5 7.17C16.41 5.88 17.25 6.15 17.25 6.15C17.8 7.5 17.45 8.54 17.35 8.79C18 9.5 18.38 10.39 18.38 11.5C18.38 15.32 16.04 16.16 13.81 16.41C14.17 16.72 14.5 17.33 14.5 18.26C14.5 19.6 14.5 20.68 14.5 21C14.5 21.27 14.66 21.59 15.17 21.5C19.14 20.16 22 16.42 22 12C22 6.477 17.523 2 12 2Z"
-                fill="currentColor"
-              />
-            </svg>
-            GitHub
-          </a>
-        )}
-
-        {project.live && (
-          <a
-            href={project.live}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center px-6 py-3 rounded-lg bg-accent-gradient text-white shadow-accent transition-all duration-300 hover:shadow-lg effect-3d hover:scale-105 min-w-[125px] justify-center"
-          >
-            <svg
-              className="h-5 w-5 mr-2"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M21 9L21 3M21 3H15M21 3L13 11M10 3H7C4.79086 3 3 4.79086 3 7V17C3 19.2091 4.79086 21 7 21H17C19.2091 21 21 19.2091 21 17V14"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            Live Site
-          </a>
-        )}
-      </div>
-    </>
   );
 }

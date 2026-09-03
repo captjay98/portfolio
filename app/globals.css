@@ -9,6 +9,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  --font-serif: 'Newsreader', Georgia, Cambria, 'Times New Roman', Times, serif;
   /* Light Mode Colors (Ayu Light) - Keep existing background and accent */
   --color-light-background: #fafafa;
   --color-light-text: #5c6773;
@@ -581,4 +582,25 @@
 
 .backface-hidden {
   backface-visibility: hidden;
+}
+
+/* Ayu Editorial Theme Extensions */
+.font-serif {
+  font-family: 'Newsreader', Georgia, Cambria, 'Times New Roman', Times, serif;
+}
+
+.editorial-stamp {
+  border: 1px dashed rgba(230, 180, 80, 0.45);
+  background: rgba(19, 23, 33, 0.85);
+  backdrop-filter: blur(12px);
+}
+
+.editorial-card {
+  background: rgba(19, 23, 33, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.2s ease-in-out;
+}
+
+.editorial-card:hover {
+  border-color: rgba(230, 180, 80, 0.4);
 }

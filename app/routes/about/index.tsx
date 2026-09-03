@@ -89,8 +89,9 @@ function About() {
     })
   }
 
+  // Categorize technologies with Ayu syntax classifications
   const techsByCategory = technologies ? technologies.reduce<Record<string, any[]>>((acc: any, tech: any) => {
-    const categoryName = catMap[tech.category_id] || tech.category_id
+    const categoryName = catMap[tech.category_id] || tech.category_id || 'Other'
     if (!acc[categoryName]) {
       acc[categoryName] = []
     }
@@ -111,176 +112,240 @@ function About() {
   }
 
   return (
-    <main className="min-h-screen max-h-screen overflow-y-auto pb-16 ">
-      <div className="w-full px-4 py-6 md:py-6 mt-10 ">
-        <div className="max-w-7xl mx-auto">
-          <div className="border-b border-light-border dark:border-dark-border mb-6">
-            <div className="flex space-x-8">
-              <Link
-                to="/about"
-                className="py-3 font-medium text-sm border-b-2 border-light-accent dark:border-dark-accent text-light-accent dark:text-dark-accent"
-              >
-                About Me
-              </Link>
-              <Link
-                to="/about/uses"
-                className="py-3 font-medium text-sm border-b-2 border-transparent text-light-subtle dark:text-dark-subtle hover:text-light-text dark:hover:text-dark-text"
-              >
-                Uses
-              </Link>
+    <main className="min-h-screen pb-24 animate-fade-in">
+      <div className="max-w-4xl mx-auto px-6 pt-10">
+        {/* Editorial Sub-Navigation Tabs */}
+        <div className="flex items-center space-x-8 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-12">
+          <Link
+            to="/about"
+            className="pb-3 text-sm font-mono tracking-wider uppercase border-b-2 border-light-accent dark:border-[#e6b450] text-light-accent dark:text-[#e6b450] font-semibold"
+          >
+            01 // Biographical Essay
+          </Link>
+          <Link
+            to="/about/uses"
+            className="pb-3 text-sm font-mono tracking-wider uppercase border-b-2 border-transparent text-light-subtle dark:text-dark-subtle hover:text-light-text dark:hover:text-[#d9d7d3] transition-colors"
+          >
+            02 // Equipment &amp; Uses
+          </Link>
+        </div>
+
+        {/* Essay Header */}
+        <header className="space-y-4 pb-10 border-b border-light-subtle/15 dark:border-dark-subtle/15">
+          <span className="text-xs font-mono uppercase tracking-widest text-[#e6b450]">
+            Curriculum // Personal Essay
+          </span>
+          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-light-text dark:text-[#ffffff] tracking-tight">
+            On Craftsmanship, Systems, and Software
+          </h1>
+          <p className="font-serif italic text-lg text-light-subtle dark:text-[#d9d7d3]/80">
+            A personal account of my journey, technical convictions, and professional timeline.
+          </p>
+        </header>
+
+        {/* Long-Form Essay Bio */}
+        <section className="py-12 border-b border-light-subtle/15 dark:border-dark-subtle/15">
+          <div className="prose prose-neutral dark:prose-invert lg:prose-lg max-w-none font-serif leading-relaxed text-light-text/90 dark:text-[#d9d7d3]/90">
+            {profile?.bio_long ? (
+              <MarkdownRenderer content={profile.bio_long} />
+            ) : (
+              <p>
+                I am a software engineer focused on building clean, high-performance distributed systems and web applications. My work centers on modern runtime architectures, typed API design, and intuitive user experiences.
+              </p>
+            )}
+          </div>
+        </section>
+
+        {/* Chronological Margin Timeline */}
+        <section className="py-12 border-b border-light-subtle/15 dark:border-dark-subtle/15">
+          <div className="mb-8">
+            <h2 className="font-serif text-2xl md:text-3xl text-light-text dark:text-dark-text">
+              Chronological Timeline
+            </h2>
+            <p className="text-xs font-mono text-light-subtle dark:text-dark-subtle mt-1">
+              Professional roles, systems engineered, and key milestones
+            </p>
+          </div>
+
+          <div className="space-y-10">
+            {experiences && experiences.length > 0 ? (
+              experiences.map((exp: any) => {
+                const accomplishments = experienceAccomplishmentsMap[exp.id] || []
+                const startDateStr = formatDate(exp.start_date)
+                const endDateStr = exp.is_current ? 'Present' : formatDate(exp.end_date)
+                const dateLabel = `${startDateStr} — ${endDateStr}`
+
+                return (
+                  <article
+                    key={exp.id}
+                    className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 pt-4 pb-8 border-b border-light-subtle/10 dark:border-[#1e2430] last:border-0"
+                  >
+                    {/* Margin: Date & Location */}
+                    <div className="md:col-span-4 space-y-1 font-mono">
+                      <span className="text-xs font-semibold px-2 py-0.5 rounded bg-[#e6b450]/10 text-[#e6b450] border border-[#e6b450]/30 inline-block">
+                        {dateLabel}
+                      </span>
+                      {exp.location && (
+                        <p className="text-xs text-light-subtle dark:text-dark-subtle pt-1">
+                          {exp.location}
+                        </p>
+                      )}
+                      <p className="text-xs text-light-subtle dark:text-dark-subtle/80">
+                        {exp.company || exp.company_name || ''}
+                      </p>
+                    </div>
+
+                    {/* Content: Role, Description, Accomplishments */}
+                    <div className="md:col-span-8 space-y-3">
+                      <div>
+                        <h3 className="font-serif text-xl text-light-text dark:text-dark-text font-medium">
+                          {exp.title || exp.job_title || ''}
+                        </h3>
+                        <p className="text-xs font-mono text-light-accent dark:text-[#e6b450]">
+                          @{exp.company || exp.company_name || ''}
+                        </p>
+                      </div>
+
+                      {exp.description && (
+                        <p className="text-sm md:text-base leading-relaxed text-light-text/80 dark:text-[#d9d7d3]/80">
+                          {exp.description}
+                        </p>
+                      )}
+
+                      {/* Accomplishments */}
+                      {accomplishments.length > 0 && (
+                        <ul className="space-y-1.5 pt-2">
+                          {accomplishments.map((acc: any) => (
+                            <li
+                              key={acc.id}
+                              className="text-xs md:text-sm text-light-subtle dark:text-[#949dab] flex items-start gap-2"
+                            >
+                              <span className="text-[#e6b450] mt-1 shrink-0">•</span>
+                              <span>{acc.description}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </article>
+                )
+              })
+            ) : (
+              <p className="text-sm text-light-subtle dark:text-dark-subtle font-mono">
+                No experience timeline records found.
+              </p>
+            )}
+          </div>
+        </section>
+
+        {/* Technical Skills Index (Ayu Syntax Categorized) */}
+        <section className="py-12 border-b border-light-subtle/15 dark:border-dark-subtle/15">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="font-serif text-2xl md:text-3xl text-light-text dark:text-dark-text">
+                Skills Taxonomy
+              </h2>
+              <p className="text-xs font-mono text-light-subtle dark:text-dark-subtle mt-1">
+                Classified according to the authentic Ayu syntax color hierarchy
+              </p>
             </div>
           </div>
-          <div className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-5 overflow-auto md:overflow-hidden">
-            <div className="md:col-span-7 space-y-3">
-              <div className="bg-glass shadow-subtle effect-3d rounded-lg p-4 animate-fade-in">
-                <MarkdownRenderer content={profile?.bio_long || ''} />
-              </div>
 
-              <div
-                className="bg-glass shadow-subtle effect-3d rounded-lg p-4 animate-fade-in-up"
-                style={{ animationDelay: '0.1s' }}
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <h2 className="text-lg font-medium text-light-accent dark:text-dark-accent">
-                    Technical Skills
-                  </h2>
-                  <span className="px-2 py-1 text-xs bg-accent-gradient text-white rounded-full font-medium shadow-accent">
-                    {profile?.title}
-                  </span>
-                </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {Object.entries(techsByCategory).map(([categoryName, techs]: [string, any]) => {
+              // Ayu syntax color assignment
+              let dotColor = 'bg-[#39bae6]'
+              let badgeBorder = 'border-[#39bae6]/30 text-[#39bae6]'
+              let categoryTag = 'Systems'
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {Object.entries(techsByCategory).map(([categoryName, categoryTechs]: [string, any], index) => (
-                    <div
-                      key={categoryName}
-                      className="space-y-2 animate-slide-in-right bg-glass rounded-lg overflow-hidden shadow-subtle hover:shadow-accent transition-shadow duration-300"
-                      style={{ animationDelay: `${0.05 * index}s` }}
-                    >
-                      <div className={`px-3 py-2 ${getCategoryBgColor(categoryName)}`}>
-                        <h3 className="text-sm font-bold text-white">{categoryName}</h3>
-                      </div>
+              if (categoryName.toLowerCase().includes('front') || categoryName.toLowerCase().includes('web')) {
+                dotColor = 'bg-[#aad94c]'
+                badgeBorder = 'border-[#aad94c]/30 text-[#aad94c]'
+                categoryTag = 'String / Web'
+              } else if (categoryName.toLowerCase().includes('data') || categoryName.toLowerCase().includes('back')) {
+                dotColor = 'bg-[#f07178]'
+                badgeBorder = 'border-[#f07178]/30 text-[#f07178]'
+                categoryTag = 'Markup / DB'
+              } else if (categoryName.toLowerCase().includes('lang') || categoryName.toLowerCase().includes('core')) {
+                dotColor = 'bg-[#e6b450]'
+                badgeBorder = 'border-[#e6b450]/30 text-[#e6b450]'
+                categoryTag = 'Special / Lang'
+              } else if (categoryName.toLowerCase().includes('tool') || categoryName.toLowerCase().includes('devops')) {
+                dotColor = 'bg-[#ff8f40]'
+                badgeBorder = 'border-[#ff8f40]/30 text-[#ff8f40]'
+                categoryTag = 'Keyword / Ops'
+              }
 
-                      <div className="p-3">
-                        <div className="flex flex-wrap gap-2 mt-1">
-                          {categoryTechs.map((tech: any) => (
-                            <TechnologyCard
-                              key={tech.id}
-                              name={tech.name}
-                              showIndicator={true}
-                              size="md"
-                              categoryColor={getCategoryDotColor(categoryName)}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+              return (
+                <div
+                  key={categoryName}
+                  className="p-5 rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/40 dark:bg-[#131721]/50 space-y-3"
+                >
+                  <div className="flex items-center justify-between border-b border-light-subtle/10 dark:border-dark-subtle/10 pb-2">
+                    <h3 className="font-serif text-base text-light-text dark:text-dark-text font-medium flex items-center gap-2">
+                      <span className={`w-2 h-2 rounded-full ${dotColor}`}></span>
+                      {categoryName}
+                    </h3>
+                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded border ${badgeBorder}`}>
+                      {categoryTag}
+                    </span>
+                  </div>
 
-            <div className="md:col-span-5 space-y-3">
-              <div className="bg-glass shadow-subtle effect-3d rounded-lg p-4 animate-fade-in">
-                <div className="flex items-center space-x-4">
-                  {profile?.avatar ? (
-                    <div className="w-20 h-20 rounded-full overflow-hidden shadow-accent">
-                      <img
-                        src={profile.avatar}
-                        alt={profile.full_name}
-                        width={80}
-                        height={80}
-                        className="object-cover"
-                      />
-                    </div>
-                  ) : (
-                    <div className="w-20 h-20 rounded-full bg-accent-gradient flex items-center justify-center text-white text-xl font-bold shadow-accent">
-                      {profile?.full_name.charAt(0)}
-                    </div>
-                  )}
-                  <div>
-                    <h2 className="text-lg font-semibold text-light-text dark:text-dark-text">
-                      {profile?.full_name}
-                    </h2>
-                    <p className="text-light-accent dark:text-dark-accent text-sm font-medium">
-                      {profile?.title}
-                    </p>
-                    {profile?.location && (
-                      <p className="text-light-subtle dark:text-dark-subtle text-xs mt-1">
-                        {profile.location}
-                      </p>
-                    )}
-                    <a
-                      href="mailto:captjay98@gmail.com"
-                      className="mt-2 inline-flex items-center text-xs text-light-accent dark:text-dark-accent hover:underline"
-                    >
-                      <Mail size={12} className="mr-1" />
-                      Contact Me
-                    </a>
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {techs.map((tech: any) => (
+                      <span
+                        key={tech.id}
+                        className="text-xs font-mono px-2.5 py-1 rounded bg-light-subtle/10 dark:bg-[#0a0e14] text-light-text dark:text-[#d9d7d3] border border-light-subtle/10 dark:border-[#1e2430]"
+                      >
+                        {tech.name}
+                      </span>
+                    ))}
                   </div>
                 </div>
-                <p className="mt-3 text-sm text-light-text dark:text-dark-text">
-                  {profile?.bio_short}
-                </p>
-              </div>
-
-              <div
-                className="bg-glass shadow-subtle effect-3d rounded-lg p-4 animate-fade-in-up"
-                style={{ animationDelay: '0.2s' }}
-              >
-                <h2 className="text-lg font-medium text-light-accent dark:text-dark-accent mb-3">
-                  Experience
-                </h2>
-
-                <div className="space-y-5">
-                  {experiences && experiences.length > 0 ? (
-                    experiences.map((experience: any) => (
-                      <ExperienceItem
-                        key={experience.id}
-                        experience={experience}
-                        accomplishments={experienceAccomplishmentsMap[experience.id] || []}
-                        techMap={techMap}
-                        catMap={catMap}
-                      />
-                    ))
-                  ) : (
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      No experience information available.
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div
-                className="bg-glass shadow-subtle effect-3d rounded-lg p-4 animate-fade-in-up"
-                style={{ animationDelay: '0.3s' }}
-              >
-                <h2 className="text-lg font-medium text-light-accent dark:text-dark-accent mb-2">
-                  Education
-                </h2>
-
-                <div className="space-y-3">
-                  {education && education.length > 0 ? (
-                    education.map((edu: any) => (
-                      <EducationItem
-                        key={edu.id}
-                        degree={edu.degree}
-                        institution={edu.institution}
-                        period={`${formatDate(edu.start_date)}${edu.end_date ? ` - ${formatDate(edu.end_date)}` : ''}`}
-                        location={edu.location}
-                        description={edu.description}
-                        isCurrent={edu.is_current}
-                      />
-                    ))
-                  ) : (
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      No education information available.
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
+              )
+            })}
           </div>
-        </div>
+        </section>
+
+        {/* Education & Academic Foundations */}
+        {education && education.length > 0 && (
+          <section className="py-12">
+            <div className="mb-8">
+              <h2 className="font-serif text-2xl md:text-3xl text-light-text dark:text-dark-text">
+                Academic Foundations
+              </h2>
+              <p className="text-xs font-mono text-light-subtle dark:text-dark-subtle mt-1">
+                Formal education and degrees
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              {education.map((edu: any) => (
+                <div
+                  key={edu.id}
+                  className="p-5 rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/40 dark:bg-[#131721]/40 flex flex-col sm:flex-row sm:items-baseline justify-between gap-2"
+                >
+                  <div>
+                    <h3 className="font-serif text-lg text-light-text dark:text-dark-text font-medium">
+                      {edu.degree}
+                    </h3>
+                    <p className="text-xs font-mono text-light-accent dark:text-[#e6b450]">
+                      {edu.institution} {edu.location ? `• ${edu.location}` : ''}
+                    </p>
+                    {edu.description && (
+                      <p className="text-xs md:text-sm text-light-subtle dark:text-dark-subtle mt-1">
+                        {edu.description}
+                      </p>
+                    )}
+                  </div>
+                  <span className="text-xs font-mono text-light-subtle dark:text-dark-subtle shrink-0">
+                    {formatDate(edu.start_date)} {edu.end_date ? `— ${formatDate(edu.end_date)}` : '— Present'}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     </main>
   )

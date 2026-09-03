@@ -108,9 +108,12 @@ export function Navbar() {
                   : "px-0"
               }`}
             >
-              <span className="font-bold text-2xl text-light-accent dark:text-dark-accent">
-                IUJ
-                <span className="inline-block ml-1 h-1.5 w-1.5 rounded-full bg-light-accent dark:bg-dark-accent opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              <span className="font-semibold text-base tracking-tight text-light-text dark:text-dark-text">
+                Jamal Ibrahim
+                <span className="font-serif italic text-light-accent dark:text-[#e6b450] font-normal ml-1.5">
+                  / Journal
+                </span>
+                <span className="inline-block ml-1.5 h-1.5 w-1.5 rounded-full bg-light-accent dark:bg-[#e6b450] opacity-0 group-hover:opacity-100 transition-opacity"></span>
               </span>
             </div>
           </Link>
@@ -123,7 +126,7 @@ export function Navbar() {
           >
             {/* Active pill indicator - Position based on active item */}
             <div
-              className={`absolute top-1.5 left-0 h-[calc(100%-12px)] bg-light-accent/20 dark:bg-dark-accent/20 rounded-full z-0 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+              className={`absolute top-1.5 left-0 h-[calc(100%-12px)] bg-light-accent/15 dark:bg-[#e6b450]/20 rounded-full z-0 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
                 activeItemIndex === -1 ? "opacity-0" : "opacity-100"
               }`}
             />
@@ -140,8 +143,8 @@ export function Navbar() {
                       to={item.href as any}
                       className={`relative px-4 py-1.5 text-sm font-medium rounded-full transition-colors duration-200 flex items-center ${
                         isActive
-                          ? "text-light-accent dark:text-dark-accent"
-                          : "text-light-text dark:text-dark-text hover:text-light-accent dark:hover:text-dark-accent"
+                          ? "text-light-accent dark:text-[#e6b450]"
+                          : "text-light-text dark:text-dark-text hover:text-light-accent dark:hover:text-[#e6b450]"
                       }`}
                       style={{ animationDelay: `${index * 100}ms` }}
                     >
@@ -175,8 +178,8 @@ export function Navbar() {
                   : "px-0"
               }`}
             >
-              <span className="font-bold text-xl text-light-accent dark:text-dark-accent">
-                IUJ
+              <span className="font-semibold text-sm text-light-text dark:text-dark-text">
+                Jamal Ibrahim <span className="font-serif italic text-light-accent dark:text-[#e6b450]">/ Journal</span>
               </span>
             </div>
           </Link>

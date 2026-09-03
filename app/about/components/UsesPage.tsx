@@ -63,161 +63,102 @@ export default function UsesPage({ uses, categories }: UsesPageProps) {
     mappedUsesItems[categoryName] = items
   })
 
-  if (Object.keys(mappedUsesItems).length === 0) {
-    return (
-      <main className="min-h-screen max-h-screen overflow-y-auto pb-16">
-        <div className="w-full px-4 py-6 md:py-6">
-          <div className="max-w-7xl mx-auto text-center">
-            <h1 className="text-xl font-bold text-light-accent dark:text-dark-accent mb-4">
-              No uses data available
-            </h1>
-            <p className="text-light-subtle dark:text-dark-subtle">
-              Check back later for updates on my tools and equipment.
-            </p>
-          </div>
-        </div>
-      </main>
-    )
-  }
-
   return (
-    <main className="min-h-screen max-h-screen overflow-y-auto pb-16">
-      <div className="w-full px-4 py-6 md:py-6">
-        <div className="max-w-7xl mx-auto">
-          {/* Header Section */}
-          <div className="text-center mb-10 animate-fade-in">
-            <h1 className="text-xl font-bold text-light-accent dark:text-dark-accent mb-4">
-              $user-
-              <span className="text-[var(--color-light-syntax-func)] dark:text-[var(--color-dark-syntax-func)]">
-                uses
-              </span>
-              ;
-            </h1>
-          </div>
-
-          {/* Tabs */}
-          <div className="border-b border-light-border dark:border-dark-border mb-6">
-            <div className="flex space-x-8">
-              <Link
-                to="/about"
-                className="py-3 font-medium text-sm border-b-2 border-transparent text-light-subtle dark:text-dark-subtle hover:text-light-text dark:hover:text-dark-text"
-              >
-                About Me
-              </Link>
-              <Link
-                to="/about/uses"
-                className="py-3 font-medium text-sm border-b-2 border-light-accent dark:border-dark-accent text-light-accent dark:text-dark-accent"
-              >
-                Uses
-              </Link>
-            </div>
-          </div>
-
-          {/* Uses Content */}
-          <div className="animate-fade-in">
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold text-[var(--color-light-syntax-tag)] dark:text-[var(--color-dark-syntax-tag)] mb-1 animate-fade-in-up">
-                My Tech Stack
-              </h2>
-              <p
-                className="text-sm text-[#4b5563] dark:text-dark-subtle animate-fade-in-up"
-                style={{ animationDelay: '0.1s' }}
-              >
-                Tools, technologies, and equipment I use for development and
-                productivity.
-              </p>
-            </div>
-
-            {/* Categories and items */}
-            <div className="space-y-8">
-              {Object.entries(mappedUsesItems).map(
-                ([category, categoryItems], categoryIndex) => (
-                  <section
-                    id={category.toLowerCase().replace(/\s+/g, '-')}
-                    key={category}
-                    className="scroll-mt-12"
-                  >
-                    <div className="flex items-center mb-3">
-                      <h3
-                        className={`text-lg font-semibold ${getCategoryHeaderColor(category, categoryIndex)}`}
-                      >
-                        {category}
-                      </h3>
-                      <div
-                        className={`h-[1px] flex-grow ml-3 bg-gradient-to-r ${getCategoryGradient(category, categoryIndex)}`}
-                      ></div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                      {categoryItems.map((item, itemIndex) => (
-                        <div
-                          key={item.id}
-                          className="group relative animate-fade-in-up"
-                          style={{ animationDelay: `${0.05 * itemIndex}s` }}
-                        >
-                          <div
-                            className={`h-full bg-glass rounded-lg p-3 effect-3d hover:translate-y-[-3px] ${
-                              item.is_favorite
-                                ? `border border-[var(--color-light-syntax-${getCategoryItemColor(category, categoryIndex)})] dark:border-[var(--color-dark-syntax-${getCategoryItemColor(category, categoryIndex)})]`
-                                : ''
-                            }`}
-                          >
-                            {item.is_favorite && (
-                              <div
-                                className={`absolute top-1 right-1 text-xs text-[var(--color-light-syntax-${getCategoryItemColor(category, categoryIndex)})] dark:text-[var(--color-dark-syntax-${getCategoryItemColor(category, categoryIndex)})]`}
-                              >
-                                ★
-                              </div>
-                            )}
-
-                            <div className="flex items-start space-x-2">
-                              {/* Compact image */}
-                              {item.image && (
-                                <div className="flex-shrink-0">
-                                  <div className="w-10 h-10 rounded overflow-hidden shadow-subtle">
-                                    <img
-                                      src={item.image}
-                                      alt={item.name}
-                                      className="object-cover w-full h-full"
-                                    />
-                                  </div>
-                                </div>
-                              )}
-
-                              {/* Content */}
-                              <div className="flex-1 min-w-0">
-                                <h4
-                                  className={`text-sm font-bold text-[var(--color-light-syntax-${getCategoryItemColor(category, categoryIndex)})] dark:text-[var(--color-dark-syntax-${getCategoryItemColor(category, categoryIndex)})] truncate`}
-                                >
-                                  {item.name}
-                                </h4>
-                                <p className="text-xs text-[#4b5563] dark:text-dark-subtle line-clamp-2 group-hover:line-clamp-none transition-all duration-300">
-                                  {item.description}
-                                </p>
-
-                                {/* Link */}
-                                {item.link && (
-                                  <a
-                                    href={item.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={`mt-1 inline-flex items-center text-xs text-[var(--color-light-syntax-${getCategoryItemColor(category, categoryIndex)})] dark:text-[var(--color-dark-syntax-${getCategoryItemColor(category, categoryIndex)})] hover:underline`}
-                                  >
-                                    More info
-                                  </a>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-                ),
-              )}
-            </div>
-          </div>
+    <main className="min-h-screen pb-24 animate-fade-in">
+      <div className="max-w-4xl mx-auto px-6 pt-10">
+        {/* Editorial Sub-Navigation Tabs */}
+        <div className="flex items-center space-x-8 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-12">
+          <Link
+            to="/about"
+            className="pb-3 text-sm font-mono tracking-wider uppercase border-b-2 border-transparent text-light-subtle dark:text-dark-subtle hover:text-light-text dark:hover:text-[#d9d7d3] transition-colors"
+          >
+            01 // Biographical Essay
+          </Link>
+          <Link
+            to="/about/uses"
+            className="pb-3 text-sm font-mono tracking-wider uppercase border-b-2 border-light-accent dark:border-[#e6b450] text-light-accent dark:text-[#e6b450] font-semibold"
+          >
+            02 // Equipment &amp; Uses
+          </Link>
         </div>
+
+        {/* Header Section */}
+        <header className="space-y-4 pb-10 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-12">
+          <span className="text-xs font-mono uppercase tracking-widest text-[#e6b450]">
+            Catalog // Equipment &amp; Instruments
+          </span>
+          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-light-text dark:text-[#ffffff] tracking-tight">
+            The Workstation &amp; Development Toolchain
+          </h1>
+          <p className="font-serif italic text-lg text-light-subtle dark:text-[#d9d7d3]/80">
+            An annotated inventory of the hardware, software environments, and daily instruments I rely on to craft software.
+          </p>
+        </header>
+
+        {Object.keys(mappedUsesItems).length === 0 ? (
+          <div className="text-center py-16 font-mono text-sm text-light-subtle dark:text-dark-subtle">
+            No equipment records cataloged at present.
+          </div>
+        ) : (
+          <div className="space-y-12">
+            {Object.entries(mappedUsesItems).map(([category, items], categoryIndex) => (
+              <section key={category} className="space-y-6">
+                <div className="flex items-center justify-between border-b border-light-subtle/15 dark:border-dark-subtle/15 pb-3">
+                  <h2 className={`font-serif text-xl sm:text-2xl font-medium ${getCategoryHeaderColor(category, categoryIndex)}`}>
+                    {category}
+                  </h2>
+                  <span className="text-xs font-mono text-light-subtle dark:text-dark-subtle">
+                    {items.length} {items.length === 1 ? 'item' : 'items'}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {items.map((item) => (
+                    <article
+                      key={item.id}
+                      className={`p-5 rounded-xl border bg-light-background/50 dark:bg-[#131721]/60 transition-all duration-200 flex flex-col justify-between space-y-3 ${
+                        item.is_favorite
+                          ? 'border-[#e6b450]/40 shadow-sm'
+                          : 'border-light-subtle/15 dark:border-[#1e2430] hover:border-[#e6b450]/30'
+                      }`}
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-start justify-between gap-2">
+                          <h3 className="font-serif text-lg font-medium text-light-text dark:text-dark-text leading-snug">
+                            {item.name}
+                          </h3>
+                          {item.is_favorite && (
+                            <span className="shrink-0 text-xs font-mono px-2 py-0.5 rounded bg-[#e6b450]/15 text-[#e6b450] border border-[#e6b450]/30 flex items-center gap-1">
+                              ★ Preferred
+                            </span>
+                          )}
+                        </div>
+
+                        <p className="text-xs sm:text-sm leading-relaxed text-light-subtle dark:text-[#949dab]">
+                          {item.description}
+                        </p>
+                      </div>
+
+                      {item.link && (
+                        <div className="pt-2 border-t border-light-subtle/10 dark:border-dark-subtle/10 flex justify-end">
+                          <a
+                            href={item.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs font-mono text-light-accent dark:text-[#e6b450] hover:underline inline-flex items-center gap-1"
+                          >
+                            <span>Specification</span>
+                            <span>→</span>
+                          </a>
+                        </div>
+                      )}
+                    </article>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+        )}
       </div>
     </main>
   )

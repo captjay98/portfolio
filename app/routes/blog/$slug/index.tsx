@@ -69,205 +69,146 @@ function BlogPost() {
 
   const { post, categoryFilters, author, seriesData, seriesPosts } = data as any
 
-  const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+  const formattedDate = new Date(post.date || post.published_at).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   })
 
   return (
-    <main className="min-h-screen max-h-screen overflow-y-auto pb-16">
+    <main className="min-h-screen pb-24 animate-fade-in">
       <BackToTopButton />
 
-      <article className="w-full px-2 py-6 md:py-12 animate-fade-in">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row gap-8">
-            <div className="lg:w-2/3">
-              <Link
-                to="/blog"
-                className="inline-flex items-center mb-8 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                <ArrowLeft size={16} className="mr-2" />
-                <span>Back to all posts</span>
-              </Link>
+      <article className="max-w-3xl mx-auto px-6 pt-10">
+        {/* Back Link */}
+        <div className="mb-8">
+          <Link
+            to="/blog"
+            className="inline-flex items-center text-xs font-mono text-light-subtle dark:text-dark-subtle hover:text-[#e6b450] transition-colors"
+          >
+            <ArrowLeft size={14} className="mr-1.5" />
+            <span>Journal Index</span>
+          </Link>
+        </div>
 
-              <div className="bg-glass rounded-xl shadow-elevated effect-3d overflow-hidden border border-light-subtle/10 dark:border-dark-subtle/20 mb-8">
-                <div className="py-6 px-2 md:p-8">
-                  <header className="mb-8">
-                    <h1 className="text-3xl md:text-4xl font-bold text-light-text dark:text-dark-text mb-4">
-                      {post.title}
-                    </h1>
+        {/* Article Header */}
+        <header className="space-y-4 pb-8 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-8">
+          {/* Metadata line */}
+          <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-light-subtle dark:text-dark-subtle">
+            <span className="flex items-center gap-1">
+              <Calendar size={12} className="text-[#e6b450]" />
+              {formattedDate}
+            </span>
+            <span>•</span>
+            <span className="flex items-center gap-1">
+              <Clock size={12} />
+              {post.reading_time ? `${post.reading_time} min read` : '5 min read'}
+            </span>
+            {post.read_count !== undefined && (
+              <>
+                <span>•</span>
+                <span className="flex items-center gap-1">
+                  <BookOpen size={12} />
+                  {post.read_count} reads
+                </span>
+              </>
+            )}
+            <span>•</span>
+            <LikeButton
+              blogId={post.id}
+              initialLikes={post.likes || 0}
+              iconSize={13}
+            />
+          </div>
 
-                    <div className="flex flex-wrap items-center gap-4 text-sm text-light-subtle dark:text-dark-subtle mb-6">
-                      <div className="flex items-center">
-                        <Calendar size={16} className="mr-1" />
-                        <span>{formattedDate}</span>
-                      </div>
-                      <div className="flex items-center">
-                        <Clock size={16} className="mr-1" />
-                        <span>{post.reading_time}</span>
-                      </div>
-                      <div className="flex items-center">
-                        <BookOpen size={16} className="mr-1" />
-                        <span>{post.read_count || 0} reads</span>
-                      </div>
-                      <LikeButton
-                        blogId={post.id}
-                        initialLikes={post.likes || 0}
-                        iconSize={16}
-                      />
-                    </div>
+          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-light-text dark:text-[#ffffff] tracking-tight leading-[1.18] font-medium">
+            {post.title}
+          </h1>
 
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {post.category_ids &&
-                        categoryFilters.map((category: any) => (
-                          <Link
-                            key={category.value}
-                            to="/blog"
-                            search={{ category: category.value }}
-                            className="px-3 py-1 text-sm rounded-full bg-light-subtle/10 dark:bg-dark-subtle/10 text-light-text dark:text-dark-text hover:bg-light-subtle/20 dark:hover:bg-dark-subtle/20 transition-colors"
-                          >
-                            <Tag size={14} className="inline mr-1" />
-                            {category.label}
-                          </Link>
-                        ))}
-                    </div>
-                  </header>
+          {/* Category Tags */}
+          {post.category_ids && categoryFilters && (
+            <div className="flex flex-wrap gap-2 pt-2">
+              {categoryFilters.map((category: any) => (
+                <span
+                  key={category.value}
+                  className="px-2.5 py-0.5 text-xs font-mono rounded bg-light-subtle/10 dark:bg-[#131721] text-light-subtle dark:text-[#d9d7d3] border border-light-subtle/15 dark:border-[#1e2430]"
+                >
+                  <Tag size={11} className="inline mr-1 text-[#e6b450]" />
+                  {category.label}
+                </span>
+              ))}
+            </div>
+          )}
+        </header>
 
-                  {post.cover_image && (
-                    <div className="relative w-full h-80 md:h-96 mb-8 rounded-lg overflow-hidden">
-                      <img
-                        src={getImageSrc(post.cover_image)}
-                        alt={post.title}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )}
+        {/* Cover Image */}
+        {post.cover_image && (
+          <div className="relative w-full h-72 sm:h-96 mb-10 rounded-xl overflow-hidden border border-light-subtle/15 dark:border-[#1e2430]">
+            <img
+              src={getImageSrc(post.cover_image)}
+              alt={post.title}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        )}
 
-                  {seriesData && seriesPosts.length > 0 && (
-                    <SeriesNavigation
-                      seriesTitle={seriesData.title}
-                      seriesSlug={seriesData.slug}
-                      currentPostId={post.id}
-                      posts={seriesPosts}
-                    />
-                  )}
+        {/* Series Navigation if applicable */}
+        {seriesData && seriesPosts.length > 0 && (
+          <div className="mb-8">
+            <SeriesNavigation
+              seriesTitle={seriesData.title}
+              seriesSlug={seriesData.slug}
+              currentPostId={post.id}
+              posts={seriesPosts}
+            />
+          </div>
+        )}
 
-                  <TableOfContents content={post.content} />
+        {/* Table of Contents */}
+        {post.content && (
+          <div className="mb-8 p-5 rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/40 dark:bg-[#131721]/50">
+            <TableOfContents content={post.content} />
+          </div>
+        )}
 
-                  <div className="prose prose-lg dark:prose-invert max-w-none">
-                    <MarkdownRenderer content={post.content} />
-                  </div>
+        {/* Article Prose Content with Authentic Ayu Dark Highlighting */}
+        <div className="prose prose-neutral dark:prose-invert lg:prose-lg max-w-none font-serif leading-relaxed text-light-text/90 dark:text-[#d9d7d3]/95 mb-16">
+          <MarkdownRenderer content={post.content} />
+        </div>
 
-                  <div className="mt-8 pt-4 border-t border-light-subtle/10 dark:border-dark-subtle/10">
-                    <div className="flex flex-wrap items-center">
-                      <span className="text-light-text dark:text-dark-text mr-4 flex items-center">
-                        <Share2 size={16} className="mr-2" />
-                        Share this post:
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-glass rounded-xl shadow-elevated effect-3d overflow-hidden border border-light-subtle/10 dark:border-dark-subtle/20 p-6">
-                <Comments postId={post.id} postSlug={post.slug} />
-              </div>
-
-              <RelatedPosts
-                currentPostId={post.id}
-                relatedPostIds={post.related_post_ids}
-                tags={post.tag_ids}
-                categories={post.category_ids}
+        {/* Author Bio Colophon Box */}
+        <section className="p-6 rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/40 dark:bg-[#131721]/60 mb-12 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          {author?.avatar && (
+            <div className="w-14 h-14 rounded-full overflow-hidden shrink-0 border border-[#e6b450]/40">
+              <img
+                src={author.avatar}
+                alt={author.full_name || 'Jamal Ibrahim'}
+                className="w-full h-full object-cover"
               />
             </div>
-
-            <aside className="lg:w-1/3 space-y-8">
-              <div className="bg-blue-50/50 dark:bg-blue-900/10 rounded-lg p-6 border border-blue-100 dark:border-blue-900/30">
-                <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-3">
-                  About the Author
-                </h3>
-                <div className="flex items-center mb-4">
-                  <div className="h-12 w-12 rounded-full overflow-hidden mr-4">
-                    <img
-                      src={author?.avatar || '/avatar.jpg'}
-                      alt={author?.nickname || 'Author'}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-800 dark:text-gray-200">
-                      {author?.full_name}
-                    </h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {author?.title || 'Software Engineer'}
-                    </p>
-                  </div>
-                </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {author?.bio_short ||
-                    'Full-stack developer specialized in building modern web applications.'}
-                </p>
-              </div>
-
-              {seriesData && seriesPosts.length > 0 && (
-                <div className="bg-blue-50/50 dark:bg-blue-900/10 rounded-lg overflow-hidden border border-blue-100 dark:border-blue-900/30">
-                  <div className="p-4 bg-blue-100/50 dark:bg-blue-900/30 border-b border-blue-100 dark:border-blue-900/40">
-                    <h3 className="font-bold text-light-text dark:text-dark-text flex items-center">
-                      <span className="inline-block w-2 h-2 rounded-full bg-light-accent dark:bg-dark-accent mr-2"></span>
-                      Part of Series: {seriesData.title}
-                    </h3>
-                  </div>
-
-                  <div className="p-4">
-                    <div className="mb-3">
-                      <Link
-                        to="/blog/series/$slug"
-                        params={{ slug: seriesData.slug }}
-                        className="text-sm text-light-accent dark:text-dark-accent hover:underline"
-                      >
-                        View all posts in this series
-                      </Link>
-                    </div>
-
-                    <div className="space-y-3">
-                      {seriesPosts
-                        .sort(
-                          (a: any, b: any) =>
-                            (a.series_position || 0) - (b.series_position || 0),
-                        )
-                        .map((seriesPost: any) => (
-                          <div
-                            key={seriesPost.id}
-                            className={`p-2 rounded ${
-                              seriesPost.id === post.id
-                                ? 'bg-light-subtle/10 dark:bg-dark-subtle/10'
-                                : ''
-                            }`}
-                          >
-                            {seriesPost.id === post.id ? (
-                              <div className="text-light-accent dark:text-dark-accent font-medium">
-                                → {seriesPost.title}{' '}
-                                <span className="text-xs">(current)</span>
-                              </div>
-                            ) : (
-                              <Link
-                                to="/blog/$slug"
-                                params={{ slug: seriesPost.slug }}
-                                className="block text-light-text dark:text-dark-text hover:text-light-accent dark:hover:text-dark-accent"
-                              >
-                                {seriesPost.title}
-                              </Link>
-                            )}
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </aside>
+          )}
+          <div className="space-y-1">
+            <h3 className="font-serif text-lg font-medium text-light-text dark:text-dark-text">
+              Written by {author?.full_name || 'Jamal Ibrahim Umar'}
+            </h3>
+            <p className="text-xs sm:text-sm text-light-subtle dark:text-[#949dab] leading-relaxed">
+              {author?.bio_short || 'Software engineer crafting resilient distributed systems, developer tools, and thoughtful web applications.'}
+            </p>
           </div>
+        </section>
+
+        {/* Comments Section */}
+        <div className="rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/40 dark:bg-[#131721]/40 p-6 mb-12">
+          <Comments postId={post.id} postSlug={post.slug} />
         </div>
+
+        {/* Related Posts */}
+        <RelatedPosts
+          currentPostId={post.id}
+          relatedPostIds={post.related_post_ids}
+          tags={post.tag_ids}
+          categories={post.category_ids}
+        />
       </article>
     </main>
   )

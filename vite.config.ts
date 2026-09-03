@@ -21,8 +21,14 @@ export default defineConfig({
     },
   },
   server: {
+    port: 3001,
+    strictPort: true,
     watch: {
       ignored: ['**/.wrangler/**'],
     },
+  },
+  preview: {
+    port: 3001,
+    strictPort: true,
   },
 })
