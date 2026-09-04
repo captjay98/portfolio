@@ -141,11 +141,22 @@ function Home() {
 
         {/* Current Active Toolchain */}
         {currentTechStack && currentTechStack.length > 0 && (() => {
-          const mobileStack = currentTechStack.find((s: any) => s.name?.toLowerCase().includes('mobile'))
-          const frontendStack = currentTechStack.find((s: any) => s.name?.toLowerCase().includes('frontend'))
-          const backendStack = currentTechStack.find((s: any) => s.name?.toLowerCase().includes('backend'))
-          const aiStack = currentTechStack.find((s: any) => s.name?.toLowerCase().includes('ai') || s.name?.toLowerCase().includes('agent'))
-          const devopsStack = currentTechStack.find((s: any) => s.name?.toLowerCase().includes('cloud') || s.name?.toLowerCase().includes('devops'))
+          const validStacks = currentTechStack.filter(
+            (s: any) => s.technologies && s.technologies.length > 0
+          )
+
+          if (validStacks.length === 0) return null
+
+          const getCategoryTheme = (name: string) => {
+            const lower = name.toLowerCase()
+            if (lower.includes('mobile')) return { dot: 'bg-[#39bae6]', text: 'text-[#39bae6]' }
+            if (lower.includes('front') || lower.includes('web') || lower.includes('ui')) return { dot: 'bg-[#aad94c]', text: 'text-[#aad94c]' }
+            if (lower.includes('back') || lower.includes('server') || lower.includes('api')) return { dot: 'bg-[#e6b450]', text: 'text-[#e6b450]' }
+            if (lower.includes('ai') || lower.includes('agent') || lower.includes('ml')) return { dot: 'bg-[#d2a6ff]', text: 'text-[#d2a6ff]' }
+            if (lower.includes('cloud') || lower.includes('devops') || lower.includes('infra')) return { dot: 'bg-[#f07178]', text: 'text-[#f07178]' }
+            if (lower.includes('data') || lower.includes('db')) return { dot: 'bg-[#ff9940]', text: 'text-[#ff9940]' }
+            return { dot: 'bg-[#e6b450]', text: 'text-[#e6b450]' }
+          }
 
           const renderTechBadge = (tech: any) => (
             <span
@@ -181,72 +192,27 @@ function Home() {
 
               {/* Slim Colophon Ribbon */}
               <div className="rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/40 dark:bg-[#131721]/50 divide-y divide-light-subtle/10 dark:divide-[#1e2430] overflow-hidden">
-                {/* Mobile Row */}
-                <div className="px-4 py-3 sm:px-5 sm:py-2.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 hover:bg-light-subtle/5 dark:hover:bg-white/[0.02] transition-colors">
-                  <div className="w-auto sm:w-36 flex-shrink-0 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#39bae6]"></span>
-                    <span className="text-xs font-mono uppercase tracking-wider font-semibold text-[#39bae6]">
-                      Mobile
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                    {mobileStack?.technologies?.map(renderTechBadge)}
-                  </div>
-                </div>
+                {validStacks.map((stack: any) => {
+                  const stackName = (stack.name || stack.category?.name || 'Tooling').trim()
+                  const theme = getCategoryTheme(stackName)
 
-                {/* Frontend Row */}
-                <div className="px-4 py-3 sm:px-5 sm:py-2.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 hover:bg-light-subtle/5 dark:hover:bg-white/[0.02] transition-colors">
-                  <div className="w-auto sm:w-36 flex-shrink-0 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#aad94c]"></span>
-                    <span className="text-xs font-mono uppercase tracking-wider font-semibold text-[#aad94c]">
-                      Frontend
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                    {frontendStack?.technologies?.map(renderTechBadge)}
-                  </div>
-                </div>
-
-                {/* Backend Row */}
-                <div className="px-4 py-3 sm:px-5 sm:py-2.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 hover:bg-light-subtle/5 dark:hover:bg-white/[0.02] transition-colors">
-                  <div className="w-auto sm:w-36 flex-shrink-0 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#e6b450]"></span>
-                    <span className="text-xs font-mono uppercase tracking-wider font-semibold text-[#e6b450]">
-                      Backend
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                    {backendStack?.technologies?.map(renderTechBadge)}
-                  </div>
-                </div>
-
-                {/* AI & Agents Row */}
-                {aiStack && (
-                  <div className="px-4 py-3 sm:px-5 sm:py-2.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 hover:bg-light-subtle/5 dark:hover:bg-white/[0.02] transition-colors">
-                    <div className="w-auto sm:w-36 flex-shrink-0 flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#d2a6ff]"></span>
-                      <span className="text-xs font-mono uppercase tracking-wider font-semibold text-[#d2a6ff]">
-                        AI &amp; Agents
-                      </span>
+                  return (
+                    <div
+                      key={stack.id}
+                      className="px-4 py-2.5 sm:px-5 sm:py-2.5 flex items-center gap-3 sm:gap-6 hover:bg-light-subtle/5 dark:hover:bg-white/[0.02] transition-colors"
+                    >
+                      <div className="w-20 sm:w-28 flex-shrink-0 flex items-center gap-2">
+                        <span className={`w-1.5 h-1.5 rounded-full ${theme.dot} shrink-0`}></span>
+                        <span className={`text-xs font-mono uppercase tracking-wider font-semibold ${theme.text} truncate`}>
+                          {stackName}
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                        {stack.technologies?.map(renderTechBadge)}
+                      </div>
                     </div>
-                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                      {aiStack?.technologies?.map(renderTechBadge)}
-                    </div>
-                  </div>
-                )}
-
-                {/* Cloud & DevOps Row */}
-                <div className="px-4 py-3 sm:px-5 sm:py-2.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 hover:bg-light-subtle/5 dark:hover:bg-white/[0.02] transition-colors">
-                  <div className="w-auto sm:w-36 flex-shrink-0 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#f07178]"></span>
-                    <span className="text-xs font-mono uppercase tracking-wider font-semibold text-[#f07178]">
-                      Cloud &amp; DevOps
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                    {devopsStack?.technologies?.map(renderTechBadge)}
-                  </div>
-                </div>
+                  )
+                })}
               </div>
             </div>
           )

@@ -20,7 +20,7 @@ import {
   ChevronRight,
 } from 'lucide-react'
 import { Button } from '@app/components/ui/button'
-import { Sheet, SheetContent, SheetTrigger } from '@app/components/ui/sheet'
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from '@app/components/ui/sheet'
 import { ScrollArea } from '@app/components/ui/scroll-area'
 import { ThemeToggle } from '@app/components/ui/theme-toggle'
 import { useAuth } from '@app/hooks/useAuth'
