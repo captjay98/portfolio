@@ -3,14 +3,14 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@app/hooks/useAuth";
 import {
-  MessageCircle,
+  MessageSquare,
   Send,
   ThumbsUp,
-  Reply,
-  MoreVertical,
   AlertCircle,
   User,
   AtSign,
+  Shield,
+  LoaderCircle,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { blogService } from "@app/services/blogService";
@@ -30,6 +30,14 @@ interface Comment {
 interface CommentsProps {
   postId: string;
   postSlug: string;
+}
+
+function formatCommentDate(dateStr: string) {
+  try {
+    return formatDistanceToNow(new Date(dateStr), { addSuffix: true });
+  } catch {
+    return "recently";
+  }
 }
 
 export default function Comments({ postId }: CommentsProps) {
@@ -54,7 +62,7 @@ export default function Comments({ postId }: CommentsProps) {
         setError(null);
       } catch (err) {
         console.error("Error fetching comments:", err);
-        setError("Failed to load comments. Please try again later.");
+        setError("Unable to load comments. Please check your connection.");
       } finally {
         setIsLoading(false);
       }
@@ -73,19 +81,23 @@ export default function Comments({ postId }: CommentsProps) {
 
   // Load liked comments from localStorage
   useEffect(() => {
-    const storedLikes = localStorage.getItem(`blog_comment_likes_${postId}`);
-    if (storedLikes) {
-      setLikedComments(new Set(JSON.parse(storedLikes)));
-    }
+    try {
+      const storedLikes = localStorage.getItem(`blog_comment_likes_${postId}`);
+      if (storedLikes) {
+        setLikedComments(new Set(JSON.parse(storedLikes)));
+      }
+    } catch {}
   }, [postId]);
 
   // Save liked comments to localStorage when changed
   useEffect(() => {
     if (likedComments.size > 0) {
-      localStorage.setItem(
-        `blog_comment_likes_${postId}`,
-        JSON.stringify(Array.from(likedComments)),
-      );
+      try {
+        localStorage.setItem(
+          `blog_comment_likes_${postId}`,
+          JSON.stringify(Array.from(likedComments)),
+        );
+      } catch {}
     }
   }, [likedComments, postId]);
 
@@ -96,51 +108,35 @@ export default function Comments({ postId }: CommentsProps) {
       return;
     }
 
-    // Validate name if not anonymous
     if (!isAnonymous && !commenterName.trim()) {
-      setError("Please enter your name or choose to comment anonymously");
+      setError("Please enter your name or choose to post anonymously.");
       return;
     }
 
     setIsSubmitting(true);
+    setError(null);
 
     try {
       const newCommentData = {
         content_id: postId,
-        text: newComment,
+        text: newComment.trim(),
         date: new Date().toISOString(),
-        user_name: isAnonymous ? "Anonymous" : commenterName,
-        user_email: isAnonymous ? "" : commenterEmail,
+        user_name: isAnonymous ? "Anonymous" : commenterName.trim(),
+        user_email: isAnonymous ? "" : commenterEmail.trim(),
       };
 
       const addedComment = await blogService.addComment(newCommentData);
-
-      // Add the new comment to the list
       setComments([addedComment, ...comments]);
-
-      // Clear the form
       setNewComment("");
-      setError(null);
     } catch (err) {
       console.error("Error posting comment:", err);
-      setError("Failed to post your comment. Please try again.");
+      setError("Failed to post comment. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const toggleAnonymous = () => {
-    setIsAnonymous(!isAnonymous);
-  };
-
   const handleLike = async (commentId: string) => {
-    // If no email provided or anonymous, don't allow liking
-    if (isAnonymous || (!user && !commenterEmail)) {
-      setError("Please sign in or provide an email to like comments");
-      return;
-    }
-
-    // Check if already liked
     const isLiked = likedComments.has(commentId);
 
     try {
@@ -149,7 +145,6 @@ export default function Comments({ postId }: CommentsProps) {
         isLiked ? "unlike" : "like",
       );
 
-      // Update local state of liked comments
       const newLikedComments = new Set(likedComments);
       if (isLiked) {
         newLikedComments.delete(commentId);
@@ -158,7 +153,6 @@ export default function Comments({ postId }: CommentsProps) {
       }
       setLikedComments(newLikedComments);
 
-      // Update the comments list
       setComments(
         comments.map((comment) =>
           comment.$id === commentId ? updatedComment : comment,
@@ -166,217 +160,236 @@ export default function Comments({ postId }: CommentsProps) {
       );
     } catch (err) {
       console.error("Error liking comment:", err);
-      setError("Failed to like comment");
+      setError("Unable to update reaction. Please try again.");
     }
   };
 
   return (
-    <section className="mt-10 pt-8 border-t border-light-subtle/10 dark:border-dark-subtle/10">
-      <h2 className="text-xl font-bold text-light-text dark:text-dark-text mb-6 flex items-center">
-        <MessageCircle
-          size={20}
-          className="mr-2 text-light-accent dark:text-dark-accent"
-        />
-        Comments {comments.length > 0 && `(${comments.length})`}
-      </h2>
+    <section className="space-y-8">
+      {/* Header */}
+      <div className="flex items-baseline justify-between pb-4 border-b border-light-subtle/15 dark:border-[#1e2430]">
+        <div className="flex items-center gap-3">
+          <h2 className="font-serif text-2xl text-light-text dark:text-[#ffffff] tracking-tight">
+            Discussion
+          </h2>
+          <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-light-subtle/10 dark:bg-[#131721] text-light-subtle dark:text-dark-subtle border border-light-subtle/15 dark:border-[#1e2430]">
+            {comments.length} {comments.length === 1 ? "comment" : "comments"}
+          </span>
+        </div>
+        <span className="text-xs font-mono text-light-subtle dark:text-dark-subtle/70 hidden sm:inline">
+          Markdown supported
+        </span>
+      </div>
 
-      {/* Comment form */}
-      <div className="mb-8 bg-glass rounded-lg p-4 border border-light-subtle/10 dark:border-dark-subtle/20">
+      {/* Comment Form Card */}
+      <div className="rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/60 p-5 sm:p-7 shadow-xs">
         <form onSubmit={handleSubmitComment} className="space-y-4">
-          {/* Anonymous toggle */}
-          <div className="flex items-center justify-end space-x-2 mb-4">
-            <label className="text-sm text-light-text dark:text-dark-text cursor-pointer">
-              <input
-                type="checkbox"
-                checked={isAnonymous}
-                onChange={toggleAnonymous}
-                className="mr-2 accent-light-accent dark:accent-dark-accent"
-              />
-              Post anonymously
-            </label>
+          {/* Controls Bar */}
+          <div className="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-light-subtle/10 dark:border-[#1e2430]">
+            <span className="text-xs font-mono text-light-subtle dark:text-dark-subtle">
+              {isAnonymous ? "Commenting as Anonymous" : "Leave a response"}
+            </span>
+
+            <button
+              type="button"
+              onClick={() => setIsAnonymous(!isAnonymous)}
+              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono transition-all border cursor-pointer ${
+                isAnonymous
+                  ? "bg-[#e6b450]/15 text-[#e6b450] border-[#e6b450]/40 font-semibold"
+                  : "border-light-subtle/15 dark:border-[#1e2430] text-light-subtle dark:text-dark-subtle hover:text-light-text dark:hover:text-[#ffffff]"
+              }`}
+            >
+              <Shield size={12} />
+              <span>{isAnonymous ? "Anonymous Active" : "Post Anonymously"}</span>
+            </button>
           </div>
 
-          {/* Commenter info - show only if not anonymous */}
+          {/* Name & Email inputs - shown when not anonymous */}
           {!isAnonymous && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="flex items-center space-x-2 bg-light-subtle/5 dark:bg-dark-subtle/5 rounded-md px-3 py-2">
-                <User
-                  size={16}
-                  className="text-light-subtle dark:text-dark-subtle"
-                />
-                <input
-                  type="text"
-                  value={commenterName}
-                  onChange={(e) => setCommenterName(e.target.value)}
-                  placeholder="Your name *"
-                  className="bg-transparent w-full border-none focus:ring-0 text-light-text dark:text-dark-text"
-                  required={!isAnonymous}
-                />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+              <div>
+                <label className="block text-xs font-mono uppercase tracking-wider text-light-subtle dark:text-dark-subtle mb-1.5">
+                  Your Name <span className="text-[#e6b450]">*</span>
+                </label>
+                <div className="relative">
+                  <User
+                    size={14}
+                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-light-subtle/60 dark:text-dark-subtle/60"
+                  />
+                  <input
+                    type="text"
+                    required
+                    value={commenterName}
+                    onChange={(e) => setCommenterName(e.target.value)}
+                    placeholder="Jane Doe"
+                    className="w-full pl-9 pr-3.5 py-2 rounded-lg bg-light-subtle/5 dark:bg-[#0a0e14] border border-light-subtle/15 dark:border-[#1e2430] focus:border-[#e6b450]/60 dark:focus:border-[#e6b450]/60 outline-none text-sm text-light-text dark:text-dark-text transition-colors placeholder:text-light-subtle/40 dark:placeholder:text-dark-subtle/40"
+                  />
+                </div>
               </div>
 
-              <div className="flex items-center space-x-2 bg-light-subtle/5 dark:bg-dark-subtle/5 rounded-md px-3 py-2">
-                <AtSign
-                  size={16}
-                  className="text-light-subtle dark:text-dark-subtle"
-                />
-                <input
-                  type="email"
-                  value={commenterEmail}
-                  onChange={(e) => setCommenterEmail(e.target.value)}
-                  placeholder="Your email (optional)"
-                  className="bg-transparent w-full border-none focus:ring-0 text-light-text dark:text-dark-text"
-                />
+              <div>
+                <label className="block text-xs font-mono uppercase tracking-wider text-light-subtle dark:text-dark-subtle mb-1.5">
+                  Your Email <span className="text-[10px] lowercase text-light-subtle/60">(optional)</span>
+                </label>
+                <div className="relative">
+                  <AtSign
+                    size={14}
+                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-light-subtle/60 dark:text-dark-subtle/60"
+                  />
+                  <input
+                    type="email"
+                    value={commenterEmail}
+                    onChange={(e) => setCommenterEmail(e.target.value)}
+                    placeholder="jane@example.com"
+                    className="w-full pl-9 pr-3.5 py-2 rounded-lg bg-light-subtle/5 dark:bg-[#0a0e14] border border-light-subtle/15 dark:border-[#1e2430] focus:border-[#e6b450]/60 dark:focus:border-[#e6b450]/60 outline-none text-sm text-light-text dark:text-dark-text transition-colors placeholder:text-light-subtle/40 dark:placeholder:text-dark-subtle/40"
+                  />
+                </div>
               </div>
             </div>
           )}
 
-          <div className="flex items-start gap-3">
-            {/* Avatar placeholder */}
-            <div className="w-10 h-10 rounded-full bg-light-subtle/20 dark:bg-dark-subtle/20 flex items-center justify-center flex-shrink-0 text-light-text dark:text-dark-text">
-              {isAnonymous
-                ? "A"
-                : commenterName
-                  ? commenterName[0]?.toUpperCase()
-                  : "?"}
-            </div>
+          {/* Comment Textarea */}
+          <div>
+            <label className="block text-xs font-mono uppercase tracking-wider text-light-subtle dark:text-dark-subtle mb-1.5">
+              Comment
+            </label>
+            <textarea
+              required
+              rows={4}
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Share your perspective, questions, or architectural critiques..."
+              className="w-full px-3.5 py-2.5 rounded-lg bg-light-subtle/5 dark:bg-[#0a0e14] border border-light-subtle/15 dark:border-[#1e2430] focus:border-[#e6b450]/60 dark:focus:border-[#e6b450]/60 outline-none text-sm text-light-text dark:text-dark-text transition-colors placeholder:text-light-subtle/40 dark:placeholder:text-dark-subtle/40 resize-y"
+            />
+          </div>
 
-            <div className="flex-1">
-              <textarea
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                placeholder="Add a comment..."
-                className="w-full px-3 py-2 rounded-md bg-light-subtle/10 dark:bg-dark-subtle/10 border border-light-subtle/20 dark:border-dark-subtle/20 focus:ring-light-accent dark:focus:ring-dark-accent focus:border-light-accent dark:focus:border-dark-accent text-light-text dark:text-dark-text min-h-[100px]"
-                rows={3}
-                required
-              />
-
-              <div className="mt-2 flex justify-between items-center">
-                <p className="text-xs text-light-subtle dark:text-dark-subtle">
-                  {isAnonymous ? "Posting anonymously" : "Comments are public"}
-                </p>
-                <button
-                  type="submit"
-                  disabled={isSubmitting || !newComment.trim()}
-                  className={`flex items-center px-4 py-2 bg-accent-gradient text-white rounded-md shadow-accent transition-all hover:scale-105 active:scale-95 ${
-                    isSubmitting || !newComment.trim()
-                      ? "opacity-70 cursor-not-allowed"
-                      : ""
-                  }`}
-                >
-                  {isSubmitting ? (
-                    "Posting..."
-                  ) : (
-                    <>
-                      Post Comment
-                      <Send size={16} className="ml-2" />
-                    </>
-                  )}
-                </button>
-              </div>
+          {/* Error Banner */}
+          {error && (
+            <div className="p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-500 text-xs font-mono flex items-center gap-2">
+              <AlertCircle size={14} className="shrink-0" />
+              <span>{error}</span>
             </div>
+          )}
+
+          {/* Actions Footer */}
+          <div className="flex items-center justify-between pt-2">
+            <span className="text-xs font-mono text-light-subtle dark:text-dark-subtle/70">
+              Comments are public
+            </span>
+
+            <button
+              type="submit"
+              disabled={isSubmitting || !newComment.trim()}
+              className="px-5 py-2.5 rounded-lg bg-[#e6b450] text-[#0a0e14] font-mono text-xs font-semibold hover:bg-[#e6b450]/90 transition-all flex items-center gap-2 disabled:opacity-50 shadow-xs active:scale-[0.99] cursor-pointer"
+            >
+              {isSubmitting ? (
+                <>
+                  <LoaderCircle size={13} className="animate-spin" />
+                  <span>Posting...</span>
+                </>
+              ) : (
+                <>
+                  <span>Post Comment</span>
+                  <Send size={13} />
+                </>
+              )}
+            </button>
           </div>
         </form>
       </div>
 
-      {/* Error message */}
-      {error && (
-        <div className="mb-6 p-3 rounded-md bg-red-100/30 dark:bg-red-900/20 text-red-800 dark:text-red-300 flex items-center">
-          <AlertCircle size={16} className="mr-2" />
-          {error}
-        </div>
-      )}
-
-      {/* Comments list */}
-      <div className="space-y-6">
+      {/* Comments List */}
+      <div className="space-y-4">
         {isLoading ? (
-          // Loading skeleton
-          Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="animate-pulse flex space-x-4">
-              <div className="w-10 h-10 rounded-full bg-light-subtle/20 dark:bg-dark-subtle/20"></div>
-              <div className="flex-1 space-y-3">
-                <div className="h-3 bg-light-subtle/20 dark:bg-dark-subtle/20 rounded w-1/4"></div>
-                <div className="h-3 bg-light-subtle/20 dark:bg-dark-subtle/20 rounded w-full"></div>
-                <div className="h-3 bg-light-subtle/20 dark:bg-dark-subtle/20 rounded w-3/4"></div>
+          <div className="space-y-3">
+            {[1, 2].map((i) => (
+              <div
+                key={i}
+                className="p-5 rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/40 dark:bg-[#131721]/40 animate-pulse space-y-3"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-light-subtle/15 dark:bg-[#1e2430]" />
+                  <div className="h-3 w-28 bg-light-subtle/15 dark:bg-[#1e2430] rounded" />
+                </div>
+                <div className="h-3 w-full bg-light-subtle/15 dark:bg-[#1e2430] rounded" />
+                <div className="h-3 w-3/4 bg-light-subtle/15 dark:bg-[#1e2430] rounded" />
               </div>
-            </div>
-          ))
+            ))}
+          </div>
         ) : comments.length > 0 ? (
-          comments.map((comment) => (
-            <div
-              key={comment.$id}
-              className="bg-glass rounded-lg p-4 border border-light-subtle/10 dark:border-dark-subtle/20"
-            >
-              <div className="flex items-start gap-3">
-                {comment.user_avatar ? (
-                  <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
-                    <img
-                      src={comment.user_avatar}
-                      alt={comment.user_name || "User"}
-                      width={40}
-                      height={40}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
-                ) : (
-                  <div className="w-10 h-10 rounded-full bg-light-subtle/20 dark:bg-dark-subtle/20 flex items-center justify-center flex-shrink-0 text-light-text dark:text-dark-text">
-                    {comment.user_name?.[0]?.toUpperCase() || "U"}
-                  </div>
-                )}
+          comments.map((comment) => {
+            const isLiked = likedComments.has(comment.$id);
+            const initial = (comment.user_name || "A")[0]?.toUpperCase() || "A";
 
-                <div className="flex-1">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <div className="font-medium text-light-text dark:text-dark-text">
-                        {comment.user_name || "Anonymous User"}
+            return (
+              <article
+                key={comment.$id}
+                className="rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/60 p-5 sm:p-6 space-y-3 transition-colors"
+              >
+                {/* Author row */}
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    {comment.user_avatar ? (
+                      <img
+                        src={comment.user_avatar}
+                        alt={comment.user_name || "User"}
+                        className="w-8 h-8 rounded-full object-cover border border-light-subtle/20 dark:border-[#1e2430]"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full bg-[#e6b450]/10 border border-[#e6b450]/30 text-[#e6b450] font-mono text-xs font-semibold flex items-center justify-center">
+                        {initial}
                       </div>
-                      <div className="text-xs text-light-subtle dark:text-dark-subtle">
-                        {formatDistanceToNow(new Date(comment.date), {
-                          addSuffix: true,
-                        })}
+                    )}
+
+                    <div>
+                      <div className="font-serif text-sm text-light-text dark:text-dark-text font-medium flex items-center gap-2">
+                        <span>{comment.user_name || "Anonymous User"}</span>
+                        {comment.user_name === "Anonymous" && (
+                          <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-light-subtle/10 dark:bg-[#0a0e14] text-light-subtle dark:text-dark-subtle border border-light-subtle/10 dark:border-[#1e2430]">
+                            guest
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-[11px] font-mono text-light-subtle dark:text-dark-subtle/70">
+                        {formatCommentDate(comment.date)}
                       </div>
                     </div>
-
-                    <button
-                      className="text-light-subtle dark:text-dark-subtle hover:text-light-text dark:hover:text-dark-text transition-colors"
-                      aria-label="Comment options"
-                    >
-                      <MoreVertical size={16} />
-                    </button>
                   </div>
 
-                  <p className="mt-2 text-light-text dark:text-dark-text whitespace-pre-wrap">
-                    {comment.text}
-                  </p>
-
-                  <div className="mt-3 flex items-center gap-4">
-                    <button
-                      className={`text-light-subtle dark:text-dark-subtle hover:text-light-text 
-                        dark:hover:text-dark-text transition-colors flex items-center text-xs
-                        ${likedComments.has(comment.$id) ? "text-blue-500" : ""}`}
-                      onClick={() => handleLike(comment.$id)}
-                      disabled={isAnonymous || (!user && !commenterEmail)}
-                      aria-label="Like comment"
-                    >
-                      <ThumbsUp size={14} className="mr-1" />
-                      {comment.likes || 0}
-                    </button>
-
-                    <button
-                      className="text-light-subtle dark:text-dark-subtle hover:text-light-text dark:hover:text-dark-text transition-colors flex items-center text-xs"
-                      aria-label="Reply to comment"
-                    >
-                      <Reply size={14} className="mr-1" />
-                      Reply
-                    </button>
-                  </div>
+                  {/* Reaction Button */}
+                  <button
+                    type="button"
+                    onClick={() => handleLike(comment.$id)}
+                    className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono transition-all border cursor-pointer ${
+                      isLiked
+                        ? "bg-[#e6b450]/15 text-[#e6b450] border-[#e6b450]/40 font-semibold"
+                        : "border-light-subtle/15 dark:border-[#1e2430] text-light-subtle dark:text-dark-subtle hover:text-light-text dark:hover:text-[#ffffff] hover:border-light-subtle/30"
+                    }`}
+                    aria-label="Like comment"
+                  >
+                    <ThumbsUp size={11} />
+                    <span>{comment.likes || 0}</span>
+                  </button>
                 </div>
-              </div>
-            </div>
-          ))
+
+                {/* Comment Text */}
+                <p className="text-sm sm:text-base font-sans text-light-text/90 dark:text-[#d9d7d3]/90 leading-relaxed whitespace-pre-wrap sm:pl-11">
+                  {comment.text}
+                </p>
+              </article>
+            );
+          })
         ) : (
-          <div className="text-center py-8">
-            <p className="text-light-subtle dark:text-dark-subtle">
-              No comments yet. Be the first to comment!
+          <div className="py-12 px-6 rounded-xl border border-dashed border-light-subtle/20 dark:border-[#1e2430] text-center space-y-2">
+            <MessageSquare
+              size={24}
+              className="mx-auto text-light-subtle/40 dark:text-dark-subtle/40"
+            />
+            <p className="font-serif text-base text-light-text dark:text-dark-text font-medium">
+              No responses yet
+            </p>
+            <p className="text-xs font-mono text-light-subtle dark:text-dark-subtle max-w-sm mx-auto">
+              Be the first to share your thoughts, critiques, or perspectives on this writing.
             </p>
           </div>
         )}

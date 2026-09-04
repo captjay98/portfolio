@@ -11,13 +11,44 @@ const fetchProjectsData = async () => {
       categoryService.getCategories(),
     ])
 
-    // Format categories for the component
+    // Filter categories to only those belonging to projects
+    const projectCategoryMap = new Map<string, string>()
+    projects.forEach((p: any) => {
+      (p.categories || []).forEach((c: any) => {
+        if (c && c.id && c.name) {
+          projectCategoryMap.set(c.id, c.name)
+        }
+      })
+    })
+
+    const disciplinePriority: Record<string, number> = {
+      'frontend development': 10,
+      'backend development': 20,
+      'mobile development': 30,
+      'autonomous agents': 40,
+      'devops': 50,
+      'database': 60,
+      'agritech & ai': 100,
+      'enterprise mobile': 110,
+      'security & patrol': 120,
+      'public safety': 130,
+      'commerce & logistics': 140,
+      'agri-commodity supply': 150,
+    }
+
+    const sortedProjectCategories = Array.from(projectCategoryMap.entries()).sort((a, b) => {
+      const aPriority = disciplinePriority[a[1].toLowerCase()] ?? 200
+      const bPriority = disciplinePriority[b[1].toLowerCase()] ?? 200
+      if (aPriority !== bPriority) return aPriority - bPriority
+      return a[1].localeCompare(b[1])
+    })
+
     const formattedCategories = [
       { value: 'all', label: 'All Projects' },
       { value: 'featured', label: 'Featured' },
-      ...categories.map(cat => ({
-        value: cat.id,
-        label: cat.name,
+      ...sortedProjectCategories.map(([id, name]) => ({
+        value: id,
+        label: name,
       })),
     ]
 

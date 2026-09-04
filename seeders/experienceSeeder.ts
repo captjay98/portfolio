@@ -21,7 +21,7 @@ export const experienceData = [
     title: "Mobile Developer",
     company: "SchoolTry AB",
     location: "Abuja, Nigeria",
-    start_date: "2024-07-16",
+    start_date: "2024-06-16",
     end_date: "2024-12-16",
     description:
       "Maintained and developed new features for the Legacy K12 SchoolTry mobile application",
@@ -33,7 +33,7 @@ export const experienceData = [
     company: "AirBills Digital",
     location: "Remote",
     start_date: "2022-01-01",
-    end_date: "2024-07-16",
+    end_date: "2024-06-16",
     description: "Built Various web applications for different clients",
     category_ids: ["Frontend Development", "Backend Development"],
     technology_ids: [
@@ -54,7 +54,7 @@ export const experienceData = [
     company: "Freelance",
     location: "Remote",
     start_date: "2019-01-01",
-    end_date: "2024-07-16",
+    end_date: "2024-06-16",
     description: "Built Various web applications for different clients",
     category_ids: ["Frontend Development", "Backend Development"],
     technology_ids: [

@@ -1,6 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
-import { Search, Plus, Edit, Trash2, Star, Calendar, BookOpen, Heart, MoreHorizontal, ChevronDown } from 'lucide-react'
+import { Search, Plus, Edit, Trash2, Star, BookOpen, Heart, Eye } from 'lucide-react'
 import { getImageSrc } from '@app/utils/imageUtils'
 import { blogService } from '@app/services/blogService'
 import { categoryService } from '@app/services/categoryService'
@@ -10,6 +10,7 @@ export const Route = createFileRoute('/admin/blogs/')({
 })
 
 function AdminBlogs() {
+  const navigate = useNavigate()
   const [posts, setPosts] = useState<any[]>([])
   const [categories, setCategories] = useState<any[]>([])
   const [searchTerm, setSearchTerm] = useState("")
@@ -68,168 +69,200 @@ function AdminBlogs() {
 
   if (isLoading) {
     return (
-      <div className="p-6 space-y-6">
-        <div className="animate-pulse">
-          <div className="h-8 w-8 bg-gray-200 dark:bg-gray-700 rounded-full mx-auto mb-4"></div>
-          <div className="h-4 w-1/3 bg-gray-200 dark:bg-gray-700 rounded-full mx-auto"></div>
-        </div>
+      <div className="space-y-4 py-8">
+        <div className="h-6 w-48 bg-light-subtle/10 dark:bg-[#131721] rounded animate-pulse" />
+        <div className="h-64 w-full bg-white dark:bg-[#0a0e14] border border-light-border dark:border-[#1e2430] rounded-xl animate-pulse" />
       </div>
     )
   }
 
   return (
-    <div className="space-y-6 p-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold tracking-tight">Blog Posts</h2>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-light-border dark:border-[#1e2430]">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[10px] font-mono font-bold tracking-widest uppercase px-2 py-0.5 rounded bg-amber-500/10 dark:bg-[#e6b450]/15 text-amber-800 dark:text-[#e6b450] border border-amber-500/20">
+              EDITORIAL
+            </span>
+            <span className="text-xs font-mono text-light-subtle dark:text-[#8a9199]">
+              {posts.length} Essays
+            </span>
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-light-text dark:text-[#bfbdb6]">
+            Blog Posts
+          </h1>
+          <p className="text-xs text-light-subtle dark:text-[#8a9199]">
+            Draft, publish, and curate essays and architectural postmortems.
+          </p>
+        </div>
+
         <button
-          onClick={() => window.location.href = '/admin/blogs/new'}
-          className="flex items-center px-4 py-2 bg-accent-gradient text-white rounded-lg hover:shadow-accent transition-all hover:scale-105"
+          onClick={() => navigate({ to: '/admin/blogs/new' as any })}
+          className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#e6b450] hover:bg-[#d48b00] text-black font-mono text-xs font-semibold rounded-lg tracking-wider transition-colors shadow-xs"
         >
-          <Plus className="mr-2 h-4 w-4" />
-          New Post
+          <Plus className="h-3.5 w-3.5" />
+          <span>NEW ESSAY</span>
         </button>
       </div>
 
-      {/* Search field */}
-      <div className="relative mb-6">
-        <Search className="absolute left-3 top-2.5 h-4 w-4 text-light-subtle dark:text-dark-subtle" />
-        <input
-          type="search"
-          placeholder="Search posts..."
-          className="pl-10 w-full md:w-96 px-4 py-2 bg-glass rounded-lg border border-light-subtle/20 dark:border-dark-subtle/20 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
+      {/* Search & Category Filter Bar */}
+      <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+        <div className="relative w-full md:w-80">
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-light-subtle dark:text-[#8a9199]" />
+          <input
+            type="search"
+            placeholder="Search essays by title..."
+            className="w-full pl-9 pr-4 py-2 text-xs rounded-lg bg-white dark:bg-[#0a0e14] border border-light-border dark:border-[#1e2430] text-light-text dark:text-[#bfbdb6] placeholder:text-light-subtle/50 focus:outline-none focus:border-[#e6b450] focus:ring-1 focus:ring-[#e6b450] transition-colors"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
 
-      {/* Category badges */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        <span
-          className={`px-3 py-1 text-sm rounded-full transition-all ${
-            selectedCategory === 'all'
-              ? 'bg-accent-gradient text-white shadow-accent'
-              : 'bg-glass border border-light-subtle/20 dark:border-dark-subtle/20 text-light-text dark:text-dark-text hover:bg-light-subtle/20 dark:hover:bg-dark-subtle/20 cursor-pointer'
-          }`}
-          onClick={() => setSelectedCategory('all')}
-        >
-          All ({posts.length})
-        </span>
-        {getUniqueBlogCategories().map((category: any) => (
-          <span
-            key={category.id}
-            className={`px-3 py-1 text-sm rounded-full transition-all ${
-              selectedCategory === category.id
-                ? 'bg-accent-gradient text-white shadow-accent'
-                : 'bg-glass border border-light-subtle/20 dark:border-dark-subtle/20 text-light-text dark:text-dark-text hover:bg-light-subtle/20 dark:hover:bg-dark-subtle/20 cursor-pointer'
+        {/* Category badges */}
+        <div className="flex flex-wrap gap-1.5">
+          <button
+            type="button"
+            className={`px-2.5 py-1 text-xs font-mono rounded-md border transition-all ${
+              selectedCategory === 'all'
+                ? 'bg-[#e6b450]/15 text-amber-800 dark:text-[#e6b450] border-[#e6b450]/40 font-semibold'
+                : 'bg-white dark:bg-[#0a0e14] text-light-subtle dark:text-[#8a9199] border-light-border dark:border-[#1e2430] hover:border-[#e6b450]/30'
             }`}
-            onClick={() => setSelectedCategory(category.id)}
+            onClick={() => setSelectedCategory('all')}
           >
-            {category.name} ({posts.filter(p => p.category_ids?.includes(category.id)).length})
-          </span>
-        ))}
+            All ({posts.length})
+          </button>
+          {getUniqueBlogCategories().map((category: any) => (
+            <button
+              key={category.id}
+              type="button"
+              className={`px-2.5 py-1 text-xs font-mono rounded-md border transition-all ${
+                selectedCategory === category.id
+                  ? 'bg-[#e6b450]/15 text-amber-800 dark:text-[#e6b450] border-[#e6b450]/40 font-semibold'
+                  : 'bg-white dark:bg-[#0a0e14] text-light-subtle dark:text-[#8a9199] border-light-border dark:border-[#1e2430] hover:border-[#e6b450]/30'
+              }`}
+              onClick={() => setSelectedCategory(category.id)}
+            >
+              {category.name} ({posts.filter(p => p.category_ids?.includes(category.id)).length})
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Posts table */}
-      <div className="bg-glass rounded-xl shadow-elevated border border-light-subtle/10 dark:border-dark-subtle/20 overflow-hidden">
+      {/* Posts Table */}
+      <div className="bg-white dark:bg-[#0a0e14] rounded-xl border border-light-border dark:border-[#1e2430] shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full text-left">
             <thead>
-              <tr className="border-b border-light-subtle/20 dark:border-dark-subtle/20">
-                <th className="px-4 py-3 text-left text-sm font-semibold text-light-text dark:text-dark-text">
-                  Post
+              <tr className="border-b border-light-border dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/50">
+                <th className="px-4 py-3 text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">
+                  Essay
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-light-text dark:text-dark-text">
-                  Category
+                <th className="px-4 py-3 text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">
+                  Categories
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-light-text dark:text-dark-text">
+                <th className="px-4 py-3 text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">
                   Status
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-light-text dark:text-dark-text">
-                  Stats
+                <th className="px-4 py-3 text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">
+                  Engagement
                 </th>
-                <th className="px-4 py-3 text-right text-sm font-semibold text-light-text dark:text-dark-text">
+                <th className="px-4 py-3 text-right text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-light-border/60 dark:divide-[#1e2430]/60">
               {filteredPosts.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-4 py-8 text-center text-light-subtle dark:text-dark-subtle">
-                    No posts found
+                  <td colSpan={5} className="px-4 py-12 text-center text-xs font-mono text-light-subtle dark:text-[#8a9199]">
+                    No essays found matching criteria
                   </td>
                 </tr>
               ) : (
                 filteredPosts.map((post: any) => (
-                  <tr key={post.id} className="border-b border-light-subtle/20 dark:border-dark-subtle/20 hover:bg-light-subtle/50 dark:hover:bg-dark-subtle/5">
-                    <td className="px-4 py-4">
+                  <tr key={post.id} className="hover:bg-light-subtle/5 dark:hover:bg-[#131721]/50 transition-colors">
+                    <td className="px-4 py-3.5">
                       <div className="flex items-center gap-3">
                         {post.cover_image && (
-                          <div className="h-12 w-12 rounded overflow-hidden flex-shrink-0">
+                          <div className="h-10 w-10 rounded border border-light-border dark:border-[#1e2430] overflow-hidden shrink-0">
                             <img
                               src={getImageSrc(post.cover_image)}
                               alt={post.title}
-                              className="h-full w-full object-cover rounded"
+                              className="h-full w-full object-cover"
                             />
                           </div>
                         )}
-                        <div>
-                          <div className="font-medium text-sm">{post.title}</div>
-                          <div className="text-xs text-light-subtle dark:text-dark-subtle">
-                            {post.excerpt?.substring(0, 60)}...
+                        <div className="min-w-0">
+                          <div className="font-semibold text-xs text-light-text dark:text-[#bfbdb6] truncate max-w-sm">
+                            {post.title}
+                          </div>
+                          <div className="text-[11px] text-light-subtle dark:text-[#8a9199] truncate max-w-sm">
+                            {post.slug}
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-4">
+                    <td className="px-4 py-3.5">
                       <div className="flex flex-wrap gap-1">
                         {post.category_ids?.slice(0, 2).map((catId: string) => {
                           const cat = categories.find(c => c.id === catId)
                           return cat ? (
-                            <span key={catId} className="px-2 py-1 text-xs rounded-full bg-light-subtle/10 dark:bg-dark-subtle/10 text-light-text dark:text-dark-text">
+                            <span key={catId} className="px-1.5 py-0.5 text-[10px] font-mono rounded bg-light-subtle/10 dark:bg-[#131721] text-light-subtle dark:text-[#8a9199] border border-light-border dark:border-[#1e2430]">
                               {cat.name}
                             </span>
                           ) : null
                         })}
                       </div>
                     </td>
-                    <td className="px-4 py-4">
+                    <td className="px-4 py-3.5">
                       {post.status === "published" ? (
-                        <span className="inline-flex items-center px-2 py-1 text-xs rounded-full bg-green-100 dark:bg-green-900 text-green-800">
-                          Published
+                        <span className="inline-flex items-center px-2 py-0.5 text-[10px] font-mono rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400">
+                          PUBLISHED
                         </span>
                       ) : (
-                        <span className="inline-flex items-center px-2 py-1 text-xs rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600">
-                          Draft
+                        <span className="inline-flex items-center px-2 py-0.5 text-[10px] font-mono rounded bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-[#e6b450]">
+                          DRAFT
                         </span>
                       )}
                     </td>
-                    <td className="px-4 py-4">
-                      <div className="flex items-center gap-2 text-xs text-light-subtle dark:text-dark-subtle">
-                        <Heart size={12} className="text-rose-500" />
-                        <span>{post.likes || 0}</span>
+                    <td className="px-4 py-3.5">
+                      <div className="flex items-center gap-3 text-xs font-mono text-light-subtle dark:text-[#8a9199]">
+                        <span className="inline-flex items-center gap-1">
+                          <Heart size={11} className="text-rose-500" />
+                          <span>{post.likes || 0}</span>
+                        </span>
+                        <span className="inline-flex items-center gap-1">
+                          <BookOpen size={11} className="text-blue-500" />
+                          <span>{post.read_count || 0}</span>
+                        </span>
                       </div>
                     </td>
-                    <td className="px-4 py-4">
-                      <div className="flex items-center gap-2 text-xs text-light-subtle dark:text-dark-subtle">
-                        <BookOpen size={12} className="text-blue-500" />
-                        <span>{post.read_count || 0}</span>
-                      </div>
-                    </td>
-                    <td className="px-4 py-4 text-right">
-                      <div className="flex items-center gap-2 justify-end">
-                        {post.featured && <Star className="h-3 w-3 text-yellow-500" />}
-                        <button
-                          onClick={() => window.location.href = `/admin/blogs/edit/${post.id}`}
-                          className="p-2 text-blue-600 dark:text-blue-400 hover:text-blue-800"
+                    <td className="px-4 py-3.5 text-right">
+                      <div className="flex items-center gap-1.5 justify-end">
+                        {post.featured && <Star className="h-3 w-3 text-amber-500 fill-amber-500" />}
+                        <a
+                          href={`/blog/${post.slug}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          title="View on site"
+                          className="p-1.5 rounded text-light-subtle dark:text-[#8a9199] hover:text-light-text dark:hover:text-[#bfbdb6] transition-colors"
                         >
-                          <Edit size={14} />
+                          <Eye size={13} />
+                        </a>
+                        <button
+                          onClick={() => navigate({ to: `/admin/blogs/edit/${post.id}` as any })}
+                          className="p-1.5 rounded text-light-subtle dark:text-[#8a9199] hover:text-amber-700 dark:hover:text-[#e6b450] transition-colors"
+                          title="Edit"
+                        >
+                          <Edit size={13} />
                         </button>
                         <button
                           onClick={() => handleDelete(post.id)}
-                          className="p-2 text-red-600 dark:text-red-400 hover:text-red-800"
+                          className="p-1.5 rounded text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                          title="Delete"
                         >
-                          <Trash2 size={14} />
+                          <Trash2 size={13} />
                         </button>
                       </div>
                     </td>
@@ -239,11 +272,6 @@ function AdminBlogs() {
             </tbody>
           </table>
         </div>
-      </div>
-
-      {/* Delete Confirmation Dialog */}
-      <div>
-        <input type="hidden" />
       </div>
     </div>
   )

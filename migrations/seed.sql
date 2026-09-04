@@ -179,8 +179,8 @@ INSERT OR REPLACE INTO categories (id, name, description, parent_id, created_at,
   );
 INSERT OR REPLACE INTO categories (id, name, description, parent_id, created_at, updated_at) VALUES (
     '67e993ab002eb84bbdde',
-    'Development Tools',
-    'Software tools used for programming and development work',
+    'Development Environments',
+    'Software tools and environments used for programming and development work',
     NULL,
     '2025-03-30T18:55:39.911+00:00',
     '2025-03-30T18:55:39.911+00:00'
@@ -195,16 +195,16 @@ INSERT OR REPLACE INTO categories (id, name, description, parent_id, created_at,
   );
 INSERT OR REPLACE INTO categories (id, name, description, parent_id, created_at, updated_at) VALUES (
     '67e993ac000f86a4dc28',
-    'Hardware',
-    'Physical computing equipment and peripherals',
+    'Workstation & Hardware',
+    'Physical computing equipment and operating system environment',
     NULL,
     '2025-03-30T18:55:40.406+00:00',
     '2025-03-30T18:55:40.406+00:00'
   );
 INSERT OR REPLACE INTO categories (id, name, description, parent_id, created_at, updated_at) VALUES (
     '67e993ac001fba78a188',
-    'Productivity',
-    'Tools and applications that help with work efficiency and organization',
+    'Writing & Knowledge Systems',
+    'Tools and applications for long-form writing, notes, and project organization',
     NULL,
     '2025-03-30T18:55:40.647+00:00',
     '2025-03-30T18:55:40.647+00:00'
@@ -258,7 +258,7 @@ INSERT OR REPLACE INTO technologies (id, name, category_id, icon, website, creat
     '67e993ae00157b186344',
     'Inertia.js',
     '67e993a6002bee8a7b4f',
-    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/devicon/devicon-original.svg',
+    'https://inertiajs.com/favicon.ico',
     'https://inertiajs.com/',
     '2025-03-30T18:55:42.496+00:00',
     '2025-03-30T18:55:42.496+00:00'
@@ -294,7 +294,7 @@ INSERT OR REPLACE INTO technologies (id, name, category_id, icon, website, creat
     '67e993af00162d4acef0',
     'Hono',
     '67e993a7001622ce05c2',
-    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg',
+    'https://hono.dev/favicon.ico',
     'https://hono.dev/',
     '2025-03-30T18:55:43.493+00:00',
     '2025-03-30T18:55:43.493+00:00'
@@ -354,10 +354,10 @@ INSERT OR REPLACE INTO technologies (id, name, category_id, icon, website, creat
     '2025-03-30T18:55:44.932+00:00'
   );
 INSERT OR REPLACE INTO technologies (id, name, category_id, icon, website, created_at, updated_at) VALUES (
-    '67e993b10001c09d6192',
+    '67e993b00033ad88f118',
     'Coolify',
     '67e993a70035e721c7f7',
-    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/devicon/devicon-original.svg',
+    'https://coolify.io/favicon.ico',
     'https://coolify.io/',
     '2025-03-30T18:55:45.177+00:00',
     '2025-03-30T18:55:45.177+00:00'
@@ -375,7 +375,7 @@ INSERT OR REPLACE INTO technologies (id, name, category_id, icon, website, creat
     '68de879e0029e01e8d7c',
     'Dokploy',
     '67e993a70035e721c7f7',
-    NULL,
+    'https://dokploy.com/favicon.ico',
     'https://dokploy.com',
     '2025-10-02T14:09:35.608+00:00',
     '2025-10-02T14:09:35.608+00:00'
@@ -458,7 +458,7 @@ INSERT OR REPLACE INTO experiences (id, title, company, location, start_date, en
     'Mobile Developer',
     'SchoolTry AB',
     'Abuja, Nigeria',
-    '2024-07-16',
+    '2024-06-16',
     '2024-12-16',
     'Maintained and developed new features for the Legacy K12 SchoolTry mobile application',
     '["67e993a700251bfd60ef"]',
@@ -472,7 +472,7 @@ INSERT OR REPLACE INTO experiences (id, title, company, location, start_date, en
     'AirBills Digital',
     'Remote',
     '2022-01-01',
-    '2024-07-16',
+    '2024-06-16',
     'Built Various web applications for different clients',
     '["67e993a6002bee8a7b4f","67e993a7001622ce05c2"]',
     '["67e993af002541ebdec8","67e993ae0034e1b10952","67e993af00162d4acef0","67e993af0033b25e25c9","67e993b000153788d55c","67e993b0002291d18fac","67e993b00004b4b4cd19","67e993ac003e52b71ba3","67e993ae00072b6a6b01","67e993ad00370fb5f404"]',
@@ -485,7 +485,7 @@ INSERT OR REPLACE INTO experiences (id, title, company, location, start_date, en
     'Freelance',
     'Remote',
     '2019-01-01',
-    '2024-07-16',
+    '2024-06-16',
     'Built Various web applications for different clients',
     '["67e993a6002bee8a7b4f","67e993a7001622ce05c2"]',
     '["67e993af002541ebdec8","67e993ae0034e1b10952","67e993af00162d4acef0","67e993af0033b25e25c9","67e993b000153788d55c","67e993b0002291d18fac","67e993b00004b4b4cd19","67e993ac003e52b71ba3","67e993ae00072b6a6b01","67e993ad00370fb5f404"]',
@@ -571,7 +571,7 @@ INSERT OR REPLACE INTO education (id, degree, institution, location, start_date,
     'Cotonou, Benin',
     '2018',
     '2021',
-    'Focused on software engineering and computer systems.',
+    'Undergraduate curriculum covering algorithm analysis, operating systems, relational database architecture, networking protocols, and computer systems.',
     0,
     2,
     '2025-03-30T18:55:51.554+00:00',
@@ -579,16 +579,97 @@ INSERT OR REPLACE INTO education (id, degree, institution, location, start_date,
   );
 INSERT OR REPLACE INTO education (id, degree, institution, location, start_date, end_date, description, is_current, priority, created_at, updated_at) VALUES (
     '67e993b70029d1a8b245',
-    'ALX Software Engineering',
+    'ALX Software Engineering (Cohort 5)',
     'ALX Africa',
     'Remote',
     '2022',
     '2023',
-    'Intensive software engineering program covering full-stack Software Engineering.',
+    'Rigorous 12-month engineering fellowship covering C systems programming, Unix internals, memory management, data structures, algorithms, and distributed web architecture.',
     0,
     1,
     '2025-03-30T18:55:51.814+00:00',
     '2025-03-30T18:55:51.814+00:00'
+  );
+INSERT OR REPLACE INTO technologies (id, name, category_id, icon, website, created_at, updated_at) VALUES (
+    'tech-fastapi',
+    'FastAPI',
+    '67e993a7001622ce05c2',
+    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg',
+    'https://fastapi.tiangolo.com/',
+    '2025-03-30T18:55:45.405+00:00',
+    '2025-03-30T18:55:45.405+00:00'
+  );
+INSERT OR REPLACE INTO technologies (id, name, category_id, icon, website, created_at, updated_at) VALUES (
+    'tech-tanstack-router',
+    'TanStack Router',
+    '67e993a6002bee8a7b4f',
+    'https://avatars.githubusercontent.com/u/72518640?s=200&v=4',
+    'https://tanstack.com/router',
+    '2025-03-30T18:55:45.405+00:00',
+    '2025-03-30T18:55:45.405+00:00'
+  );
+INSERT OR REPLACE INTO technologies (id, name, category_id, icon, website, created_at, updated_at) VALUES (
+    'tech-tanstack-start',
+    'TanStack Start',
+    '67e993a6002bee8a7b4f',
+    'https://avatars.githubusercontent.com/u/72518640?s=200&v=4',
+    'https://tanstack.com/start',
+    '2025-03-30T18:55:45.405+00:00',
+    '2025-03-30T18:55:45.405+00:00'
+  );
+INSERT OR REPLACE INTO technologies (id, name, category_id, icon, website, created_at, updated_at) VALUES (
+    'tech-gcp',
+    'GCP',
+    '67e993a70035e721c7f7',
+    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg',
+    'https://cloud.google.com/',
+    '2025-03-30T18:55:45.405+00:00',
+    '2025-03-30T18:55:45.405+00:00'
+  );
+INSERT OR REPLACE INTO technologies (id, name, category_id, icon, website, created_at, updated_at) VALUES (
+    'tech-aws',
+    'AWS',
+    '67e993a70035e721c7f7',
+    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg',
+    'https://aws.amazon.com/',
+    '2025-03-30T18:55:45.405+00:00',
+    '2025-03-30T18:55:45.405+00:00'
+  );
+INSERT OR REPLACE INTO technologies (id, name, category_id, icon, website, created_at, updated_at) VALUES (
+    'tech-gemini',
+    'Gemini',
+    'cat-agents',
+    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg',
+    'https://ai.google.dev/',
+    '2026-09-04T08:44:00.000+00:00',
+    '2026-09-04T08:44:00.000+00:00'
+  );
+INSERT OR REPLACE INTO technologies (id, name, category_id, icon, website, created_at, updated_at) VALUES (
+    'tech-google-adk',
+    'Google ADK',
+    'cat-agents',
+    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg',
+    'https://github.com/google/adk',
+    '2026-09-04T08:44:00.000+00:00',
+    '2026-09-04T08:44:00.000+00:00'
+  );
+INSERT OR REPLACE INTO technologies (id, name, category_id, icon, website, created_at, updated_at) VALUES (
+    'tech-aws-bedrock',
+    'AWS Bedrock',
+    'cat-agents',
+    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg',
+    'https://aws.amazon.com/bedrock/',
+    '2026-09-04T08:44:00.000+00:00',
+    '2026-09-04T08:44:00.000+00:00'
+  );
+INSERT OR REPLACE INTO technologies (id, name, category_id, icon, website, created_at, updated_at) VALUES (
+    'tech-strands',
+    'Strands',
+    'cat-agents',
+    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg',
+    'https://github.com/awslabs',
+    '2026-09-04T08:44:00.000+00:00',
+    '2026-09-04T08:44:00.000+00:00'
   );
 INSERT OR REPLACE INTO current_tech_stack (id, name, category_id, technology_ids, priority, created_at, updated_at) VALUES (
     '67e993c000074d455e27',
@@ -601,21 +682,39 @@ INSERT OR REPLACE INTO current_tech_stack (id, name, category_id, technology_ids
   );
 INSERT OR REPLACE INTO current_tech_stack (id, name, category_id, technology_ids, priority, created_at, updated_at) VALUES (
     '67e993c0001ad184ca7f',
-    'Frontend ',
+    'Frontend',
     '67e993a6002bee8a7b4f',
-    '["67e993ad002516d22dc8","67e993ae00072b6a6b01"]',
+    '["67e993ac003e52b71ba3","tech-tanstack-router","tech-tanstack-start"]',
     2,
     '2025-03-30T18:56:00.572+00:00',
     '2025-03-30T18:56:00.572+00:00'
   );
 INSERT OR REPLACE INTO current_tech_stack (id, name, category_id, technology_ids, priority, created_at, updated_at) VALUES (
     '67e993c0002b1058ad20',
-    'Backend ',
+    'Backend',
     '67e993a7001622ce05c2',
-    '["67e993af0033b25e25c9"]',
+    '["tech-fastapi","67e993af0033b25e25c9","tech-tanstack-start"]',
     3,
     '2025-03-30T18:56:00.864+00:00',
     '2025-03-30T18:56:00.864+00:00'
+  );
+INSERT OR REPLACE INTO current_tech_stack (id, name, category_id, technology_ids, priority, created_at, updated_at) VALUES (
+    'stack-ai-agents',
+    'AI & Agents',
+    'cat-agents',
+    '["tech-gemini","tech-google-adk","tech-aws-bedrock","tech-strands"]',
+    4,
+    '2026-09-04T08:44:00.000+00:00',
+    '2026-09-04T08:44:00.000+00:00'
+  );
+INSERT OR REPLACE INTO current_tech_stack (id, name, category_id, technology_ids, priority, created_at, updated_at) VALUES (
+    'stack-devops-cloud',
+    'Cloud & DevOps',
+    '67e993a70035e721c7f7',
+    '["tech-gcp","tech-aws","67e993b0003148bd297b","67e993b000153788d55c"]',
+    5,
+    '2025-03-30T18:56:01.000+00:00',
+    '2025-03-30T18:56:01.000+00:00'
   );
 INSERT OR REPLACE INTO projects (id, name, description, long_description, image, image_id, category_ids, technology_ids, github, live, featured, created_at, updated_at) VALUES (
     '67e993b80018c52b6489',
@@ -873,7 +972,7 @@ INSERT OR REPLACE INTO uses (id, category_id, name, description, link, image, im
     '67e993ab002eb84bbdde',
     'Bruno',
     'Love the simplicity, my go to API client.',
-    'https://bruno.com/',
+    'https://www.usebruno.com/',
     NULL,
     NULL,
     1,
@@ -895,30 +994,30 @@ INSERT OR REPLACE INTO uses (id, category_id, name, description, link, image, im
     '2025-03-30T18:55:57.573+00:00'
   );
 INSERT OR REPLACE INTO uses (id, category_id, name, description, link, image, image_id, is_favorite, priority, created_at, updated_at) VALUES (
-    '67e993bd002a05f7ab4d',
-    '67e993ac00009e226b57',
-    'MacOS',
-    'I didn''t really have an option...',
-    NULL,
-    NULL,
-    NULL,
-    0,
-    1,
-    '2025-03-30T18:55:57.807+00:00',
-    '2025-06-09T23:52:12.297+00:00'
-  );
-INSERT OR REPLACE INTO uses (id, category_id, name, description, link, image, image_id, is_favorite, priority, created_at, updated_at) VALUES (
     '67e993bd0038bf78e56c',
     '67e993ac000f86a4dc28',
     '14" MacBook Pro M4 Pro',
     'I reserve my comment. It''s a solid dev machine, i''ll admit.',
-    NULL,
+    'https://www.apple.com/macbook-pro/',
     NULL,
     NULL,
     0,
     1,
     '2025-03-30T18:55:58.039+00:00',
     '2025-05-21T00:09:14.681+00:00'
+  );
+INSERT OR REPLACE INTO uses (id, category_id, name, description, link, image, image_id, is_favorite, priority, created_at, updated_at) VALUES (
+    '67e993bd002a05f7ab4d',
+    '67e993ac00009e226b57',
+    'MacOS',
+    'I didn''t really have an option...',
+    'https://www.apple.com/macos/',
+    NULL,
+    NULL,
+    0,
+    2,
+    '2025-03-30T18:55:57.807+00:00',
+    '2025-06-09T23:52:12.297+00:00'
   );
 INSERT OR REPLACE INTO uses (id, category_id, name, description, link, image, image_id, is_favorite, priority, created_at, updated_at) VALUES (
     '67e993be000955f05ad6',

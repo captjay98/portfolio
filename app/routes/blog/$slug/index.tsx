@@ -79,9 +79,9 @@ function BlogPost() {
     <main className="min-h-screen pb-24 animate-fade-in">
       <BackToTopButton />
 
-      <article className="max-w-3xl mx-auto px-6 pt-10">
+      <article className="max-w-3xl mx-auto px-4 sm:px-6 pt-8 sm:pt-10">
         {/* Back Link */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <Link
             to="/blog"
             className="inline-flex items-center text-xs font-mono text-light-subtle dark:text-dark-subtle hover:text-[#e6b450] transition-colors"
@@ -92,9 +92,9 @@ function BlogPost() {
         </div>
 
         {/* Article Header */}
-        <header className="space-y-4 pb-8 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-8">
+        <header className="space-y-3 sm:space-y-4 pb-6 sm:pb-8 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-6 sm:mb-8">
           {/* Metadata line */}
-          <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-light-subtle dark:text-dark-subtle">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-mono text-light-subtle dark:text-dark-subtle">
             <span className="flex items-center gap-1">
               <Calendar size={12} className="text-[#e6b450]" />
               {formattedDate}
@@ -102,7 +102,7 @@ function BlogPost() {
             <span>•</span>
             <span className="flex items-center gap-1">
               <Clock size={12} />
-              {post.reading_time ? `${post.reading_time} min read` : '5 min read'}
+              {post.reading_time?.includes('min') ? post.reading_time : `${post.reading_time || '5'} min read`}
             </span>
             {post.read_count !== undefined && (
               <>
@@ -121,13 +121,13 @@ function BlogPost() {
             />
           </div>
 
-          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-light-text dark:text-[#ffffff] tracking-tight leading-[1.18] font-medium">
+          <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl text-light-text dark:text-[#ffffff] tracking-tight leading-[1.18] font-medium break-words">
             {post.title}
           </h1>
 
           {/* Category Tags */}
           {post.category_ids && categoryFilters && (
-            <div className="flex flex-wrap gap-2 pt-2">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-2">
               {categoryFilters.map((category: any) => (
                 <span
                   key={category.value}
@@ -143,7 +143,7 @@ function BlogPost() {
 
         {/* Cover Image */}
         {post.cover_image && (
-          <div className="relative w-full h-72 sm:h-96 mb-10 rounded-xl overflow-hidden border border-light-subtle/15 dark:border-[#1e2430]">
+          <div className="relative w-full h-52 sm:h-80 md:h-96 mb-8 sm:mb-10 rounded-lg sm:rounded-xl overflow-hidden border border-light-subtle/15 dark:border-[#1e2430]">
             <img
               src={getImageSrc(post.cover_image)}
               alt={post.title}
@@ -177,7 +177,7 @@ function BlogPost() {
         </div>
 
         {/* Author Bio Colophon Box */}
-        <section className="p-6 rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/40 dark:bg-[#131721]/60 mb-12 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <section className="p-4 sm:p-6 rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/40 dark:bg-[#131721]/60 mb-10 sm:mb-12 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
           {author?.avatar && (
             <div className="w-14 h-14 rounded-full overflow-hidden shrink-0 border border-[#e6b450]/40">
               <img
@@ -192,13 +192,13 @@ function BlogPost() {
               Written by {author?.full_name || 'Jamal Ibrahim Umar'}
             </h3>
             <p className="text-xs sm:text-sm text-light-subtle dark:text-[#949dab] leading-relaxed">
-              {author?.bio_short || 'Software engineer crafting resilient distributed systems, developer tools, and thoughtful web applications.'}
+              {author?.bio_short || 'Software engineer crafting resilient distributed systems, developer tools, and thoughtful mobile and web applications.'}
             </p>
           </div>
         </section>
 
         {/* Comments Section */}
-        <div className="rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/40 dark:bg-[#131721]/40 p-6 mb-12">
+        <div className="mb-14">
           <Comments postId={post.id} postSlug={post.slug} />
         </div>
 

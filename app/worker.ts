@@ -22,8 +22,9 @@ export default {
       return await startHandler(request, { env, ctx });
     }
 
-    // 3. For public GET pages, check Cloudflare Edge Cache
-    const cache = (caches as any).default;
+    // 3. For public GET pages, check Cloudflare Edge Cache (bypass on localhost for instant updates)
+    const isLocalhost = url.hostname === "localhost" || url.hostname === "127.0.0.1";
+    const cache = isLocalhost ? null : (caches as any).default;
     if (request.method === "GET" && cache) {
       try {
         const cached = await cache.match(request);

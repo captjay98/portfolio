@@ -4,12 +4,48 @@ import { CategoryType } from "@app/types/admin";
 
 const isServer = typeof window === "undefined";
 
+const CATEGORY_SORT_PRIORITY: Record<string, number> = {
+  // Core Software Engineering Disciplines (Always First)
+  "frontend development": 10,
+  "backend development": 20,
+  "mobile development": 30,
+  "autonomous agents": 40,
+  "devops": 50,
+  "database": 60,
+
+  // Product & Domain Verticals (Second)
+  "agritech & ai": 100,
+  "enterprise mobile": 110,
+  "security & patrol": 120,
+  "public safety": 130,
+  "commerce & logistics": 140,
+  "agri-commodity supply": 150,
+
+  // Workstation, Environment & Hardware / Uses (Third)
+  "development environments": 200,
+  "development tools": 200,
+  "software": 210,
+  "workstation & hardware": 220,
+  "hardware": 220,
+  "writing & knowledge systems": 230,
+  "productivity": 230,
+};
+
+function sortCategories<T extends { name: string }>(cats: T[]): T[] {
+  return [...cats].sort((a, b) => {
+    const aPriority = CATEGORY_SORT_PRIORITY[(a.name || "").toLowerCase().trim()] ?? 999;
+    const bPriority = CATEGORY_SORT_PRIORITY[(b.name || "").toLowerCase().trim()] ?? 999;
+    if (aPriority !== bPriority) return aPriority - bPriority;
+    return a.name.localeCompare(b.name);
+  });
+}
+
 export const categoryService = {
   getCategories: async (): Promise<CategoryType[]> => {
     if (isServer) {
       const db = getDb();
       const rows = await db.select().from(categories);
-      return rows.map(r => ({
+      const mapped = rows.map(r => ({
         id: r.id,
         name: r.name,
         description: r.description || undefined,
@@ -17,10 +53,12 @@ export const categoryService = {
         created_at: r.created_at,
         updated_at: r.updated_at,
       }));
+      return sortCategories(mapped);
     }
     const res = await fetch("/api/categories");
     if (!res.ok) throw new Error("Failed to fetch categories");
-    return await res.json();
+    const json = await res.json();
+    return sortCategories(json);
   },
 
   createCategory: async (

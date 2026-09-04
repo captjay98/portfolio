@@ -10,12 +10,12 @@
 
 @theme {
   --font-serif: 'Newsreader', Georgia, Cambria, 'Times New Roman', Times, serif;
-  /* Light Mode Colors (Ayu Light) - Keep existing background and accent */
+  /* Light Mode Colors (Ayu Light) - High contrast & crisp editorial legibility */
   --color-light-background: #fafafa;
-  --color-light-text: #5c6773;
-  --color-light-subtle: #abb0b6;
+  --color-light-text: #1a202c; /* Deep charcoal for crisp reading contrast (~14:1 ratio against #fafafa) */
+  --color-light-subtle: #57606a; /* High-readability slate (WCAG AA compliant ~5.8:1 ratio) */
   --color-light-accent: #2563eb; 
-  --color-light-border: #e2e4e7;
+  --color-light-border: #dcdfe4; /* Crisper border separation in light mode */
 
   /* Enhanced Ayu Light palette */
   --color-light-syntax-tag: #55b4d4; /* Ayu light cyan for tags/parameters */
@@ -445,18 +445,19 @@
   --card-foreground: var(--color-light-text);
   --popover: #ffffff;
   --popover-foreground: var(--color-light-text);
-  --primary: var(--color-light-accent);
+  --primary: #d48b00;
   --primary-foreground: #ffffff;
-  --secondary: var(--color-light-syntax-tag);
-  --secondary-foreground: #ffffff;
-  --muted: var(--color-light-border);
+  --secondary: #f0f2f5;
+  --secondary-foreground: var(--color-light-text);
+  --muted: #f4f5f7;
   --muted-foreground: var(--color-light-subtle);
-  --accent: var(--color-light-syntax-func);
-  --accent-foreground: #ffffff;
-  --destructive: var(--color-light-syntax-markup);
+  --accent: rgba(212, 139, 0, 0.12);
+  --accent-foreground: #b87500;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
   --border: var(--color-light-border);
   --input: var(--color-light-border);
-  --ring: var(--color-light-accent);
+  --ring: #d48b00;
   --chart-1: var(--color-light-syntax-tag);
   --chart-2: var(--color-light-syntax-string);
   --chart-3: var(--color-light-syntax-entity);
@@ -464,49 +465,46 @@
   --chart-5: var(--color-light-syntax-markup);
   --sidebar: #ffffff;
   --sidebar-foreground: var(--color-light-text);
-  --sidebar-primary: var(--color-light-accent);
+  --sidebar-primary: #d48b00;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: var(--color-light-syntax-special);
-  --sidebar-accent-foreground: #ffffff;
+  --sidebar-accent: rgba(212, 139, 0, 0.12);
+  --sidebar-accent-foreground: #b87500;
   --sidebar-border: var(--color-light-border);
-  --sidebar-ring: var(--color-light-accent);
+  --sidebar-ring: #d48b00;
 }
 
 .dark {
   --background: var(--color-dark-background);
   --foreground: var(--color-dark-text);
-  --card: var(--color-dark-border);
+  --card: #0e1218;
   --card-foreground: var(--color-dark-text);
-  --popover: var(--color-dark-border);
+  --popover: #0e1218;
   --popover-foreground: var(--color-dark-text);
   --primary: var(--color-dark-accent);
   --primary-foreground: var(--color-dark-background);
-  --secondary: var(--color-dark-syntax-tag);
-  --secondary-foreground: var(--color-dark-background);
-  --muted: var(
-    --color-dark-border
-  ); /* Changed from var(--color-dark-subtle) to improve contrast */
-  --muted-foreground: #a8b2c0; /* Brightened muted text for better visibility */
-  --accent: var(--color-dark-syntax-func);
-  --accent-foreground: var(--color-dark-background);
+  --secondary: #131721;
+  --secondary-foreground: var(--color-dark-text);
+  --muted: #131721;
+  --muted-foreground: #8a9199;
+  --accent: rgba(230, 180, 80, 0.15);
+  --accent-foreground: var(--color-dark-accent);
   --destructive: var(--color-dark-syntax-markup);
-  --border: rgba(255, 255, 255, 0.1);
-  --input: rgba(255, 255, 255, 0.15);
+  --destructive-foreground: #ffffff;
+  --border: #1e2430;
+  --input: #1e2430;
   --ring: var(--color-dark-accent);
   --chart-1: var(--color-dark-syntax-entity);
   --chart-2: var(--color-dark-syntax-string);
   --chart-3: var(--color-dark-syntax-func);
   --chart-4: var(--color-dark-syntax-regexp);
   --chart-5: var(--color-dark-syntax-markup);
-  --sidebar: var(--color-dark-border);
-  --sidebar-foreground: var(
-    --color-dark-syntax-special
-  ); /* Brightened to match main text color */
+  --sidebar: #0a0e14;
+  --sidebar-foreground: var(--color-dark-text);
   --sidebar-primary: var(--color-dark-accent);
   --sidebar-primary-foreground: var(--color-dark-background);
-  --sidebar-accent: var(--color-dark-syntax-special);
-  --sidebar-accent-foreground: var(--color-dark-background);
-  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-accent: rgba(230, 180, 80, 0.15);
+  --sidebar-accent-foreground: var(--color-dark-accent);
+  --sidebar-border: #1e2430;
   --sidebar-ring: var(--color-dark-accent);
 }
 
@@ -591,16 +589,25 @@
 
 .editorial-stamp {
   border: 1px dashed rgba(230, 180, 80, 0.45);
-  background: rgba(19, 23, 33, 0.85);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
 }
 
+:where(.dark) .editorial-stamp {
+  background: rgba(19, 23, 33, 0.85);
+}
+
 .editorial-card {
-  background: rgba(19, 23, 33, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   transition: all 0.2s ease-in-out;
 }
 
+:where(.dark) .editorial-card {
+  background: rgba(19, 23, 33, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 .editorial-card:hover {
-  border-color: rgba(230, 180, 80, 0.4);
+  border-color: rgba(230, 180, 80, 0.5);
 }
