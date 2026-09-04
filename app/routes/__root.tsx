@@ -16,7 +16,7 @@ export const RootComponent = () => {
         <HeadContent />
       </head>
       <body
-        className="min-h-screen bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text font-sans antialiased selection:bg-[#e6b450]/25 selection:text-foreground"
+        className="min-h-screen bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text font-sans antialiased selection:bg-[#e6b450]/25 selection:text-foreground overflow-x-hidden"
       >
         <ThemeProvider attribute="class">
           {isAdmin ? (
@@ -24,12 +24,12 @@ export const RootComponent = () => {
           ) : (
             <>
               <Navbar />
-              <div className="mt-20 animate-fade-in flex-1">
+              <div className="mt-16 sm:mt-20 animate-fade-in flex-1">
                 <Outlet />
               </div>
               {/* Footer */}
-              <footer className="mt-24 border-t border-light-subtle/10 dark:border-dark-subtle/10 py-12 px-6 text-sm text-light-subtle dark:text-dark-subtle">
-                <div className="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <footer className="mt-16 sm:mt-24 border-t border-light-subtle/10 dark:border-dark-subtle/10 py-8 sm:py-12 px-4 sm:px-6 text-sm text-light-subtle dark:text-dark-subtle">
+                <div className="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                   <div className="space-y-0.5">
                     <p className="font-serif italic text-base text-light-text dark:text-dark-text">
                       Jamal Ibrahim
@@ -59,7 +59,8 @@ export const Route = createRootRoute({
         charSet: 'utf-8',
       },
       {
-        viewport: 'width=device-width, initial-scale=1',
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1, viewport-fit=cover',
       },
       {
         title: 'Jamal Ibrahim · Software Engineer',

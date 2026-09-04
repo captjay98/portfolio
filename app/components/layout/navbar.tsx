@@ -65,13 +65,38 @@ export function Navbar() {
       }
     };
 
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  // Close menu automatically on route change
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
 
   const allNavItems =
     mounted && user
@@ -85,28 +110,23 @@ export function Navbar() {
         ]
       : navItems;
 
-  // Get active item for positioning
-  const activeItemIndex = allNavItems.findIndex(
-    (item) => pathname === item.href || pathname.startsWith(`${item.href}/`),
-  );
-
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "backdrop-blur-md bg-light-background/85 dark:bg-[#0a0e14]/85 py-3 border-b border-light-subtle/10 dark:border-[#1e2430] shadow-sm"
-          : "bg-transparent py-5"
+          ? "backdrop-blur-md bg-light-background/90 dark:bg-[#0a0e14]/90 py-3 border-b border-light-subtle/15 dark:border-[#1e2430] shadow-sm"
+          : "bg-transparent py-4 sm:py-5"
       }`}
     >
-      <div className="max-w-4xl mx-auto px-6">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6">
         {/* Desktop Navbar - Mathematically Symmetrical 3-Column Grid */}
         <div className="hidden md:grid grid-cols-[1fr_auto_1fr] items-center">
           {/* Left: Custom logo / masthead */}
           <div className="flex items-center justify-start">
             <Link to="/" className="group inline-flex items-center">
-              <span className="font-semibold text-sm sm:text-base tracking-tight text-light-text dark:text-dark-text group-hover:text-[#e6b450] transition-colors">
+              <span className="font-serif italic font-semibold text-base sm:text-lg tracking-tight text-light-text dark:text-dark-text group-hover:text-[#e6b450] transition-colors">
                 Jamal Ibrahim
-                <span className="inline-block ml-1.5 h-1.5 w-1.5 rounded-full bg-light-accent dark:bg-[#e6b450] opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                <span className="inline-block ml-1.5 h-1.5 w-1.5 rounded-full bg-[#e6b450] opacity-0 group-hover:opacity-100 transition-opacity"></span>
               </span>
             </Link>
           </div>
@@ -147,87 +167,75 @@ export function Navbar() {
         {/* Mobile Navbar */}
         <div className="md:hidden flex justify-between items-center">
           {/* Logo */}
-          <Link to="/" className="group">
-            <div
-              className={`transition-all duration-500 ${
-                scrolled
-                  ? "bg-glass shadow-subtle px-3 py-1.5 rounded-full border border-light-subtle/10 dark:border-dark-subtle/10"
-                  : "px-0 py-0"
-              }`}
-            >
-              <span className="font-semibold text-sm text-light-text dark:text-dark-text">
-                Jamal Ibrahim
-              </span>
-            </div>
+          <Link to="/" className="group inline-flex items-center py-1">
+            <span className="font-serif italic font-semibold text-base tracking-tight text-light-text dark:text-dark-text group-hover:text-[#e6b450] transition-colors">
+              Jamal Ibrahim
+            </span>
           </Link>
 
           {/* Mobile menu controls */}
           <div className="flex items-center space-x-2">
-            <div
-              className={`transition-all duration-500 flex items-center justify-center ${
-                scrolled
-                  ? "bg-glass shadow-subtle border border-light-subtle/10 dark:border-dark-subtle/10 rounded-full p-1.5"
-                  : "p-0"
-              }`}
-            >
+            <div className="p-1 rounded-full bg-light-background/80 dark:bg-[#131721]/80 border border-light-subtle/15 dark:border-[#1e2430] flex items-center justify-center">
               <ThemeToggle />
             </div>
 
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className={`focus:outline-none transition-all duration-500 active:scale-95 flex items-center justify-center ${
-                scrolled
-                  ? "p-2 bg-glass shadow-subtle border border-light-subtle/10 dark:border-dark-subtle/10 rounded-full text-light-text dark:text-dark-text"
-                  : "p-1.5 text-light-text dark:text-dark-text"
-              }`}
+              className="p-2 rounded-full bg-light-background/80 dark:bg-[#131721]/80 border border-light-subtle/15 dark:border-[#1e2430] text-light-text dark:text-dark-text focus:outline-none active:scale-95 transition-transform flex items-center justify-center"
               aria-label="Toggle menu"
+              aria-expanded={isOpen}
             >
               {isOpen ? (
-                <X className="h-5 w-5 text-light-accent dark:text-[#e6b450]" />
+                <X className="h-4 w-4 text-[#e6b450]" />
               ) : (
-                <Menu className="h-5 w-5" />
+                <Menu className="h-4 w-4" />
               )}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Backdrop Scrim */}
+      {isOpen && (
+        <div
+          onClick={() => setIsOpen(false)}
+          className="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 md:hidden animate-fade-in"
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Mobile Menu Dropdown Card */}
       {isOpen && (
         <div
           ref={menuRef}
-          className="backdrop-blur-lg md:hidden fixed top-[72px] inset-x-4 mx-auto bg-glass shadow-elevated border border-light-subtle/10 dark:border-dark-subtle/20 rounded-2xl p-4 z-50 max-w-sm animate-slideDown"
+          className="md:hidden fixed top-[64px] inset-x-4 mx-auto bg-white dark:bg-[#0e1218] shadow-2xl border border-light-subtle/20 dark:border-[#1e2430] rounded-2xl p-3 z-50 max-w-sm animate-fade-in"
         >
-          <div className="space-y-1">
-            {allNavItems.map((item, index) => {
+          <div className="space-y-1 font-mono text-xs">
+            {allNavItems.map((item) => {
               const isActive =
-                pathname === item.href || pathname.startsWith(`${item.href}/`);
+                pathname === item.href ||
+                (item.href !== "/" && pathname.startsWith(`${item.href}/`));
 
               return (
-                <div
+                <Link
                   key={item.name}
-                  className="animate-fadeIn"
-                  style={{ animationDelay: `${index * 50}ms` }}
+                  to={item.href as any}
+                  onClick={() => setIsOpen(false)}
+                  className={`flex items-center justify-between px-4 py-3 rounded-xl transition-all ${
+                    isActive
+                      ? "bg-[#e6b450]/15 text-amber-800 dark:text-[#e6b450] font-semibold border border-[#e6b450]/30"
+                      : "text-light-text dark:text-[#d9d7d3] hover:bg-light-subtle/5 dark:hover:bg-white/5"
+                  }`}
                 >
-                  <Link
-                    to={item.href as any}
-                    onClick={() => setIsOpen(false)}
-                    className={`flex items-center justify-between px-4 py-3 rounded-xl text-base font-medium ${
-                      isActive
-                        ? "bg-light-accent/10 dark:bg-dark-accent/10 text-light-accent dark:text-dark-accent"
-                        : "text-light-text dark:text-dark-text hover:bg-light-subtle/5 dark:hover:bg-dark-subtle/5"
-                    }`}
-                  >
-                    <span className="flex items-center">
-                      {item.icon}
-                      {item.name}
-                    </span>
-                    <ChevronRight
-                      size={16}
-                      className={`transform transition-transform ${isActive ? "text-light-accent dark:text-dark-accent" : "opacity-40"}`}
-                    />
-                  </Link>
-                </div>
+                  <span className="flex items-center">
+                    {item.icon}
+                    <span className="text-sm font-medium">{item.name}</span>
+                  </span>
+                  <ChevronRight
+                    size={15}
+                    className={`transform transition-transform ${isActive ? "text-[#e6b450]" : "opacity-40"}`}
+                  />
+                </Link>
               );
             })}
           </div>

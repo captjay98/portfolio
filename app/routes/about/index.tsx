@@ -168,29 +168,29 @@ function About() {
 
   return (
     <main className="min-h-screen pb-24 animate-fade-in">
-      <div className="max-w-4xl mx-auto px-6 pt-10">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-8 sm:pt-10">
         {/* Editorial Sub-Navigation Tabs */}
-        <div className="flex items-center space-x-8 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-12">
+        <div className="flex items-center space-x-6 sm:space-x-8 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-8 sm:mb-12">
           <Link
             to="/about"
-            className="pb-3 text-sm font-mono tracking-wider uppercase border-b-2 border-light-accent dark:border-[#e6b450] text-light-accent dark:text-[#e6b450] font-semibold"
+            className="pb-3 text-xs sm:text-sm font-mono tracking-wider uppercase border-b-2 border-light-accent dark:border-[#e6b450] text-light-accent dark:text-[#e6b450] font-semibold"
           >
             01 / Background
           </Link>
           <Link
             to="/about/uses"
-            className="pb-3 text-sm font-mono tracking-wider uppercase border-b-2 border-transparent text-light-subtle dark:text-dark-subtle hover:text-light-text dark:hover:text-[#d9d7d3] transition-colors"
+            className="pb-3 text-xs sm:text-sm font-mono tracking-wider uppercase border-b-2 border-transparent text-light-subtle dark:text-dark-subtle hover:text-light-text dark:hover:text-[#d9d7d3] transition-colors"
           >
             02 / Uses
           </Link>
         </div>
 
         {/* Profile Header */}
-        <header className="space-y-4 pb-10 border-b border-light-subtle/15 dark:border-dark-subtle/15">
-          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-light-text dark:text-[#ffffff] tracking-tight">
+        <header className="space-y-3 sm:space-y-4 pb-8 sm:pb-10 border-b border-light-subtle/15 dark:border-dark-subtle/15">
+          <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl text-light-text dark:text-[#ffffff] tracking-tight leading-tight">
             Systems, Software, and Craftsmanship
           </h1>
-          <p className="font-serif italic text-lg text-light-subtle dark:text-[#d9d7d3]/80">
+          <p className="font-serif italic text-base sm:text-lg text-light-subtle dark:text-[#d9d7d3]/80 leading-relaxed">
             A chronicle of my background, technical foundation, and professional milestones.
           </p>
         </header>
@@ -340,7 +340,7 @@ function About() {
               return (
                 <div
                   key={categoryName}
-                  className="group relative rounded-xl border border-light-subtle/20 dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/60 p-5 md:p-6 transition-all duration-300 hover:border-light-subtle/40 dark:hover:border-dark-subtle/30 shadow-xs hover:shadow-md overflow-hidden"
+                  className="group relative rounded-xl border border-light-subtle/20 dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/60 p-4 sm:p-5 md:p-6 transition-all duration-300 hover:border-light-subtle/40 dark:hover:border-dark-subtle/30 shadow-xs hover:shadow-md overflow-hidden"
                 >
                   {/* Left vertical accent line */}
                   <div
@@ -348,7 +348,7 @@ function About() {
                     style={{ backgroundColor: meta.color }}
                   />
 
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start pl-2">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 items-start pl-2 sm:pl-3">
                     {/* Left Column: Domain Specs */}
                     <div className="lg:col-span-4 space-y-2">
                       <div className="flex items-center gap-2">
@@ -482,7 +482,7 @@ function About() {
                 return (
                   <div
                     key={edu.id}
-                    className="group relative rounded-xl border border-light-subtle/20 dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/60 p-6 md:p-7 transition-all duration-300 hover:border-light-subtle/40 dark:hover:border-dark-subtle/30 shadow-xs hover:shadow-md overflow-hidden"
+                    className="group relative rounded-xl border border-light-subtle/20 dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/60 p-4 sm:p-6 md:p-7 transition-all duration-300 hover:border-light-subtle/40 dark:hover:border-dark-subtle/30 shadow-xs hover:shadow-md overflow-hidden"
                   >
                     {/* Subtle top color accent line */}
                     <div
@@ -490,7 +490,7 @@ function About() {
                       style={{ backgroundColor: accentColor }}
                     />
 
-                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 items-start">
                       {/* Left Column: Track, Date, Institution, Location */}
                       <div className="md:col-span-4 space-y-2.5 font-mono">
                         <span

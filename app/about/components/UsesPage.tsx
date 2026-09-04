@@ -123,31 +123,31 @@ export default function UsesPage({ uses, categories }: UsesPageProps) {
 
   return (
     <main className="min-h-screen pb-24 animate-fade-in">
-      <div className="max-w-4xl mx-auto px-6 pt-10">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-8 sm:pt-10">
         {/* Sub-Navigation Tabs */}
-        <div className="flex items-center space-x-8 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-10">
+        <div className="flex items-center space-x-6 sm:space-x-8 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-8 sm:mb-10">
           <Link
             to="/about"
-            className="pb-3 text-sm font-mono tracking-wider uppercase border-b-2 border-transparent text-light-subtle dark:text-dark-subtle hover:text-light-text dark:hover:text-[#d9d7d3] transition-colors"
+            className="pb-3 text-xs sm:text-sm font-mono tracking-wider uppercase border-b-2 border-transparent text-light-subtle dark:text-dark-subtle hover:text-light-text dark:hover:text-[#d9d7d3] transition-colors"
           >
             01 / Background
           </Link>
           <Link
             to="/about/uses"
-            className="pb-3 text-sm font-mono tracking-wider uppercase border-b-2 border-light-accent dark:border-[#e6b450] text-light-accent dark:text-[#e6b450] font-semibold"
+            className="pb-3 text-xs sm:text-sm font-mono tracking-wider uppercase border-b-2 border-light-accent dark:border-[#e6b450] text-light-accent dark:text-[#e6b450] font-semibold"
           >
             02 / Uses
           </Link>
         </div>
 
         {/* Page Header */}
-        <header className="space-y-4 pb-8 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-10">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <header className="space-y-3 sm:space-y-4 pb-8 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-8 sm:mb-10">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4">
             <div>
-              <h1 className="font-serif text-3xl sm:text-4xl text-light-text dark:text-[#ffffff] tracking-tight">
+              <h1 className="font-serif text-2xl sm:text-4xl text-light-text dark:text-[#ffffff] tracking-tight">
                 Uses
               </h1>
-              <p className="text-sm font-mono text-light-subtle dark:text-dark-subtle mt-1.5">
+              <p className="text-xs sm:text-sm font-mono text-light-subtle dark:text-dark-subtle mt-1.5">
                 A candid list of the hardware, tools, and software I use daily.
               </p>
             </div>

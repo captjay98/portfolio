@@ -54,26 +54,26 @@ function Home() {
   return (
     <main className="min-h-screen animate-fade-in pb-24">
       {/* Hero & Conversational Narrative Section */}
-      <section className="max-w-4xl mx-auto px-6 pt-12 md:pt-20">
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 md:pt-20">
         {/* Editorial Masthead Header */}
-        <div className="space-y-4 border-b border-light-subtle/15 dark:border-dark-subtle/15 pb-10">
-          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl text-light-text dark:text-[#ffffff] tracking-tight leading-[1.15]">
+        <div className="space-y-4 border-b border-light-subtle/15 dark:border-dark-subtle/15 pb-8 sm:pb-10">
+          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl text-light-text dark:text-[#ffffff] tracking-tight leading-[1.15] break-words">
             {profile?.full_name || 'Jamal Ibrahim Umar'}
           </h1>
 
-          <p className="font-serif italic text-xl sm:text-2xl text-light-subtle dark:text-[#d9d7d3]/85 leading-relaxed">
+          <p className="font-serif italic text-lg sm:text-2xl text-light-subtle dark:text-[#d9d7d3]/85 leading-relaxed">
             Software engineer crafting resilient distributed systems, product ecosystems, and thoughtful mobile and web applications.
           </p>
 
           {/* Social Pill Buttons */}
-          <div className="flex flex-wrap items-center gap-2.5 pt-4">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 pt-2 sm:pt-4">
             {visibleSocialLinks.map((link: any) => (
               <a
                 key={link.id}
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono text-light-text dark:text-dark-text border border-light-subtle/20 dark:border-dark-subtle/20 bg-light-background/60 dark:bg-[#131721]/70 hover:border-[#e6b450]/60 hover:text-[#e6b450] transition-all duration-200"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-1.5 rounded-full text-xs font-mono text-light-text dark:text-dark-text border border-light-subtle/20 dark:border-dark-subtle/20 bg-light-background/60 dark:bg-[#131721]/70 hover:border-[#e6b450]/60 hover:text-[#e6b450] transition-all duration-200"
               >
                 <LucideIcon name={link.icon} size={14} />
                 <span>{link.platform}</span>
@@ -86,7 +86,7 @@ function Home() {
                 href={profile.resume_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono text-[#0a0e14] bg-[#e6b450] hover:bg-[#e6b450]/90 font-medium transition-all duration-200"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-1.5 rounded-full text-xs font-mono text-[#0a0e14] bg-[#e6b450] hover:bg-[#e6b450]/90 font-medium transition-all duration-200"
               >
                 <FileText size={14} />
                 <span>Curriculum Vitae</span>
@@ -182,8 +182,8 @@ function Home() {
               {/* Slim Colophon Ribbon */}
               <div className="rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/40 dark:bg-[#131721]/50 divide-y divide-light-subtle/10 dark:divide-[#1e2430] overflow-hidden">
                 {/* Mobile Row */}
-                <div className="px-4 py-2.5 sm:px-5 sm:py-2.5 flex items-center gap-3 sm:gap-6 hover:bg-light-subtle/5 dark:hover:bg-white/[0.02] transition-colors">
-                  <div className="w-24 sm:w-36 flex-shrink-0 flex items-center gap-2">
+                <div className="px-4 py-3 sm:px-5 sm:py-2.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 hover:bg-light-subtle/5 dark:hover:bg-white/[0.02] transition-colors">
+                  <div className="w-auto sm:w-36 flex-shrink-0 flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#39bae6]"></span>
                     <span className="text-xs font-mono uppercase tracking-wider font-semibold text-[#39bae6]">
                       Mobile
@@ -195,8 +195,8 @@ function Home() {
                 </div>
 
                 {/* Frontend Row */}
-                <div className="px-4 py-2.5 sm:px-5 sm:py-2.5 flex items-center gap-3 sm:gap-6 hover:bg-light-subtle/5 dark:hover:bg-white/[0.02] transition-colors">
-                  <div className="w-24 sm:w-36 flex-shrink-0 flex items-center gap-2">
+                <div className="px-4 py-3 sm:px-5 sm:py-2.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 hover:bg-light-subtle/5 dark:hover:bg-white/[0.02] transition-colors">
+                  <div className="w-auto sm:w-36 flex-shrink-0 flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#aad94c]"></span>
                     <span className="text-xs font-mono uppercase tracking-wider font-semibold text-[#aad94c]">
                       Frontend
@@ -208,8 +208,8 @@ function Home() {
                 </div>
 
                 {/* Backend Row */}
-                <div className="px-4 py-2.5 sm:px-5 sm:py-2.5 flex items-center gap-3 sm:gap-6 hover:bg-light-subtle/5 dark:hover:bg-white/[0.02] transition-colors">
-                  <div className="w-24 sm:w-36 flex-shrink-0 flex items-center gap-2">
+                <div className="px-4 py-3 sm:px-5 sm:py-2.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 hover:bg-light-subtle/5 dark:hover:bg-white/[0.02] transition-colors">
+                  <div className="w-auto sm:w-36 flex-shrink-0 flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#e6b450]"></span>
                     <span className="text-xs font-mono uppercase tracking-wider font-semibold text-[#e6b450]">
                       Backend
@@ -222,8 +222,8 @@ function Home() {
 
                 {/* AI & Agents Row */}
                 {aiStack && (
-                  <div className="px-4 py-2.5 sm:px-5 sm:py-2.5 flex items-center gap-3 sm:gap-6 hover:bg-light-subtle/5 dark:hover:bg-white/[0.02] transition-colors">
-                    <div className="w-24 sm:w-36 flex-shrink-0 flex items-center gap-2">
+                  <div className="px-4 py-3 sm:px-5 sm:py-2.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 hover:bg-light-subtle/5 dark:hover:bg-white/[0.02] transition-colors">
+                    <div className="w-auto sm:w-36 flex-shrink-0 flex items-center gap-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#d2a6ff]"></span>
                       <span className="text-xs font-mono uppercase tracking-wider font-semibold text-[#d2a6ff]">
                         AI &amp; Agents
@@ -236,8 +236,8 @@ function Home() {
                 )}
 
                 {/* Cloud & DevOps Row */}
-                <div className="px-4 py-2.5 sm:px-5 sm:py-2.5 flex items-center gap-3 sm:gap-6 hover:bg-light-subtle/5 dark:hover:bg-white/[0.02] transition-colors">
-                  <div className="w-24 sm:w-36 flex-shrink-0 flex items-center gap-2">
+                <div className="px-4 py-3 sm:px-5 sm:py-2.5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 hover:bg-light-subtle/5 dark:hover:bg-white/[0.02] transition-colors">
+                  <div className="w-auto sm:w-36 flex-shrink-0 flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#f07178]"></span>
                     <span className="text-xs font-mono uppercase tracking-wider font-semibold text-[#f07178]">
                       Cloud &amp; DevOps
@@ -459,7 +459,7 @@ function Home() {
       </section>
 
       {/* Signature Visitor Counter - Fixed Position Stationery Stamp */}
-      <div className="fixed bottom-6 right-6 z-20">
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-30">
         <VisitorCounter />
       </div>
     </main>

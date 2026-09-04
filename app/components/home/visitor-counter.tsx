@@ -157,10 +157,11 @@ const VisitorCounter: React.FC<VisitorCounterProps> = ({ className = "" }) => {
 
   return (
     <div
-      className={`rounded-lg transition-all duration-500 shadow-md editorial-stamp border border-dashed border-[#e6b450]/40 bg-[#131721]/95 text-xs text-[#d9d7d3]
-        ${isVisible ? "opacity-100" : "opacity-0"}
-        ${isPulsing ? "border-[#e6b450] shadow-[0_0_12px_rgba(230,180,80,0.3)]" : ""} ${className}`}
-      style={{ width: isExpanded ? "320px" : "auto" }}
+      className={`rounded-lg transition-all duration-300 shadow-lg editorial-stamp border border-dashed border-[#e6b450]/40 bg-[#131721]/95 text-xs text-[#d9d7d3] max-w-[calc(100vw-2rem)] ${
+        isExpanded ? "w-[calc(100vw-2rem)] max-w-xs sm:w-80" : "w-auto"
+      } ${isVisible ? "opacity-100" : "opacity-0"} ${
+        isPulsing ? "border-[#e6b450] shadow-[0_0_12px_rgba(230,180,80,0.3)]" : ""
+      } ${className}`}
     >
       {/* Header - always visible as editorial seal */}
       <div

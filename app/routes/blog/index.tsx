@@ -36,14 +36,14 @@ function Blog() {
 
   return (
     <main className="min-h-screen pb-24 animate-fade-in">
-      <div className="max-w-3xl mx-auto px-6 pt-10">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-8 sm:pt-10">
         {/* Editorial Journal Masthead */}
-        <header className="space-y-4 pb-10 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-10">
-          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-light-text dark:text-[#ffffff] tracking-tight">
+        <header className="space-y-3 sm:space-y-4 pb-8 sm:pb-10 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-8 sm:mb-10">
+          <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl text-light-text dark:text-[#ffffff] tracking-tight">
             Writings &amp; Field Notes
           </h1>
 
-          <p className="font-serif italic text-lg text-light-subtle dark:text-[#d9d7d3]/80 leading-relaxed">
+          <p className="font-serif italic text-base sm:text-lg text-light-subtle dark:text-[#d9d7d3]/80 leading-relaxed">
             Long-form essays, architecture postmortems, and reflections on systems engineering, software craft, and distributed computing. Also tech, religion, life, love, and everything else. Primarily software though.
           </p>
         </header>
@@ -54,7 +54,7 @@ function Blog() {
             No essays published yet.
           </div>
         ) : (
-          <div className="space-y-12">
+          <div className="space-y-10 sm:space-y-12">
             {posts.map((post: any) => {
               const formattedDate = post.published_at || post.date
                 ? new Date(post.published_at || post.date).toLocaleDateString('en-US', {
@@ -67,10 +67,10 @@ function Blog() {
               return (
                 <article
                   key={post.id}
-                  className="group pt-6 pb-8 border-b border-light-subtle/15 dark:border-[#1e2430] space-y-3 transition-colors"
+                  className="group pt-5 sm:pt-6 pb-7 sm:pb-8 border-b border-light-subtle/15 dark:border-[#1e2430] space-y-3 transition-colors"
                 >
                   {/* Metadata line */}
-                  <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-light-subtle dark:text-dark-subtle">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-mono text-light-subtle dark:text-dark-subtle">
                     <span className="flex items-center gap-1">
                       <Calendar size={12} className="text-[#e6b450]" />
                       {formattedDate}
@@ -91,7 +91,7 @@ function Blog() {
                   </div>
 
                   {/* Title */}
-                  <h2 className="font-serif text-2xl sm:text-3xl text-light-text dark:text-dark-text group-hover:text-[#e6b450] transition-colors font-medium leading-snug">
+                  <h2 className="font-serif text-xl sm:text-2xl md:text-3xl text-light-text dark:text-dark-text group-hover:text-[#e6b450] transition-colors font-medium leading-snug">
                     <Link to="/blog/$slug" params={{ slug: post.slug }}>
                       {post.title}
                     </Link>

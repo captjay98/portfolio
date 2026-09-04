@@ -81,11 +81,11 @@ function AdminDashboard() {
           </p>
 
           {/* Quick Actions Row */}
-          <div className="pt-4 flex items-center gap-3 flex-wrap">
+          <div className="pt-3 sm:pt-4 flex items-center gap-2 sm:gap-3 flex-wrap">
             <button
               type="button"
               onClick={() => navigate({ to: '/admin/blogs/new' as any })}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#e6b450] hover:bg-[#d48b00] text-black font-mono text-xs font-semibold tracking-wider transition-colors shadow-xs"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 rounded-lg bg-[#e6b450] hover:bg-[#d48b00] text-black font-mono text-xs font-semibold tracking-wider transition-colors shadow-xs"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>WRITE ESSAY</span>
@@ -93,14 +93,14 @@ function AdminDashboard() {
             <button
               type="button"
               onClick={() => navigate({ to: '/admin/projects/new' as any })}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-light-subtle/20 dark:border-dark-subtle/20 bg-white dark:bg-[#0a0e14] text-light-text dark:text-dark-text hover:border-amber-500/40 text-xs font-mono transition-colors"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 rounded-lg border border-light-subtle/20 dark:border-dark-subtle/20 bg-white dark:bg-[#0a0e14] text-light-text dark:text-dark-text hover:border-amber-500/40 text-xs font-mono transition-colors"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>NEW PROJECT</span>
             </button>
             <Link
               to="/admin/contact-submissions"
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-mono text-light-subtle dark:text-dark-subtle hover:text-amber-700 dark:hover:text-[#e6b450] transition-colors ml-auto"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-mono text-light-subtle dark:text-dark-subtle hover:text-amber-700 dark:hover:text-[#e6b450] transition-colors w-full sm:w-auto sm:ml-auto"
             >
               <span>View Inquiries ({inquiries.length})</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -109,58 +109,58 @@ function AdminDashboard() {
         </header>
 
         {/* Typographic Summary Metrics */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pb-8 border-b border-light-subtle/15 dark:border-dark-subtle/15">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 pb-6 sm:pb-8 border-b border-light-subtle/15 dark:border-dark-subtle/15">
           <Link
             to="/admin/blogs"
-            className="group block space-y-1 p-4 rounded-xl border border-light-subtle/15 dark:border-dark-subtle/15 bg-white/50 dark:bg-[#0a0e14]/50 hover:border-amber-500/40 transition-colors"
+            className="group block space-y-1 p-3 sm:p-4 rounded-xl border border-light-subtle/15 dark:border-dark-subtle/15 bg-white/50 dark:bg-[#0a0e14]/50 hover:border-amber-500/40 transition-colors"
           >
-            <div className="text-3xl sm:text-4xl font-serif text-light-text dark:text-dark-text font-normal group-hover:text-amber-700 dark:group-hover:text-[#e6b450] transition-colors">
+            <div className="text-2xl sm:text-4xl font-serif text-light-text dark:text-dark-text font-normal group-hover:text-amber-700 dark:group-hover:text-[#e6b450] transition-colors">
               {isLoading ? '...' : blogs.length}
             </div>
-            <div className="text-xs font-mono uppercase tracking-wider text-light-subtle dark:text-dark-subtle">
+            <div className="text-[10px] sm:text-xs font-mono uppercase tracking-wider text-light-subtle dark:text-dark-subtle truncate">
               Essays ({publishedBlogs.length} live)
             </div>
           </Link>
 
           <Link
             to="/admin/projects"
-            className="group block space-y-1 p-4 rounded-xl border border-light-subtle/15 dark:border-dark-subtle/15 bg-white/50 dark:bg-[#0a0e14]/50 hover:border-amber-500/40 transition-colors"
+            className="group block space-y-1 p-3 sm:p-4 rounded-xl border border-light-subtle/15 dark:border-dark-subtle/15 bg-white/50 dark:bg-[#0a0e14]/50 hover:border-amber-500/40 transition-colors"
           >
-            <div className="text-3xl sm:text-4xl font-serif text-light-text dark:text-dark-text font-normal group-hover:text-cyan-700 dark:group-hover:text-[#39bae6] transition-colors">
+            <div className="text-2xl sm:text-4xl font-serif text-light-text dark:text-dark-text font-normal group-hover:text-cyan-700 dark:group-hover:text-[#39bae6] transition-colors">
               {isLoading ? '...' : projectsCount}
             </div>
-            <div className="text-xs font-mono uppercase tracking-wider text-light-subtle dark:text-dark-subtle">
+            <div className="text-[10px] sm:text-xs font-mono uppercase tracking-wider text-light-subtle dark:text-dark-subtle truncate">
               Engineered Projects
             </div>
           </Link>
 
           <Link
             to="/admin/contact-submissions"
-            className="group block space-y-1 p-4 rounded-xl border border-light-subtle/15 dark:border-dark-subtle/15 bg-white/50 dark:bg-[#0a0e14]/50 hover:border-amber-500/40 transition-colors"
+            className="group block space-y-1 p-3 sm:p-4 rounded-xl border border-light-subtle/15 dark:border-dark-subtle/15 bg-white/50 dark:bg-[#0a0e14]/50 hover:border-amber-500/40 transition-colors"
           >
-            <div className="text-3xl sm:text-4xl font-serif text-light-text dark:text-dark-text font-normal group-hover:text-rose-700 dark:group-hover:text-[#f07178] transition-colors">
+            <div className="text-2xl sm:text-4xl font-serif text-light-text dark:text-dark-text font-normal group-hover:text-rose-700 dark:group-hover:text-[#f07178] transition-colors">
               {isLoading ? '...' : inquiries.length}
             </div>
-            <div className="text-xs font-mono uppercase tracking-wider text-light-subtle dark:text-dark-subtle">
+            <div className="text-[10px] sm:text-xs font-mono uppercase tracking-wider text-light-subtle dark:text-dark-subtle truncate">
               Inquiries Dispatched
             </div>
           </Link>
 
           <Link
             to="/admin/visitors"
-            className="group block space-y-1 p-4 rounded-xl border border-light-subtle/15 dark:border-dark-subtle/15 bg-white/50 dark:bg-[#0a0e14]/50 hover:border-amber-500/40 transition-colors"
+            className="group block space-y-1 p-3 sm:p-4 rounded-xl border border-light-subtle/15 dark:border-dark-subtle/15 bg-white/50 dark:bg-[#0a0e14]/50 hover:border-amber-500/40 transition-colors"
           >
-            <div className="text-3xl sm:text-4xl font-serif text-light-text dark:text-dark-text font-normal group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
+            <div className="text-2xl sm:text-4xl font-serif text-light-text dark:text-dark-text font-normal group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
               {isLoading ? '...' : visitorCount}
             </div>
-            <div className="text-xs font-mono uppercase tracking-wider text-light-subtle dark:text-dark-subtle">
+            <div className="text-[10px] sm:text-xs font-mono uppercase tracking-wider text-light-subtle dark:text-dark-subtle truncate">
               Total Reader Visits
             </div>
           </Link>
         </div>
 
         {/* Focused Two-Pane Activity Desk */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10">
           {/* Left Column: Recent Writing */}
           <section className="space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-light-subtle/15 dark:border-dark-subtle/15">

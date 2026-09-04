@@ -202,29 +202,27 @@ function AdminLayout() {
       {/* Main Workstation Viewport */}
       <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-light-background dark:bg-dark-background">
         {/* Top Minimalist Header */}
-        <header className="h-14 shrink-0 border-b border-light-subtle/15 dark:border-dark-subtle/15 bg-white/70 dark:bg-[#0a0e14]/70 backdrop-blur-md px-6 flex items-center justify-between z-20">
-          <div className="flex items-center gap-3">
+        <header className="h-14 shrink-0 border-b border-light-subtle/15 dark:border-dark-subtle/15 bg-white/70 dark:bg-[#0a0e14]/70 backdrop-blur-md px-4 sm:px-6 flex items-center justify-between z-20">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
             <Sheet open={isMobileOpen} onOpenChange={setIsMobileOpen}>
               <SheetTrigger asChild>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="lg:hidden h-8 w-8 text-light-text dark:text-dark-text"
+                  className="lg:hidden h-8 w-8 shrink-0 text-light-text dark:text-dark-text"
                 >
                   <Menu className="h-4 w-4" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="p-0 w-72 bg-white dark:bg-[#0a0e14] border-r border-light-subtle/15 dark:border-dark-subtle/15 flex flex-col">
-                <div className="p-5 border-b border-light-subtle/15 dark:border-dark-subtle/15">
-                  <div className="space-y-0.5">
-                    <h2 className="font-serif italic text-xl text-light-text dark:text-dark-text">
-                      Jamal Ibrahim
-                    </h2>
-                    <p className="text-xs font-mono text-light-subtle dark:text-dark-subtle">
-                      Editorial Studio
-                    </p>
-                  </div>
-                </div>
+                <SheetHeader className="p-5 border-b border-light-subtle/15 dark:border-dark-subtle/15 text-left">
+                  <SheetTitle className="font-serif italic text-xl text-light-text dark:text-dark-text">
+                    Jamal Ibrahim
+                  </SheetTitle>
+                  <SheetDescription className="text-xs font-mono text-light-subtle dark:text-dark-subtle">
+                    Editorial Studio
+                  </SheetDescription>
+                </SheetHeader>
 
                 <ScrollArea className="flex-1 p-3">
                   {renderNavList(() => setIsMobileOpen(false))}
@@ -247,18 +245,18 @@ function AdminLayout() {
             </Sheet>
 
             {/* Breadcrumbs */}
-            <div className="flex items-center gap-2 text-xs font-mono text-light-subtle dark:text-dark-subtle">
-              <span>Studio</span>
+            <div className="flex items-center gap-1.5 sm:gap-2 text-xs font-mono text-light-subtle dark:text-dark-subtle truncate min-w-0">
+              <span className="shrink-0">Studio</span>
               {currentSection && (
                 <>
-                  <ChevronRight className="w-3 h-3 opacity-40" />
-                  <span className="hidden sm:inline">{currentSection.title}</span>
+                  <ChevronRight className="w-3 h-3 opacity-40 shrink-0" />
+                  <span className="hidden sm:inline shrink-0">{currentSection.title}</span>
                 </>
               )}
               {currentItem && (
                 <>
-                  <ChevronRight className="w-3 h-3 opacity-40" />
-                  <span className="text-light-text dark:text-dark-text font-medium truncate">
+                  <ChevronRight className="w-3 h-3 opacity-40 shrink-0" />
+                  <span className="text-light-text dark:text-dark-text font-medium truncate max-w-[120px] sm:max-w-none">
                     {currentItem.name}
                   </span>
                 </>
@@ -266,7 +264,7 @@ function AdminLayout() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <ThemeToggle />
             <div className="h-4 w-px bg-light-subtle/15 dark:border-dark-subtle/15" />
             <a
@@ -275,7 +273,7 @@ function AdminLayout() {
               rel="noreferrer"
               className="inline-flex items-center gap-1 text-xs font-mono text-light-subtle dark:text-dark-subtle hover:text-amber-700 dark:hover:text-[#e6b450] transition-colors"
             >
-              <span>View Site</span>
+              <span className="hidden sm:inline">View Site</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
             </a>
           </div>
@@ -283,7 +281,7 @@ function AdminLayout() {
 
         {/* Scrollable Main Content */}
         <main className="flex-1 overflow-y-auto min-h-0 bg-light-background dark:bg-dark-background">
-          <div className="w-full max-w-5xl mx-auto px-6 py-8 sm:py-10">
+          <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
             <Outlet />
           </div>
         </main>

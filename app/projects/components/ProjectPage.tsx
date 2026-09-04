@@ -99,20 +99,20 @@ export default function ProjectsPage({
 
   return (
     <main className="min-h-screen pb-24 animate-fade-in">
-      <div className="max-w-4xl mx-auto px-6 pt-10">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-8 sm:pt-10">
         {/* Header Section */}
-        <header className="space-y-4 pb-8 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-10">
+        <header className="space-y-3 sm:space-y-4 pb-8 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-8 sm:mb-10">
           <div>
-            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-light-text dark:text-[#ffffff] tracking-tight">
+            <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl text-light-text dark:text-[#ffffff] tracking-tight">
               Selected Works
             </h1>
-            <p className="text-sm font-mono text-light-subtle dark:text-dark-subtle mt-1.5">
+            <p className="text-xs sm:text-sm font-mono text-light-subtle dark:text-dark-subtle mt-1.5">
               Production applications, mobile platforms, and distributed systems.
             </p>
           </div>
 
-          {/* Clean Category Filter Ribbon (Only relevant project categories) */}
-          <div className="flex flex-wrap items-center gap-2 pt-3">
+          {/* Clean Category Filter Ribbon - horizontally scrollable on mobile */}
+          <div className="flex items-center gap-1.5 sm:gap-2 pt-3 overflow-x-auto no-scrollbar pb-2 sm:flex-wrap sm:overflow-x-visible -mx-4 px-4 sm:mx-0 sm:px-0">
             {categories.map((cat) => {
               const isActive = activeCategory === cat.value;
               return (
@@ -120,10 +120,10 @@ export default function ProjectsPage({
                   key={cat.value}
                   type="button"
                   onClick={() => setActiveCategory(cat.value)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-150 border ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono whitespace-nowrap shrink-0 transition-all duration-150 border ${
                     isActive
                       ? "bg-[#e6b450]/15 text-[#e6b450] border-[#e6b450]/40 font-semibold shadow-xs"
-                      : "border-light-subtle/15 dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/60 text-light-subtle dark:text-dark-subtle hover:text-light-text dark:hover:text-[#ffffff] hover:border-light-subtle/30 dark:hover:border-dark-subtle/30"
+                      : "border-light-subtle/15 dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/60 text-light-subtle dark:text-dark-subtle hover:text-light-text dark:hover:text-[#ffffff] hover:border-light-subtle/30 dark:border-[#1e2430]"
                   }`}
                 >
                   {cat.label}
@@ -142,7 +142,7 @@ export default function ProjectsPage({
           /* ========================================================= */
           /* Permanent 2-Column Bento Grid Cards                       */
           /* ========================================================= */
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
             {filteredProjects.map((project: any, index: number) => {
               const year = project.created_at
                 ? new Date(project.created_at).getFullYear()
@@ -170,7 +170,7 @@ export default function ProjectsPage({
               return (
                 <article
                   key={project.id}
-                  className="group relative rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/60 p-5 sm:p-6 transition-all duration-200 hover:border-[#e6b450]/40 shadow-xs hover:shadow-md flex flex-col overflow-hidden"
+                  className="group relative rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/60 p-4 sm:p-6 transition-all duration-200 hover:border-[#e6b450]/40 shadow-xs hover:shadow-md flex flex-col overflow-hidden"
                 >
                   {/* Top accent hairline */}
                   <div
