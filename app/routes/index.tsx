@@ -18,16 +18,24 @@ const fetchData = async () => {
       projectService.getProjectsWithDetails(),
       blogService.getPublishedPosts(),
     ])
-    return {
-      profile,
-      currentTechStack: currentTechStack || [],
-      socialLinks: socialLinks || [],
-      featuredProjects: ((allProjects || []).filter((p: any) => p.featured && !p.is_archived).length >= 4
-        ? (allProjects || []).filter((p: any) => p.featured && !p.is_archived)
-        : (allProjects || []).filter((p: any) => !p.is_archived)
-      ).slice(0, 6),
-      recentPosts: (blogPosts || []).slice(0, 3),
-    }
+      const featuredOrder = ['LivestockAI', 'ProJavi', 'HackSteward', 'OneSecOS', 'DeliveryNexus', 'SchoolTry K12'];
+      const rawFeatured = (allProjects || []).filter((p: any) => p.featured && !p.is_archived);
+      const featuredProjects = [...rawFeatured].sort((a: any, b: any) => {
+        const idxA = featuredOrder.indexOf(a.name);
+        const idxB = featuredOrder.indexOf(b.name);
+        if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+        if (idxA !== -1) return -1;
+        if (idxB !== -1) return 1;
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      }).slice(0, 6);
+
+      return {
+        profile,
+        currentTechStack: currentTechStack || [],
+        socialLinks: socialLinks || [],
+        featuredProjects,
+        recentPosts: (blogPosts || []).slice(0, 3),
+      }
   } catch (error) {
     console.error('Error fetching home data:', error)
     return {
