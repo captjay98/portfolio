@@ -65,6 +65,7 @@ export type ProjectType = {
   github?: string;
   live?: string;
   featured: boolean;
+  is_archived?: boolean;
   created_at: string;
   updated_at: string;
 };

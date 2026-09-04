@@ -81,12 +81,21 @@ export default function ProjectsPage({
   const [activeCategory, setActiveCategory] = useState<string>("all");
 
   // Filter projects by selected category
+  const activeProjects = useMemo(() => {
+    return initialProjects.filter((p) => !p.is_archived);
+  }, [initialProjects]);
+
+  const archivedProjects = useMemo(() => {
+    return initialProjects.filter((p) => p.is_archived);
+  }, [initialProjects]);
+
   const filteredProjects = useMemo(() => {
-    if (activeCategory === "all") return initialProjects;
+    if (activeCategory === "archived") return archivedProjects;
+    if (activeCategory === "all") return activeProjects;
     if (activeCategory === "featured") {
-      return initialProjects.filter((p) => p.featured);
+      return activeProjects.filter((p) => p.featured);
     }
-    return initialProjects.filter((p) => {
+    return activeProjects.filter((p) => {
       if (Array.isArray(p.category_ids) && p.category_ids.includes(activeCategory)) {
         return true;
       }
@@ -95,7 +104,7 @@ export default function ProjectsPage({
       }
       return p.category_ids === activeCategory;
     });
-  }, [activeCategory, initialProjects]);
+  }, [activeCategory, activeProjects, archivedProjects]);
 
   return (
     <main className="min-h-screen pb-24 animate-fade-in">
@@ -130,6 +139,20 @@ export default function ProjectsPage({
                 </button>
               );
             })}
+
+            {archivedProjects.length > 0 && (
+              <button
+                type="button"
+                onClick={() => setActiveCategory("archived")}
+                className={`px-3 py-1.5 rounded-lg text-xs font-mono whitespace-nowrap shrink-0 transition-all duration-150 border ${
+                  activeCategory === "archived"
+                    ? "bg-rose-500/15 text-rose-600 dark:text-rose-400 border-rose-500/40 font-semibold shadow-xs"
+                    : "border-light-subtle/15 dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/60 text-light-subtle dark:text-dark-subtle hover:text-rose-500 hover:border-rose-500/30"
+                }`}
+              >
+                Archived ({archivedProjects.length})
+              </button>
+            )}
           </div>
         </header>
 
@@ -217,11 +240,15 @@ export default function ProjectsPage({
                         </span>
                       </div>
 
-                      {project.featured && (
+                      {project.is_archived ? (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                          Archived
+                        </span>
+                      ) : project.featured ? (
                         <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[#e6b450]">
                           <Sparkles size={11} /> Featured
                         </span>
-                      )}
+                      ) : null}
                     </div>
 
                     {/* Title */}

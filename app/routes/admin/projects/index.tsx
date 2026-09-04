@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
-import { Search, Plus, Edit, Trash2, Star, ExternalLink } from 'lucide-react'
+import { Search, Plus, Edit, Trash2, Star, ExternalLink, Archive, ArchiveRestore } from 'lucide-react'
 import { projectService } from '@app/services/projectService'
 import { categoryService } from '@app/services/categoryService'
 import { getImageSrc } from '@app/utils/imageUtils'
@@ -15,6 +15,7 @@ function AdminProjects() {
   const [categories, setCategories] = useState<any[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
+  const [statusFilter, setStatusFilter] = useState<"all" | "active" | "archived">("all")
   const [isLoading, setIsLoading] = useState(true)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [deletingProject, setDeletingProject] = useState<any | null>(null)
@@ -50,11 +51,24 @@ function AdminProjects() {
     return categories.filter((cat) => uniqueCategoryIds.has(cat.id))
   }
 
+  // Handle archive toggle
+  const handleToggleArchive = async (project: any) => {
+    try {
+      const nextArchived = !project.is_archived
+      await projectService.archiveProject(project.id, nextArchived)
+      setProjects(projects.map(p => p.id === project.id ? { ...p, is_archived: nextArchived, featured: nextArchived ? false : p.featured } : p))
+    } catch (error) {
+      console.error("Error toggling archive status:", error)
+      alert("Failed to update project archive status")
+    }
+  }
+
   // Filter projects
   const filteredProjects = [...projects].filter((project: any) => {
     const matchesCategory = selectedCategory === "all" || project.categories?.some((cat: any) => cat.id === selectedCategory)
     const matchesSearch = searchTerm === "" || project.name.toLowerCase().includes(searchTerm.toLowerCase())
-    return matchesCategory && matchesSearch
+    const matchesStatus = statusFilter === "all" || (statusFilter === "active" ? !project.is_archived : project.is_archived)
+    return matchesCategory && matchesSearch && matchesStatus
   })
 
   // Handle delete
@@ -112,20 +126,62 @@ function AdminProjects() {
       </div>
 
       {/* Search & Filters */}
-      <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
-        <div className="relative w-full md:w-80">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-light-subtle dark:text-[#8a9199]" />
-          <input
-            type="search"
-            placeholder="Search projects..."
-            className="w-full pl-9 pr-4 py-2 text-xs rounded-lg bg-white dark:bg-[#0a0e14] border border-light-border dark:border-[#1e2430] text-light-text dark:text-[#bfbdb6] placeholder:text-light-subtle/50 focus:outline-none focus:border-[#e6b450] focus:ring-1 focus:ring-[#e6b450] transition-colors"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+          <div className="relative w-full sm:w-80">
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-light-subtle dark:text-[#8a9199]" />
+            <input
+              type="search"
+              placeholder="Search projects..."
+              className="w-full pl-9 pr-4 py-2 text-xs rounded-lg bg-white dark:bg-[#0a0e14] border border-light-border dark:border-[#1e2430] text-light-text dark:text-[#bfbdb6] placeholder:text-light-subtle/50 focus:outline-none focus:border-[#e6b450] focus:ring-1 focus:ring-[#e6b450] transition-colors"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+
+          {/* Status filter tabs */}
+          <div className="inline-flex rounded-lg border border-light-border dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/60 p-1 text-xs font-mono">
+            <button
+              type="button"
+              onClick={() => setStatusFilter("all")}
+              className={`px-3 py-1 rounded-md transition-colors ${
+                statusFilter === "all"
+                  ? "bg-white dark:bg-[#0a0e14] text-light-text dark:text-[#bfbdb6] font-semibold shadow-xs"
+                  : "text-light-subtle dark:text-[#8a9199] hover:text-light-text dark:hover:text-[#bfbdb6]"
+              }`}
+            >
+              All ({projects.length})
+            </button>
+            <button
+              type="button"
+              onClick={() => setStatusFilter("active")}
+              className={`px-3 py-1 rounded-md transition-colors ${
+                statusFilter === "active"
+                  ? "bg-white dark:bg-[#0a0e14] text-emerald-800 dark:text-emerald-400 font-semibold shadow-xs"
+                  : "text-light-subtle dark:text-[#8a9199] hover:text-light-text dark:hover:text-[#bfbdb6]"
+              }`}
+            >
+              Active ({projects.filter(p => !p.is_archived).length})
+            </button>
+            <button
+              type="button"
+              onClick={() => setStatusFilter("archived")}
+              className={`px-3 py-1 rounded-md transition-colors ${
+                statusFilter === "archived"
+                  ? "bg-white dark:bg-[#0a0e14] text-amber-800 dark:text-[#e6b450] font-semibold shadow-xs"
+                  : "text-light-subtle dark:text-[#8a9199] hover:text-light-text dark:hover:text-[#bfbdb6]"
+              }`}
+            >
+              Archived ({projects.filter(p => p.is_archived).length})
+            </button>
+          </div>
         </div>
 
         {/* Category badges */}
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap items-center gap-1.5 pt-1">
+          <span className="text-[10px] font-mono text-light-subtle dark:text-[#8a9199] uppercase tracking-wider mr-1">
+            Category:
+          </span>
           <button
             type="button"
             className={`px-2.5 py-1 text-xs font-mono rounded-md border transition-all ${
@@ -135,7 +191,7 @@ function AdminProjects() {
             }`}
             onClick={() => setSelectedCategory('all')}
           >
-            All ({filteredProjects.length})
+            All
           </button>
           {getUniqueProjectCategories().map((category: any) => (
             <button
@@ -232,19 +288,37 @@ function AdminProjects() {
                       </div>
                     </td>
                     <td className="px-4 py-3.5">
-                      {project.featured ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-mono rounded bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-[#e6b450]">
-                          <Star className="h-2.5 w-2.5 fill-amber-500 text-amber-500" />
-                          <span>FEATURED</span>
-                        </span>
-                      ) : (
-                        <span className="text-[11px] font-mono text-light-subtle dark:text-[#8a9199]">
-                          Standard
-                        </span>
-                      )}
+                      <div className="flex flex-col gap-1 items-start">
+                        {project.is_archived ? (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-mono rounded bg-light-subtle/10 border border-light-border dark:border-[#1e2430] text-light-subtle dark:text-[#8a9199]">
+                            <Archive className="h-2.5 w-2.5" />
+                            <span>ARCHIVED</span>
+                          </span>
+                        ) : project.featured ? (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-mono rounded bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-[#e6b450]">
+                            <Star className="h-2.5 w-2.5 fill-amber-500 text-amber-500" />
+                            <span>FEATURED</span>
+                          </span>
+                        ) : (
+                          <span className="text-[11px] font-mono text-light-subtle dark:text-[#8a9199]">
+                            Standard
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="px-4 py-3.5 text-right">
                       <div className="flex items-center gap-1.5 justify-end">
+                        <button
+                          onClick={() => handleToggleArchive(project)}
+                          className={`p-1.5 rounded transition-colors ${
+                            project.is_archived
+                              ? "text-emerald-700 dark:text-emerald-400 hover:bg-emerald-500/10"
+                              : "text-light-subtle dark:text-[#8a9199] hover:text-amber-700 dark:hover:text-[#e6b450] hover:bg-amber-500/10"
+                          }`}
+                          title={project.is_archived ? "Restore to Active" : "Archive Project"}
+                        >
+                          {project.is_archived ? <ArchiveRestore size={13} /> : <Archive size={13} />}
+                        </button>
                         <button
                           onClick={() => navigate({ to: `/admin/projects/${project.id}` as any })}
                           className="p-1.5 rounded text-light-subtle dark:text-[#8a9199] hover:text-amber-700 dark:hover:text-[#e6b450] transition-colors"

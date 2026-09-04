@@ -35,6 +35,7 @@ export const projectService = {
         github: r.github || undefined,
         live: r.live || undefined,
         featured: Boolean(r.featured),
+        is_archived: Boolean(r.is_archived),
         created_at: r.created_at,
         updated_at: r.updated_at,
       }));
@@ -44,6 +45,8 @@ export const projectService = {
     const json = await res.json();
     return json.map((r: any) => ({
       ...r,
+      featured: Boolean(r.featured),
+      is_archived: Boolean(r.is_archived),
       category_ids: parseJsonArray(r.category_ids),
       technology_ids: parseJsonArray(r.technology_ids),
     }));
@@ -83,6 +86,7 @@ export const projectService = {
         github: r.github || undefined,
         live: r.live || undefined,
         featured: Boolean(r.featured),
+        is_archived: Boolean(r.is_archived),
         created_at: r.created_at,
         updated_at: r.updated_at,
       };
@@ -92,6 +96,8 @@ export const projectService = {
     const r = await res.json();
     return {
       ...r,
+      featured: Boolean(r.featured),
+      is_archived: Boolean(r.is_archived),
       category_ids: parseJsonArray(r.category_ids),
       technology_ids: parseJsonArray(r.technology_ids),
     };
@@ -99,7 +105,7 @@ export const projectService = {
 
   getFeaturedProjects: async (): Promise<ProjectType[]> => {
     const all = await projectService.getProjects();
-    return all.filter(p => p.featured);
+    return all.filter(p => p.featured && !p.is_archived);
   },
 
   createProject: async (
@@ -130,6 +136,7 @@ export const projectService = {
         github: project.github || null,
         live: project.live || null,
         featured: Boolean(project.featured),
+        is_archived: Boolean(project.is_archived),
         created_at: now,
         updated_at: now,
       };
@@ -138,6 +145,7 @@ export const projectService = {
         ...newProj,
         long_description: newProj.long_description || undefined,
         image_id: newProj.image_id || undefined,
+        is_archived: Boolean(newProj.is_archived),
         github: newProj.github || undefined,
         live: newProj.live || undefined,
       };
@@ -178,6 +186,7 @@ export const projectService = {
       if (project.github !== undefined) updateData.github = project.github;
       if (project.live !== undefined) updateData.live = project.live;
       if (project.featured !== undefined) updateData.featured = project.featured;
+      if (project.is_archived !== undefined) updateData.is_archived = project.is_archived;
 
       await db.update(projects).set(updateData).where(eq(projects.id, id));
       const [updated] = await db.select().from(projects).where(eq(projects.id, id));
@@ -193,6 +202,7 @@ export const projectService = {
         github: updated.github || undefined,
         live: updated.live || undefined,
         featured: Boolean(updated.featured),
+        is_archived: Boolean(updated.is_archived),
         created_at: updated.created_at,
         updated_at: updated.updated_at,
       };
@@ -204,6 +214,10 @@ export const projectService = {
       body: JSON.stringify({ ...project, image: imageUrl, image_id: imageId }),
     });
     return await res.json();
+  },
+
+  archiveProject: async (id: string, is_archived: boolean = true) => {
+    return projectService.updateProject(id, { is_archived });
   },
 
   deleteProject: async (id: string) => {

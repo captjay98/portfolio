@@ -22,9 +22,9 @@ const fetchData = async () => {
       profile,
       currentTechStack: currentTechStack || [],
       socialLinks: socialLinks || [],
-      featuredProjects: ((allProjects || []).filter((p: any) => p.featured).length >= 6
-        ? (allProjects || []).filter((p: any) => p.featured)
-        : (allProjects || [])
+      featuredProjects: ((allProjects || []).filter((p: any) => p.featured && !p.is_archived).length >= 4
+        ? (allProjects || []).filter((p: any) => p.featured && !p.is_archived)
+        : (allProjects || []).filter((p: any) => !p.is_archived)
       ).slice(0, 6),
       recentPosts: (blogPosts || []).slice(0, 3),
     }
