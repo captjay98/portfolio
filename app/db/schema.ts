@@ -83,6 +83,7 @@ export const projects = sqliteTable('projects', {
   github: text('github'),
   live: text('live'),
   featured: integer('featured', { mode: 'boolean' }).notNull().default(false),
+  is_archived: integer('is_archived', { mode: 'boolean' }).notNull().default(false),
   created_at: text('created_at').notNull(),
   updated_at: text('updated_at').notNull(),
 });
