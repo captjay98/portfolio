@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 
-export function ThemeToggle() {
+interface ThemeToggleProps {
+  className?: string;
+}
+
+export function ThemeToggle({ className = "" }: ThemeToggleProps) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -13,31 +17,22 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <button className="w-9 h-9 rounded-md flex items-center justify-center">
-        💡
-      </button>
+      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${className}`}>
+        <span className="w-4 h-4 opacity-0" />
+      </div>
     );
   }
 
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="w-9 h-9 rounded-md flex items-center justify-center transition-colors"
-      style={{
-        backgroundColor:
-          theme === "dark"
-            ? "var(--color-card-dark)"
-            : "var(--color-card-light)",
-      }}
+      className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 hover:bg-light-subtle/15 dark:hover:bg-white/10 text-light-text dark:text-dark-text ${className}`}
       aria-label="Toggle theme"
     >
       {theme === "dark" ? (
-        <Sun className="h-5 w-5 text-yellow-500" />
+        <Sun className="h-4 w-4 text-[#e6b450] transition-transform hover:rotate-45" />
       ) : (
-        <Moon
-          className="h-5 w-5"
-          style={{ color: "var(--color-accent-primary)" }}
-        />
+        <Moon className="h-4 w-4 text-light-accent dark:text-[#e6b450] transition-transform hover:-rotate-12" />
       )}
     </button>
   );

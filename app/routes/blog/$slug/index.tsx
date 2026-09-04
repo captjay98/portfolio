@@ -102,7 +102,7 @@ function BlogPost() {
             <span>•</span>
             <span className="flex items-center gap-1">
               <Clock size={12} />
-              {post.reading_time ? `${post.reading_time} min read` : '5 min read'}
+              {post.reading_time?.includes('min') ? post.reading_time : `${post.reading_time || '5'} min read`}
             </span>
             {post.read_count !== undefined && (
               <>
@@ -192,13 +192,13 @@ function BlogPost() {
               Written by {author?.full_name || 'Jamal Ibrahim Umar'}
             </h3>
             <p className="text-xs sm:text-sm text-light-subtle dark:text-[#949dab] leading-relaxed">
-              {author?.bio_short || 'Software engineer crafting resilient distributed systems, developer tools, and thoughtful web applications.'}
+              {author?.bio_short || 'Software engineer crafting resilient distributed systems, developer tools, and thoughtful mobile and web applications.'}
             </p>
           </div>
         </section>
 
         {/* Comments Section */}
-        <div className="rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/40 dark:bg-[#131721]/40 p-6 mb-12">
+        <div className="mb-14">
           <Comments postId={post.id} postSlug={post.slug} />
         </div>
 

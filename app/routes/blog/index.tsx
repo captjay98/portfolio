@@ -1,37 +1,24 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { blogService } from '@app/services/blogService'
-import { categoryService } from '@app/services/categoryService'
 import { LikeButton } from '@app/blog/components/LikeButton'
-import { ArrowUpRight, BookOpen, Calendar, Clock, Eye, Sparkles } from 'lucide-react'
+import { ArrowUpRight, Calendar, Clock, Eye, Sparkles } from 'lucide-react'
 import * as React from 'react'
 
 const fetchBlogData = async () => {
   try {
-    const [posts, categories, series] = await Promise.all([
+    const [posts, series] = await Promise.all([
       blogService.getPublishedPosts(),
-      categoryService.getCategories(),
       blogService.getAllSeries(),
     ])
 
-    // Format categories for filter - only include categories that have posts
-    const categoryIds = new Set(posts.flatMap(post => post.category_ids || []))
-    const categoryFilters = categories
-      .filter(cat => categoryIds.has(cat.id))
-      .map(cat => ({
-        id: cat.id,
-        name: cat.name,
-      }))
-
     return {
       posts,
-      categoryFilters,
       allSeries: series,
     }
   } catch (error) {
     console.error('Error fetching blog data:', error)
     return {
       posts: [],
-      categoryFilters: [],
       allSeries: [],
     }
   }
@@ -45,71 +32,30 @@ export const Route = createFileRoute('/blog/')({
 })
 
 function Blog() {
-  const { posts, categoryFilters } = Route.useLoaderData()
-  const [selectedCategory, setSelectedCategory] = React.useState<string>('all')
-
-  const filteredPosts = React.useMemo(() => {
-    if (selectedCategory === 'all') return posts
-    return posts.filter((p: any) => p.category_ids?.includes(selectedCategory))
-  }, [posts, selectedCategory])
+  const { posts } = Route.useLoaderData()
 
   return (
     <main className="min-h-screen pb-24 animate-fade-in">
       <div className="max-w-3xl mx-auto px-6 pt-10">
         {/* Editorial Journal Masthead */}
         <header className="space-y-4 pb-10 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono tracking-wider uppercase border border-[#e6b450]/40 bg-[#e6b450]/10 text-[#e6b450]">
-            <BookOpen size={12} />
-            <span>Journal // Publications &amp; Essays</span>
-          </div>
-
           <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-light-text dark:text-[#ffffff] tracking-tight">
             Writings &amp; Field Notes
           </h1>
 
           <p className="font-serif italic text-lg text-light-subtle dark:text-[#d9d7d3]/80 leading-relaxed">
-            Long-form essays, architecture postmortems, and reflections on systems engineering, software craft, and distributed computing.
+            Long-form essays, architecture postmortems, and reflections on systems engineering, software craft, and distributed computing. Also tech, religion, life, love, and everything else. Primarily software though.
           </p>
-
-          {/* Category Filters */}
-          {categoryFilters.length > 0 && (
-            <div className="flex flex-wrap items-center gap-2 pt-4">
-              <button
-                onClick={() => setSelectedCategory('all')}
-                className={`px-3 py-1.5 rounded-full text-xs font-mono transition-all duration-200 ${
-                  selectedCategory === 'all'
-                    ? 'bg-[#e6b450] text-[#0a0e14] font-semibold'
-                    : 'border border-light-subtle/20 dark:border-dark-subtle/20 bg-light-background/60 dark:bg-[#131721]/70 text-light-text dark:text-dark-text hover:border-[#e6b450]/50'
-                }`}
-              >
-                All Essays ({posts.length})
-              </button>
-
-              {categoryFilters.map((cat: any) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-mono transition-all duration-200 ${
-                    selectedCategory === cat.id
-                      ? 'bg-[#e6b450] text-[#0a0e14] font-semibold'
-                      : 'border border-light-subtle/20 dark:border-dark-subtle/20 bg-light-background/60 dark:bg-[#131721]/70 text-light-text dark:text-dark-text hover:border-[#e6b450]/50'
-                  }`}
-                >
-                  {cat.name}
-                </button>
-              ))}
-            </div>
-          )}
         </header>
 
         {/* Single-Column Editorial Essay List */}
-        {filteredPosts.length === 0 ? (
+        {posts.length === 0 ? (
           <div className="text-center py-20 font-mono text-sm text-light-subtle dark:text-dark-subtle">
-            No essays found in this category.
+            No essays published yet.
           </div>
         ) : (
           <div className="space-y-12">
-            {filteredPosts.map((post: any) => {
+            {posts.map((post: any) => {
               const formattedDate = post.published_at || post.date
                 ? new Date(post.published_at || post.date).toLocaleDateString('en-US', {
                     month: 'long',
@@ -132,7 +78,7 @@ function Blog() {
                     <span>•</span>
                     <span className="flex items-center gap-1">
                       <Clock size={12} />
-                      {post.reading_time ? `${post.reading_time} min read` : '5 min read'}
+                      {post.reading_time?.includes('min') ? post.reading_time : `${post.reading_time || '5'} min read`}
                     </span>
                     {post.featured && (
                       <>

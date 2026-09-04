@@ -1,11 +1,13 @@
 import React from 'react'
 
-export default function Dashboard({ children }: { children?: React.ReactNode }) {
+interface DashboardProps {
+  children?: React.ReactNode
+}
+
+export default function Dashboard({ children }: DashboardProps) {
   return (
-    <div className="min-h-screen bg-light-background dark:bg-dark-background p-6">
-      <div className="max-w-7xl mx-auto">
-        {children}
-      </div>
+    <div className="w-full space-y-8">
+      {children}
     </div>
   )
 }

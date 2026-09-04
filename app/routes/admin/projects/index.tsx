@@ -1,9 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
-import { Search, Plus, Edit, Trash2, Star } from 'lucide-react'
+import { Search, Plus, Edit, Trash2, Star, ExternalLink } from 'lucide-react'
 import { projectService } from '@app/services/projectService'
 import { categoryService } from '@app/services/categoryService'
-import { technologyService } from '@app/services/technologyService'
 import { getImageSrc } from '@app/utils/imageUtils'
 
 export const Route = createFileRoute('/admin/projects/')({
@@ -11,13 +10,14 @@ export const Route = createFileRoute('/admin/projects/')({
 })
 
 function AdminProjects() {
+  const navigate = useNavigate()
   const [projects, setProjects] = useState<any[]>([])
   const [categories, setCategories] = useState<any[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [isLoading, setIsLoading] = useState(true)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
-  const [deletingProjectId, setDeletingProjectId] = useState<string | null>(null)
+  const [deletingProject, setDeletingProject] = useState<any | null>(null)
 
   // Fetch data on component mount
   useEffect(() => {
@@ -59,13 +59,13 @@ function AdminProjects() {
 
   // Handle delete
   const handleDelete = async () => {
-    if (!deletingProjectId) return
+    if (!deletingProject) return
 
     try {
-      await projectService.deleteProject(deletingProjectId)
-      setProjects(projects.filter(p => p.id !== deletingProjectId))
+      await projectService.deleteProject(deletingProject.id)
+      setProjects(projects.filter(p => p.id !== deletingProject.id))
       setIsDeleteDialogOpen(false)
-      setDeletingProjectId(null)
+      setDeletingProject(null)
     } catch (error) {
       console.error("Error deleting project:", error)
       alert("Failed to delete project")
@@ -74,166 +74,193 @@ function AdminProjects() {
 
   if (isLoading) {
     return (
-      <div className="p-6 space-y-6">
-        <div className="animate-pulse">
-          <div className="h-8 w-8 bg-gray-200 dark:bg-gray-700 rounded-full mx-auto mb-4"></div>
-          <div className="h-4 w-1/3 bg-gray-200 dark:bg-gray-700 rounded-full mx-auto"></div>
-        </div>
+      <div className="space-y-4 py-8">
+        <div className="h-6 w-48 bg-light-subtle/10 dark:bg-[#131721] rounded animate-pulse" />
+        <div className="h-64 w-full bg-white dark:bg-[#0a0e14] border border-light-border dark:border-[#1e2430] rounded-xl animate-pulse" />
       </div>
     )
   }
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-3xl font-bold tracking-tight">Projects</h2>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-light-border dark:border-[#1e2430]">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[10px] font-mono font-bold tracking-widest uppercase px-2 py-0.5 rounded bg-cyan-500/10 dark:bg-[#39bae6]/15 text-cyan-800 dark:text-[#39bae6] border border-cyan-500/20">
+              SYSTEM PORTFOLIO
+            </span>
+            <span className="text-xs font-mono text-light-subtle dark:text-[#8a9199]">
+              {projects.length} Systems
+            </span>
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-light-text dark:text-[#bfbdb6]">
+            Engineered Projects
+          </h1>
+          <p className="text-xs text-light-subtle dark:text-[#8a9199]">
+            Manage production software, edge infrastructure demos, and architectural specs.
+          </p>
+        </div>
+
         <button
-          onClick={() => (window.location.href = "/admin/projects/new")}
-          className="flex items-center px-4 py-2 bg-accent-gradient text-white rounded-lg hover:shadow-accent transition-all hover:scale-105"
+          onClick={() => navigate({ to: '/admin/projects/new' as any })}
+          className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#e6b450] hover:bg-[#d48b00] text-black font-mono text-xs font-semibold rounded-lg tracking-wider transition-colors shadow-xs"
         >
-          <Plus className="mr-2 h-4 w-4" />
-          New Project
+          <Plus className="h-3.5 w-3.5" />
+          <span>NEW PROJECT</span>
         </button>
       </div>
 
-      {/* Search */}
-      <div className="relative mb-6">
-        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-light-subtle dark:text-dark-subtle" />
-        <input
-          type="search"
-          placeholder="Search projects..."
-          className="pl-10 w-full md:w-96 px-4 py-2 bg-glass rounded-lg border border-light-subtle/20 dark:border-dark-subtle/20 focus:outline-none focus:ring-2 focus:ring-light-accent dark:focus:ring-dark-accent"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-
-      {/* Category Filter */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        <div
-          className={`px-3 py-1 text-sm rounded-full transition-all ${
-            selectedCategory === 'all'
-              ? 'bg-accent-gradient text-white shadow-accent'
-              : 'bg-glass border border-light-subtle/20 dark:border-dark-subtle/20 text-light-text dark:text-dark-text hover:bg-light-subtle/20 dark:hover:bg-dark-subtle/20 cursor-pointer'
-          }`}
-          onClick={() => setSelectedCategory('all')}
-        >
-          All ({filteredProjects.length})
+      {/* Search & Filters */}
+      <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+        <div className="relative w-full md:w-80">
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-light-subtle dark:text-[#8a9199]" />
+          <input
+            type="search"
+            placeholder="Search projects..."
+            className="w-full pl-9 pr-4 py-2 text-xs rounded-lg bg-white dark:bg-[#0a0e14] border border-light-border dark:border-[#1e2430] text-light-text dark:text-[#bfbdb6] placeholder:text-light-subtle/50 focus:outline-none focus:border-[#e6b450] focus:ring-1 focus:ring-[#e6b450] transition-colors"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
-        {getUniqueProjectCategories().map((category: any) => (
-          <div
-            key={category.id}
-            className={`px-3 py-1 text-sm rounded-full transition-all ${
-              selectedCategory === category.id
-                ? 'bg-accent-gradient text-white shadow-accent'
-                : 'bg-glass border border-light-subtle/20 dark:border-dark-subtle/20 text-light-text dark:text-dark-text hover:bg-light-subtle/20 dark:hover:bg-dark-subtle/20 cursor-pointer'
+
+        {/* Category badges */}
+        <div className="flex flex-wrap gap-1.5">
+          <button
+            type="button"
+            className={`px-2.5 py-1 text-xs font-mono rounded-md border transition-all ${
+              selectedCategory === 'all'
+                ? 'bg-[#e6b450]/15 text-amber-800 dark:text-[#e6b450] border-[#e6b450]/40 font-semibold'
+                : 'bg-white dark:bg-[#0a0e14] text-light-subtle dark:text-[#8a9199] border-light-border dark:border-[#1e2430] hover:border-[#e6b450]/30'
             }`}
-            onClick={() => setSelectedCategory(category.id)}
+            onClick={() => setSelectedCategory('all')}
           >
-            {category.name}
-          </div>
-        ))}
+            All ({filteredProjects.length})
+          </button>
+          {getUniqueProjectCategories().map((category: any) => (
+            <button
+              key={category.id}
+              type="button"
+              className={`px-2.5 py-1 text-xs font-mono rounded-md border transition-all ${
+                selectedCategory === category.id
+                  ? 'bg-[#e6b450]/15 text-amber-800 dark:text-[#e6b450] border-[#e6b450]/40 font-semibold'
+                  : 'bg-white dark:bg-[#0a0e14] text-light-subtle dark:text-[#8a9199] border-light-border dark:border-[#1e2430] hover:border-[#e6b450]/30'
+              }`}
+              onClick={() => setSelectedCategory(category.id)}
+            >
+              {category.name}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Projects Table */}
-      <div className="bg-glass rounded-xl shadow-elevated border border-light-subtle/10 dark:border-dark-subtle/20 overflow-hidden">
+      <div className="bg-white dark:bg-[#0a0e14] rounded-xl border border-light-border dark:border-[#1e2430] shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full text-left">
             <thead>
-              <tr className="border-b border-light-subtle/20 dark:border-dark-subtle/20">
-                <th className="px-4 py-3 text-left text-sm font-semibold text-light-text dark:text-dark-text">
+              <tr className="border-b border-light-border dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/50">
+                <th className="px-4 py-3 text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">
                   Project
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-light-text dark:text-dark-text">
-                  Category
+                <th className="px-4 py-3 text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">
+                  Domain
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-light-text dark:text-dark-text">
-                  Technologies
+                <th className="px-4 py-3 text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">
+                  Stack
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-light-text dark:text-dark-text">
-                  Status
+                <th className="px-4 py-3 text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">
+                  Highlight
                 </th>
-                <th className="px-4 py-3 text-right text-sm font-semibold text-light-text dark:text-dark-text">
+                <th className="px-4 py-3 text-right text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-light-border/60 dark:divide-[#1e2430]/60">
               {filteredProjects.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-4 py-8 text-center text-light-subtle dark:text-dark-subtle">
-                    No projects found
+                  <td colSpan={5} className="px-4 py-12 text-center text-xs font-mono text-light-subtle dark:text-[#8a9199]">
+                    No projects found matching criteria
                   </td>
                 </tr>
               ) : (
                 filteredProjects.map((project: any) => (
-                  <tr key={project.id} className="border-b border-light-subtle/20 dark:border-dark-subtle/20">
-                    <td className="px-4 py-4">
+                  <tr key={project.id} className="hover:bg-light-subtle/5 dark:hover:bg-[#131721]/50 transition-colors">
+                    <td className="px-4 py-3.5">
                       <div className="flex items-center gap-3">
                         {project.image && (
-                          <div className="h-12 w-12 rounded overflow-hidden flex-shrink-0 relative">
+                          <div className="h-10 w-10 rounded border border-light-border dark:border-[#1e2430] overflow-hidden shrink-0">
                             <img
                               src={getImageSrc(project.image)}
                               alt={project.name}
-                              className="h-full w-full object-cover rounded"
+                              className="h-full w-full object-cover"
                             />
                           </div>
                         )}
-                        <div>
-                          <div className="font-medium text-sm">{project.name}</div>
-                          <div className="text-xs text-light-subtle dark:text-dark-subtle line-clamp-1">
+                        <div className="min-w-0">
+                          <div className="font-semibold text-xs text-light-text dark:text-[#bfbdb6] truncate max-w-xs">
+                            {project.name}
+                          </div>
+                          <div className="text-[11px] text-light-subtle dark:text-[#8a9199] truncate max-w-xs">
                             {project.description}
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-4">
+                    <td className="px-4 py-3.5">
                       <div className="flex flex-wrap gap-1">
                         {project.categories?.map((cat: any) => (
-                          <span key={cat.id} className="px-2 py-1 text-xs rounded-full bg-light-subtle/10 dark:bg-dark-subtle/10 text-light-text dark:text-dark-text">
+                          <span key={cat.id} className="px-1.5 py-0.5 text-[10px] font-mono rounded bg-light-subtle/10 dark:bg-[#131721] text-light-subtle dark:text-[#8a9199] border border-light-border dark:border-[#1e2430]">
                             {cat.name}
                           </span>
                         ))}
                       </div>
                     </td>
-                    <td className="px-4 py-4">
+                    <td className="px-4 py-3.5">
                       <div className="flex flex-wrap gap-1">
                         {project.technologies?.slice(0, 3).map((tech: any) => (
-                          <span key={tech.id} className="px-2 py-1 text-xs rounded-full bg-light-subtle/10 dark:bg-dark-subtle/10 text-light-text dark:text-dark-text">
+                          <span key={tech.id} className="px-1.5 py-0.5 text-[10px] font-mono rounded bg-cyan-500/10 dark:bg-[#39bae6]/10 text-cyan-800 dark:text-[#39bae6] border border-cyan-500/20">
                             {tech.name}
                           </span>
                         ))}
                         {project.technologies && project.technologies.length > 3 && (
-                          <span className="px-2 py-1 text-xs rounded-full bg-light-subtle/10 dark:bg-dark-subtle/10 text-light-text dark:text-dark-text">
+                          <span className="px-1.5 py-0.5 text-[10px] font-mono rounded bg-light-subtle/10 dark:bg-[#131721] text-light-subtle dark:text-[#8a9199]">
                             +{project.technologies.length - 3}
                           </span>
                         )}
                       </div>
                     </td>
-                    <td className="px-4 py-4">
+                    <td className="px-4 py-3.5">
                       {project.featured ? (
-                        <div className="flex items-center gap-1">
-                          <Star className="h-3 w-3 text-yellow-500 fill-current" />
-                        </div>
-                      ) : null}
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-mono rounded bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-[#e6b450]">
+                          <Star className="h-2.5 w-2.5 fill-amber-500 text-amber-500" />
+                          <span>FEATURED</span>
+                        </span>
+                      ) : (
+                        <span className="text-[11px] font-mono text-light-subtle dark:text-[#8a9199]">
+                          Standard
+                        </span>
+                      )}
                     </td>
-                    <td className="px-4 py-4">
-                      <div className="flex items-center gap-4 justify-end">
+                    <td className="px-4 py-3.5 text-right">
+                      <div className="flex items-center gap-1.5 justify-end">
                         <button
-                          onClick={() => (window.location.href = `/admin/projects/${project.id}`)}
-                          className="p-2 text-blue-600 dark:text-blue-400 hover:text-blue-800"
+                          onClick={() => navigate({ to: `/admin/projects/${project.id}` as any })}
+                          className="p-1.5 rounded text-light-subtle dark:text-[#8a9199] hover:text-amber-700 dark:hover:text-[#e6b450] transition-colors"
+                          title="Edit"
                         >
-                          <Edit className="h-4 w-4" />
+                          <Edit size={13} />
                         </button>
                         <button
                           onClick={() => {
-                            setDeletingProjectId(project.id)
+                            setDeletingProject(project)
                             setIsDeleteDialogOpen(true)
                           }}
-                          className="p-2 text-red-600 dark:text-red-400 hover:text-red-800"
+                          className="p-1.5 rounded text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                          title="Delete"
                         >
-                          <Trash2 className="h-4 w-4" />
+                          <Trash2 size={13} />
                         </button>
                       </div>
                     </td>
@@ -246,27 +273,32 @@ function AdminProjects() {
       </div>
 
       {/* Delete Confirmation Dialog */}
-      {isDeleteDialogOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md mx-4 shadow-xl animate-fade-in">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-              Delete Project
+      {isDeleteDialogOpen && deletingProject && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-[#0a0e14] rounded-2xl p-6 max-w-md w-full border border-light-border dark:border-[#1e2430] shadow-xl space-y-4">
+            <h3 className="text-base font-bold text-light-text dark:text-[#bfbdb6]">
+              Confirm Project Removal
             </h3>
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
-              Are you sure you want to delete the project "{deletingProjectId}"? This action cannot be undone.
+            <p className="text-xs text-light-subtle dark:text-[#8a9199] leading-relaxed">
+              Are you sure you want to delete <strong className="text-light-text dark:text-[#bfbdb6]">{deletingProject.name}</strong>? This action will permanently remove the record from Cloudflare D1.
             </p>
-            <div className="flex justify-end gap-3 mt-6">
+            <div className="flex justify-end gap-2.5 pt-2">
               <button
-                onClick={() => setIsDeleteDialogOpen(false)}
-                className="px-4 py-2 bg-gray-300 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-800"
+                type="button"
+                onClick={() => {
+                  setIsDeleteDialogOpen(false)
+                  setDeletingProject(null)
+                }}
+                className="px-3 py-1.5 rounded-lg border border-light-border dark:border-[#1e2430] text-xs font-mono text-light-subtle dark:text-[#8a9199] hover:bg-light-subtle/10 dark:hover:bg-[#131721] transition-colors"
               >
-                Cancel
+                CANCEL
               </button>
               <button
+                type="button"
                 onClick={handleDelete}
-                className="px-4 py-2 bg-red-600 text-white hover:bg-red-700 dark:hover:bg-red-900"
+                className="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-mono font-semibold transition-colors"
               >
-                Delete
+                DELETE RECORD
               </button>
             </div>
           </div>

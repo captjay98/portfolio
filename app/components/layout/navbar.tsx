@@ -92,78 +92,55 @@ export function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "backdrop-blur-lg py-3" : "py-6"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "backdrop-blur-md bg-light-background/85 dark:bg-[#0a0e14]/85 py-3 border-b border-light-subtle/10 dark:border-[#1e2430] shadow-sm"
+          : "bg-transparent py-5"
       }`}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        {/* Desktop Navbar */}
-        <div className="hidden md:flex items-center justify-between">
-          {/* Custom glass pill with logo */}
-          <Link to="/" className="group">
-            <div
-              className={`text-center transition-all duration-500 ${
-                scrolled
-                  ? "bg-glass shadow-subtle px-4 py-2 rounded-full border border-light-subtle/10 dark:border-dark-subtle/10"
-                  : "px-0"
-              }`}
-            >
-              <span className="font-semibold text-base tracking-tight text-light-text dark:text-dark-text">
+      <div className="max-w-4xl mx-auto px-6">
+        {/* Desktop Navbar - Mathematically Symmetrical 3-Column Grid */}
+        <div className="hidden md:grid grid-cols-[1fr_auto_1fr] items-center">
+          {/* Left: Custom logo / masthead */}
+          <div className="flex items-center justify-start">
+            <Link to="/" className="group inline-flex items-center">
+              <span className="font-semibold text-sm sm:text-base tracking-tight text-light-text dark:text-dark-text group-hover:text-[#e6b450] transition-colors">
                 Jamal Ibrahim
-                <span className="font-serif italic text-light-accent dark:text-[#e6b450] font-normal ml-1.5">
-                  / Journal
-                </span>
                 <span className="inline-block ml-1.5 h-1.5 w-1.5 rounded-full bg-light-accent dark:bg-[#e6b450] opacity-0 group-hover:opacity-100 transition-opacity"></span>
               </span>
-            </div>
-          </Link>
+            </Link>
+          </div>
 
-          {/* Main menu items in custom nav pill */}
-          <div
-            className={`relative bg-glass shadow-elevated border border-light-subtle/10 dark:border-dark-subtle/10 rounded-xl py-2 px-1.5 transition-all duration-500 ${
-              scrolled ? "translate-y-0" : "translate-y-0"
-            }`}
-          >
-            {/* Active pill indicator - Position based on active item */}
-            <div
-              className={`absolute top-1.5 left-0 h-[calc(100%-12px)] bg-light-accent/15 dark:bg-[#e6b450]/20 rounded-full z-0 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
-                activeItemIndex === -1 ? "opacity-0" : "opacity-100"
-              }`}
-            />
-
-            <div className="relative z-10 flex items-center space-x-1">
-              {allNavItems.map((item, index) => {
+          {/* Center: Main menu items (Perfect Mathematical Center) */}
+          <div className="flex items-center justify-center">
+            <div className="flex items-center p-1 rounded-full bg-light-background/80 dark:bg-[#131721]/80 backdrop-blur-md border border-light-subtle/15 dark:border-[#1e2430] shadow-sm space-x-1">
+              {allNavItems.map((item) => {
                 const isActive =
                   pathname === item.href ||
-                  pathname.startsWith(`${item.href}/`);
+                  (item.href !== "/" && pathname.startsWith(`${item.href}/`));
 
                 return (
-                  <div key={item.name} className="relative">
-                    <Link
-                      to={item.href as any}
-                      className={`relative px-4 py-1.5 text-sm font-medium rounded-full transition-colors duration-200 flex items-center ${
-                        isActive
-                          ? "text-light-accent dark:text-[#e6b450]"
-                          : "text-light-text dark:text-dark-text hover:text-light-accent dark:hover:text-[#e6b450]"
-                      }`}
-                      style={{ animationDelay: `${index * 100}ms` }}
-                    >
-                      {item.icon}
-                      <span>{item.name}</span>
-                    </Link>
-                  </div>
+                  <Link
+                    key={item.name}
+                    to={item.href as any}
+                    className={`px-3.5 py-1 text-xs font-mono font-medium rounded-full transition-all duration-200 flex items-center ${
+                      isActive
+                        ? "bg-[#e6b450] text-[#0a0e14] font-semibold shadow-sm"
+                        : "text-light-text/80 dark:text-[#d9d7d3]/80 hover:text-[#e6b450] dark:hover:text-[#e6b450]"
+                    }`}
+                  >
+                    <span>{item.name}</span>
+                  </Link>
                 );
               })}
             </div>
           </div>
 
-          {/* Theme toggle in its own pill */}
-          <div
-            className={`bg-glass shadow-subtle border border-light-subtle/10 dark:border-dark-subtle/10 rounded-full p-2 transition-all duration-500 ${
-              scrolled ? "translate-y-0" : "translate-y-0"
-            }`}
-          >
-            <ThemeToggle />
+          {/* Right: Theme toggle (Perfect Right Edge Alignment) */}
+          <div className="flex items-center justify-end">
+            <div className="p-1 rounded-full bg-light-background/80 dark:bg-[#131721]/80 backdrop-blur-md border border-light-subtle/15 dark:border-[#1e2430] shadow-sm flex items-center justify-center">
+              <ThemeToggle />
+            </div>
           </div>
         </div>
 
@@ -175,28 +152,38 @@ export function Navbar() {
               className={`transition-all duration-500 ${
                 scrolled
                   ? "bg-glass shadow-subtle px-3 py-1.5 rounded-full border border-light-subtle/10 dark:border-dark-subtle/10"
-                  : "px-0"
+                  : "px-0 py-0"
               }`}
             >
               <span className="font-semibold text-sm text-light-text dark:text-dark-text">
-                Jamal Ibrahim <span className="font-serif italic text-light-accent dark:text-[#e6b450]">/ Journal</span>
+                Jamal Ibrahim
               </span>
             </div>
           </Link>
 
           {/* Mobile menu controls */}
           <div className="flex items-center space-x-2">
-            <div className="p-1.5 bg-glass shadow-subtle border border-light-subtle/10 dark:border-dark-subtle/10 rounded-full">
+            <div
+              className={`transition-all duration-500 flex items-center justify-center ${
+                scrolled
+                  ? "bg-glass shadow-subtle border border-light-subtle/10 dark:border-dark-subtle/10 rounded-full p-1.5"
+                  : "p-0"
+              }`}
+            >
               <ThemeToggle />
             </div>
 
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 bg-glass shadow-subtle border border-light-subtle/10 dark:border-dark-subtle/10 rounded-full text-light-text dark:text-dark-text focus:outline-none transition-transform active:scale-95"
+              className={`focus:outline-none transition-all duration-500 active:scale-95 flex items-center justify-center ${
+                scrolled
+                  ? "p-2 bg-glass shadow-subtle border border-light-subtle/10 dark:border-dark-subtle/10 rounded-full text-light-text dark:text-dark-text"
+                  : "p-1.5 text-light-text dark:text-dark-text"
+              }`}
               aria-label="Toggle menu"
             >
               {isOpen ? (
-                <X className="h-5 w-5 text-light-accent dark:text-dark-accent" />
+                <X className="h-5 w-5 text-light-accent dark:text-[#e6b450]" />
               ) : (
                 <Menu className="h-5 w-5" />
               )}

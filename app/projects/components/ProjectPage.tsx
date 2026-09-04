@@ -2,11 +2,76 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { ArrowUpRight, Github, Sparkles, FolderGit2 } from "lucide-react";
+import { ArrowUpRight, Github, Sparkles } from "lucide-react";
+import { getImageSrc } from "@app/utils/imageUtils";
 
 interface ProjectsPageProps {
   initialProjects: any[];
   categories: { value: string; label: string }[];
+}
+
+const categoryColorMap: Record<string, { text: string; bg: string; border: string }> = {
+  "agritech & ai": {
+    text: "#aad94c",
+    bg: "#aad94c15",
+    border: "#aad94c40",
+  },
+  "enterprise mobile": {
+    text: "#39bae6",
+    bg: "#39bae615",
+    border: "#39bae640",
+  },
+  "commerce & logistics": {
+    text: "#ff8f40",
+    bg: "#ff8f4015",
+    border: "#ff8f4040",
+  },
+  "security & patrol": {
+    text: "#f07178",
+    bg: "#f0717815",
+    border: "#f0717840",
+  },
+  "public safety": {
+    text: "#e6b450",
+    bg: "#e6b45015",
+    border: "#e6b45040",
+  },
+  "agri-commodity supply": {
+    text: "#aad94c",
+    bg: "#aad94c15",
+    border: "#aad94c40",
+  },
+  "autonomous agents": {
+    text: "#d2a6ff",
+    bg: "#d2a6ff15",
+    border: "#d2a6ff40",
+  },
+  "frontend development": {
+    text: "#aad94c",
+    bg: "#aad94c15",
+    border: "#aad94c40",
+  },
+  "backend development": {
+    text: "#e6b450",
+    bg: "#e6b45015",
+    border: "#e6b45040",
+  },
+  "fullstack development": {
+    text: "#39bae6",
+    bg: "#39bae615",
+    border: "#39bae640",
+  },
+};
+
+function getCategoryColors(catName: string) {
+  const normalized = (catName || "").toLowerCase().trim();
+  return (
+    categoryColorMap[normalized] || {
+      text: "#e6b450",
+      bg: "#e6b45015",
+      border: "#e6b45040",
+    }
+  );
 }
 
 export default function ProjectsPage({
@@ -22,73 +87,43 @@ export default function ProjectsPage({
       return initialProjects.filter((p) => p.featured);
     }
     return initialProjects.filter((p) => {
-      if (Array.isArray(p.category_ids)) {
-        return p.category_ids.includes(activeCategory);
+      if (Array.isArray(p.category_ids) && p.category_ids.includes(activeCategory)) {
+        return true;
+      }
+      if (p.categories && Array.isArray(p.categories)) {
+        return p.categories.some((c: any) => c && c.id === activeCategory);
       }
       return p.category_ids === activeCategory;
     });
   }, [activeCategory, initialProjects]);
 
-  // Group projects chronologically by release year
-  const projectsByYear = useMemo(() => {
-    const groups: Record<string, any[]> = {};
-
-    filteredProjects.forEach((project, idx) => {
-      let year = "2026";
-      if (project.created_at) {
-        const d = new Date(project.created_at);
-        if (!isNaN(d.getTime())) {
-          year = d.getFullYear().toString();
-        }
-      } else {
-        // Fallback staggered years for portfolio entries
-        year = (2026 - Math.floor(idx / 3)).toString();
-      }
-
-      if (!groups[year]) {
-        groups[year] = [];
-      }
-      groups[year].push(project);
-    });
-
-    // Sort years descending
-    const sortedYears = Object.keys(groups).sort((a, b) => Number(b) - Number(a));
-    return sortedYears.map((year) => ({
-      year,
-      projects: groups[year],
-    }));
-  }, [filteredProjects]);
-
   return (
     <main className="min-h-screen pb-24 animate-fade-in">
       <div className="max-w-4xl mx-auto px-6 pt-10">
         {/* Header Section */}
-        <header className="space-y-4 pb-10 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono tracking-wider uppercase border border-[#e6b450]/40 bg-[#e6b450]/10 text-[#e6b450]">
-            <FolderGit2 size={12} />
-            <span>Compendium // Production Works</span>
+        <header className="space-y-4 pb-8 border-b border-light-subtle/15 dark:border-dark-subtle/15 mb-10">
+          <div>
+            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-light-text dark:text-[#ffffff] tracking-tight">
+              Selected Works
+            </h1>
+            <p className="text-sm font-mono text-light-subtle dark:text-dark-subtle mt-1.5">
+              Production applications, mobile platforms, and distributed systems.
+            </p>
           </div>
 
-          <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl text-light-text dark:text-[#ffffff] tracking-tight">
-            Editorial Project Index
-          </h1>
-
-          <p className="font-serif italic text-lg text-light-subtle dark:text-[#d9d7d3]/80">
-            A chronological catalog of production web applications, edge distributed systems, and open-source tooling.
-          </p>
-
-          {/* Category Filter Pills */}
-          <div className="flex flex-wrap items-center gap-2 pt-4">
+          {/* Clean Category Filter Ribbon (Only relevant project categories) */}
+          <div className="flex flex-wrap items-center gap-2 pt-3">
             {categories.map((cat) => {
               const isActive = activeCategory === cat.value;
               return (
                 <button
                   key={cat.value}
+                  type="button"
                   onClick={() => setActiveCategory(cat.value)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all duration-200 ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all duration-150 border ${
                     isActive
-                      ? "bg-[#e6b450] text-[#0a0e14] font-semibold shadow-sm"
-                      : "border border-light-subtle/20 dark:border-dark-subtle/20 bg-light-background/60 dark:bg-[#131721]/70 text-light-text dark:text-dark-text hover:border-[#e6b450]/50"
+                      ? "bg-[#e6b450]/15 text-[#e6b450] border-[#e6b450]/40 font-semibold shadow-xs"
+                      : "border-light-subtle/15 dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/60 text-light-subtle dark:text-dark-subtle hover:text-light-text dark:hover:text-[#ffffff] hover:border-light-subtle/30 dark:hover:border-dark-subtle/30"
                   }`}
                 >
                   {cat.label}
@@ -98,130 +133,166 @@ export default function ProjectsPage({
           </div>
         </header>
 
-        {/* Chronological Projects Listing */}
-        {projectsByYear.length === 0 ? (
+        {/* Projects Listing */}
+        {filteredProjects.length === 0 ? (
           <div className="text-center py-20 font-mono text-sm text-light-subtle dark:text-dark-subtle">
             No projects found in this category.
           </div>
         ) : (
-          <div className="space-y-16">
-            {projectsByYear.map(({ year, projects }) => (
-              <section key={year} className="space-y-8">
-                {/* Year Marker Header */}
-                <div className="flex items-center gap-4 border-b border-light-subtle/15 dark:border-dark-subtle/15 pb-3">
-                  <span className="font-serif text-3xl md:text-4xl font-semibold text-[#e6b450]">
-                    {year}
-                  </span>
-                  <div className="h-px flex-1 bg-light-subtle/10 dark:bg-dark-subtle/10"></div>
-                  <span className="font-mono text-xs text-light-subtle dark:text-dark-subtle">
-                    {projects.length} {projects.length === 1 ? "release" : "releases"}
-                  </span>
-                </div>
+          /* ========================================================= */
+          /* Permanent 2-Column Bento Grid Cards                       */
+          /* ========================================================= */
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {filteredProjects.map((project: any, index: number) => {
+              const year = project.created_at
+                ? new Date(project.created_at).getFullYear()
+                : 2026 - Math.floor(index / 2);
 
-                {/* Project Entries */}
-                <div className="space-y-8">
-                  {projects.map((project) => {
-                    const primaryCategory =
-                      project.categories?.[0]?.name || "Systems & Web";
+              const primaryCategory =
+                project.categories?.[0]?.name || "Systems & Architecture";
 
-                    // Determine Ayu badge color based on category
-                    let categoryBadgeColor = "border-[#39bae6]/40 bg-[#39bae6]/10 text-[#39bae6]";
-                    if (
-                      primaryCategory.toLowerCase().includes("front") ||
-                      primaryCategory.toLowerCase().includes("web")
-                    ) {
-                      categoryBadgeColor = "border-[#aad94c]/40 bg-[#aad94c]/10 text-[#aad94c]";
-                    } else if (
-                      primaryCategory.toLowerCase().includes("data") ||
-                      primaryCategory.toLowerCase().includes("back")
-                    ) {
-                      categoryBadgeColor = "border-[#f07178]/40 bg-[#f07178]/10 text-[#f07178]";
-                    }
+              const catColors = getCategoryColors(primaryCategory);
 
-                    return (
-                      <article
-                        key={project.id}
-                        className="p-6 sm:p-7 rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/50 dark:bg-[#131721]/60 hover:border-[#e6b450]/40 transition-all duration-200 space-y-5"
-                      >
-                        {/* Header: Title + Category */}
-                        <div className="flex flex-wrap items-baseline justify-between gap-3">
-                          <div className="space-y-1">
-                            <h2 className="font-serif text-2xl sm:text-3xl text-light-text dark:text-dark-text font-medium leading-snug">
-                              {project.name}
-                            </h2>
-                            {project.featured && (
-                              <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[#e6b450]">
-                                <Sparkles size={11} /> Featured Release
-                              </span>
-                            )}
-                          </div>
+              // Single substantive narrative paragraph (never duplicated)
+              const description =
+                project.long_description || project.description;
 
+              const hasLive =
+                project.live &&
+                project.live !== "null" &&
+                project.live.trim().length > 0;
+
+              const hasGithub =
+                project.github &&
+                project.github !== "null" &&
+                project.github.trim().length > 0;
+
+              return (
+                <article
+                  key={project.id}
+                  className="group relative rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/60 p-5 sm:p-6 transition-all duration-200 hover:border-[#e6b450]/40 shadow-xs hover:shadow-md flex flex-col overflow-hidden"
+                >
+                  {/* Top accent hairline */}
+                  <div
+                    className="absolute top-0 left-0 right-0 h-[2px] opacity-75 group-hover:opacity-100 transition-opacity"
+                    style={{ backgroundColor: catColors.text }}
+                  />
+
+                  {/* Card Body - flex-1 pushes action footer to bottom */}
+                  <div className="flex-1 space-y-3.5">
+                    {/* Project Screenshot / Mockup Preview */}
+                    {project.image && (
+                      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-[#0a0e14] border border-light-subtle/15 dark:border-[#1e2430]">
+                        <img
+                          src={getImageSrc(project.image)}
+                          alt={project.name}
+                          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                          loading="lazy"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = "/project/project-placeholder.jpg";
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-20 transition-opacity pointer-events-none" />
+                      </div>
+                    )}
+
+                    {/* Meta Ribbon */}
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-mono text-[#e6b450] font-semibold">
+                          {year}
+                        </span>
+                        <span className="text-xs font-mono text-light-subtle dark:text-dark-subtle">
+                          &middot;
+                        </span>
+                        <span
+                          className="text-[10px] font-mono px-2 py-0.5 rounded border"
+                          style={{
+                            color: catColors.text,
+                            backgroundColor: catColors.bg,
+                            borderColor: catColors.border,
+                          }}
+                        >
+                          {primaryCategory}
+                        </span>
+                      </div>
+
+                      {project.featured && (
+                        <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[#e6b450]">
+                          <Sparkles size={11} /> Featured
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Title */}
+                    <h2 className="font-serif text-xl sm:text-2xl text-light-text dark:text-[#ffffff] font-medium leading-snug group-hover:text-[#e6b450] transition-colors">
+                      {hasLive ? (
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:underline inline-flex items-center gap-1.5"
+                        >
+                          <span>{project.name}</span>
+                          <ArrowUpRight
+                            size={16}
+                            className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+                          />
+                        </a>
+                      ) : (
+                        project.name
+                      )}
+                    </h2>
+
+                    {/* Single Substantive Description Paragraph */}
+                    <p className="text-xs sm:text-sm leading-relaxed text-light-subtle dark:text-[#d9d7d3]/85 line-clamp-3">
+                      {description}
+                    </p>
+
+                    {/* Tech Pills (inside body) */}
+                    {project.technologies && project.technologies.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 pt-1">
+                        {project.technologies.slice(0, 4).map((tech: any) => (
                           <span
-                            className={`text-xs font-mono px-2.5 py-1 rounded border ${categoryBadgeColor}`}
+                            key={tech.id}
+                            className="text-[10px] font-mono px-2 py-0.5 rounded bg-light-subtle/5 dark:bg-[#0a0e14] text-light-text dark:text-[#d9d7d3] border border-light-subtle/10 dark:border-[#1e2430]"
                           >
-                            {primaryCategory}
+                            {tech.name}
                           </span>
-                        </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
 
-                        {/* Substantive Paragraph Description */}
-                        <p className="text-sm sm:text-base leading-relaxed text-light-text/85 dark:text-[#d9d7d3]/85">
-                          {project.description}
-                        </p>
-
-                        {/* Optional Long Description if substantive */}
-                        {project.long_description && project.long_description !== project.description && (
-                          <div className="text-xs sm:text-sm text-light-subtle dark:text-[#949dab] leading-relaxed border-l-2 border-[#e6b450]/30 pl-4 py-1">
-                            {project.long_description}
-                          </div>
-                        )}
-
-                        {/* Technologies + GitHub & Demo Links */}
-                        <div className="pt-4 border-t border-light-subtle/10 dark:border-dark-subtle/10 flex flex-wrap items-center justify-between gap-4">
-                          {/* Ayu syntax technology tags */}
-                          <div className="flex flex-wrap gap-1.5">
-                            {project.technologies?.map((tech: any) => (
-                              <span
-                                key={tech.id}
-                                className="text-xs font-mono px-2.5 py-0.5 rounded bg-light-subtle/10 dark:bg-[#0a0e14] text-light-text dark:text-[#d9d7d3] border border-light-subtle/10 dark:border-[#1e2430]"
-                              >
-                                {tech.name}
-                              </span>
-                            ))}
-                          </div>
-
-                          {/* Action Links */}
-                          <div className="flex items-center gap-4 text-xs font-mono">
-                            {project.github && (
-                              <a
-                                href={project.github}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 text-light-subtle dark:text-dark-subtle hover:text-[#e6b450] transition-colors"
-                              >
-                                <Github size={14} />
-                                <span>Source</span>
-                              </a>
-                            )}
-
-                            {project.live && (
-                              <a
-                                href={project.live}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 text-light-accent dark:text-[#e6b450] font-medium hover:underline"
-                              >
-                                <span>Visit Site</span>
-                                <ArrowUpRight size={14} />
-                              </a>
-                            )}
-                          </div>
-                        </div>
-                      </article>
-                    );
-                  })}
-                </div>
-              </section>
-            ))}
+                  {/* Fixed Bottom Action Bar: Consistent, Anchored Position */}
+                  <div className="pt-3.5 mt-4 border-t border-light-subtle/10 dark:border-[#1e2430] flex items-center justify-end gap-4 text-xs font-mono">
+                    {hasGithub && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-light-subtle dark:text-dark-subtle hover:text-[#e6b450] transition-colors"
+                        title="Source Code"
+                      >
+                        <Github size={13} />
+                        <span>Source</span>
+                      </a>
+                    )}
+                    {hasLive && (
+                      <a
+                        href={project.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-[#e6b450] font-medium hover:underline"
+                      >
+                        <span>Visit Site</span>
+                        <ArrowUpRight size={13} />
+                      </a>
+                    )}
+                  </div>
+                </article>
+              );
+            })}
           </div>
         )}
       </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import { Bird } from "lucide-react";
+import { Send, CheckCircle2, AlertCircle } from "lucide-react";
 import { contactService } from "@app/services/contactService";
 
 export default function ContactForm() {
@@ -35,7 +35,6 @@ export default function ContactForm() {
     setIsSubmitting(true);
 
     try {
-      // Real API call to contact service
       await contactService.submitContact({
         name: formData.name,
         email: formData.email,
@@ -43,13 +42,11 @@ export default function ContactForm() {
         message: formData.message,
       });
 
-      // Success response
       setSubmitStatus({
         success: true,
-        message: "Message sent successfully! I'll get back to you soon.",
+        message: "Message sent successfully! I will get back to you soon.",
       });
 
-      // Clear form
       setFormData({
         name: "",
         email: "",
@@ -58,153 +55,145 @@ export default function ContactForm() {
       });
     } catch (error) {
       console.error("Error submitting form:", error);
-      // Error response
       setSubmitStatus({
         success: false,
-        message: "Something went wrong. Please try again later.",
+        message: "Something went wrong. Please write directly to captjay98@gmail.com.",
       });
     } finally {
       setIsSubmitting(false);
 
-      // Clear status message after 5 seconds
       setTimeout(() => {
         setSubmitStatus({});
-      }, 5000);
+      }, 6000);
     }
   };
 
   return (
-    <div className="bg-glass rounded-xl shadow-elevated effect-3d overflow-hidden border border-light-subtle/10 dark:border-dark-subtle/20 p-6">
-      <h2 className="text-lg font-semibold text-light-text dark:text-dark-text mb-4">
-        Prepare the Pigeon
-      </h2>
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="animate-fade-in" style={{ animationDelay: "250ms" }}>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-light-text dark:text-dark-text mb-1"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-2 rounded-md bg-light-subtle/5 dark:bg-dark-subtle/5 
-                border border-light-subtle/20 dark:border-dark-subtle/20 
-                focus:outline-none focus:ring-1 focus:ring-light-accent/40 dark:focus:ring-dark-accent/40 
-                focus:border-light-accent/60 dark:focus:border-dark-accent/60 
-                text-light-text dark:text-dark-text transition-colors duration-200"
-              placeholder="The pigeon can't talk"
-            />
-          </div>
-          <div className="animate-fade-in" style={{ animationDelay: "350ms" }}>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-light-text dark:text-dark-text mb-1"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-2 rounded-md bg-light-subtle/5 dark:bg-dark-subtle/5 
-                border border-light-subtle/20 dark:border-dark-subtle/20 
-                focus:outline-none focus:ring-1 focus:ring-light-accent/40 dark:focus:ring-dark-accent/40 
-                focus:border-light-accent/60 dark:focus:border-dark-accent/60 
-                text-light-text dark:text-dark-text transition-colors duration-200"
-              placeholder="So the pigeon can find the way back"
-            />
-          </div>
-        </div>
-
-        <div className="animate-fade-in" style={{ animationDelay: "450ms" }}>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
           <label
-            htmlFor="subject"
-            className="block text-sm font-medium text-light-text dark:text-dark-text mb-1"
+            htmlFor="name"
+            className="block text-xs font-mono uppercase tracking-wider text-light-subtle dark:text-dark-subtle mb-1.5"
           >
-            Subject
+            Name
           </label>
           <input
             type="text"
-            id="subject"
-            name="subject"
-            value={formData.subject}
+            id="name"
+            name="name"
+            value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 rounded-md bg-light-subtle/5 dark:bg-dark-subtle/5 
-              border border-light-subtle/20 dark:border-dark-subtle/20 
-              focus:outline-none focus:ring-1 focus:ring-light-accent/40 dark:focus:ring-dark-accent/40 
-              focus:border-light-accent/60 dark:focus:border-dark-accent/60 
-              text-light-text dark:text-dark-text transition-colors duration-200"
-            placeholder="To get my Attention?"
+            className="w-full px-3.5 py-2.5 rounded-lg bg-light-subtle/5 dark:bg-[#0a0e14] 
+              border border-light-subtle/20 dark:border-[#1e2430] 
+              focus:outline-none focus:ring-1 focus:ring-[#e6b450]/40 focus:border-[#e6b450] 
+              text-sm text-light-text dark:text-dark-text transition-colors duration-200 placeholder:text-light-subtle/40 dark:placeholder:text-dark-subtle/40"
+            placeholder="Jane Doe"
           />
         </div>
 
-        <div className="animate-fade-in" style={{ animationDelay: "550ms" }}>
+        <div>
           <label
-            htmlFor="message"
-            className="block text-sm font-medium text-light-text dark:text-dark-text mb-1"
+            htmlFor="email"
+            className="block text-xs font-mono uppercase tracking-wider text-light-subtle dark:text-dark-subtle mb-1.5"
           >
-            Message
+            Email
           </label>
-          <textarea
-            id="message"
-            name="message"
-            value={formData.message}
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
             onChange={handleChange}
             required
-            rows={5}
-            className="w-full px-3 py-2 rounded-md bg-light-subtle/5 dark:bg-dark-subtle/5 
-              border border-light-subtle/20 dark:border-dark-subtle/20 
-              focus:outline-none focus:ring-1 focus:ring-light-accent/40 dark:focus:ring-dark-accent/40 
-              focus:border-light-accent/60 dark:focus:border-dark-accent/60 
-              text-light-text dark:text-dark-text transition-colors duration-200 resize-y"
-            placeholder="And then Finally...... the gist"
-          ></textarea>
+            className="w-full px-3.5 py-2.5 rounded-lg bg-light-subtle/5 dark:bg-[#0a0e14] 
+              border border-light-subtle/20 dark:border-[#1e2430] 
+              focus:outline-none focus:ring-1 focus:ring-[#e6b450]/40 focus:border-[#e6b450] 
+              text-sm text-light-text dark:text-dark-text transition-colors duration-200 placeholder:text-light-subtle/40 dark:placeholder:text-dark-subtle/40"
+            placeholder="jane@example.com"
+          />
         </div>
+      </div>
 
-        {/* Form status message */}
-        {submitStatus.message && (
-          <div
-            className={`p-3 rounded-md ${
-              submitStatus.success
-                ? "bg-green-100/30 dark:bg-green-900/20 text-green-800 dark:text-green-300"
-                : "bg-red-100/30 dark:bg-red-900/20 text-red-800 dark:text-red-300"
-            }`}
-          >
-            {submitStatus.message}
-          </div>
-        )}
+      <div>
+        <label
+          htmlFor="subject"
+          className="block text-xs font-mono uppercase tracking-wider text-light-subtle dark:text-dark-subtle mb-1.5"
+        >
+          Subject
+        </label>
+        <input
+          type="text"
+          id="subject"
+          name="subject"
+          value={formData.subject}
+          onChange={handleChange}
+          required
+          className="w-full px-3.5 py-2.5 rounded-lg bg-light-subtle/5 dark:bg-[#0a0e14] 
+            border border-light-subtle/20 dark:border-[#1e2430] 
+            focus:outline-none focus:ring-1 focus:ring-[#e6b450]/40 focus:border-[#e6b450] 
+            text-sm text-light-text dark:text-dark-text transition-colors duration-200 placeholder:text-light-subtle/40 dark:placeholder:text-dark-subtle/40"
+          placeholder="Project collaboration / Engineering inquiry"
+        />
+      </div>
 
-        <div className="animate-fade-in" style={{ animationDelay: "650ms" }}>
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className={`w-full md:w-auto px-6 py-3 bg-accent-gradient text-white rounded-md shadow-accent flex items-center justify-center transition-all hover:scale-105 active:scale-95 ${
-              isSubmitting ? "opacity-70 cursor-not-allowed" : ""
-            }`}
-          >
-            {isSubmitting ? (
-              <>Releasing Pigeon...</>
-            ) : (
-              <>
-                Release The Pigeon{" "}
-                <Bird size={16} className="ml-2 animate-bounce" />
-              </>
-            )}
-          </button>
+      <div>
+        <label
+          htmlFor="message"
+          className="block text-xs font-mono uppercase tracking-wider text-light-subtle dark:text-dark-subtle mb-1.5"
+        >
+          Message
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          required
+          rows={5}
+          className="w-full px-3.5 py-2.5 rounded-lg bg-light-subtle/5 dark:bg-[#0a0e14] 
+            border border-light-subtle/20 dark:border-[#1e2430] 
+            focus:outline-none focus:ring-1 focus:ring-[#e6b450]/40 focus:border-[#e6b450] 
+            text-sm text-light-text dark:text-dark-text transition-colors duration-200 resize-y placeholder:text-light-subtle/40 dark:placeholder:text-dark-subtle/40"
+          placeholder="Tell me about what you are building, your timeline, or any questions..."
+        ></textarea>
+      </div>
+
+      {/* Form status message */}
+      {submitStatus.message && (
+        <div
+          className={`p-3.5 rounded-lg text-xs font-mono flex items-center gap-2.5 border ${
+            submitStatus.success
+              ? "bg-[#aad94c]/10 border-[#aad94c]/30 text-[#aad94c]"
+              : "bg-[#f07178]/10 border-[#f07178]/30 text-[#f07178]"
+          }`}
+        >
+          {submitStatus.success ? (
+            <CheckCircle2 size={15} className="shrink-0" />
+          ) : (
+            <AlertCircle size={15} className="shrink-0" />
+          )}
+          <span>{submitStatus.message}</span>
         </div>
-      </form>
-    </div>
+      )}
+
+      <div className="pt-2">
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-[#e6b450] text-[#0a0e14] font-mono text-xs font-semibold hover:bg-[#e6b450]/90 transition-all flex items-center justify-center gap-2 disabled:opacity-60 shadow-xs active:scale-[0.99] cursor-pointer"
+        >
+          {isSubmitting ? (
+            <span>Sending...</span>
+          ) : (
+            <>
+              <span>Send Message</span>
+              <Send size={13} />
+            </>
+          )}
+        </button>
+      </div>
+    </form>
   );
 }
