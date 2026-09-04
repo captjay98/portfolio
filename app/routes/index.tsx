@@ -103,7 +103,7 @@ function Home() {
           </p>
 
           <p>
-            Today, I build web applications, cross-platform mobile platforms, and robust backend systems. I work primarily with{' '}
+            Today, I build web applications, cross-platform mobile platforms, and robust backend architectures. I work primarily with{' '}
             <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium border border-[#39bae6]/40 bg-[#39bae6]/10 text-[#39bae6]">
               Flutter
             </span>
@@ -124,12 +124,24 @@ function Home() {
               Laravel
             </span>{' '}
             across{' '}
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium border border-[#e6b450]/40 bg-[#e6b450]/10 text-[#e6b450]">
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium border border-[#f07178]/40 bg-[#f07178]/10 text-[#f07178]">
               GCP
             </span>{' '}
             and{' '}
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium border border-[#e6b450]/40 bg-[#e6b450]/10 text-[#e6b450]">
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium border border-[#f07178]/40 bg-[#f07178]/10 text-[#f07178]">
               AWS
+            </span>
+            , frequently integrating autonomous agentic workflows and LLMs into production using the{' '}
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium border border-[#d2a6ff]/40 bg-[#d2a6ff]/10 text-[#d2a6ff]">
+              Gemini SDK
+            </span>
+            ,{' '}
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium border border-[#d2a6ff]/40 bg-[#d2a6ff]/10 text-[#d2a6ff]">
+              Strands
+            </span>
+            , and{' '}
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium border border-[#d2a6ff]/40 bg-[#d2a6ff]/10 text-[#d2a6ff]">
+              AWS Bedrock
             </span>
             . I spend most of my time building systems while thoroughly enjoying the process.
           </p>
