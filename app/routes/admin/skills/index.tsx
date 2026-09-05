@@ -146,39 +146,60 @@ function AdminSkills() {
 
   if (isLoading) {
     return (
-      <div className="p-6 space-y-4">
-        <div className="h-8 w-48 bg-muted rounded animate-pulse" />
-        <div className="h-64 w-full bg-muted/30 rounded animate-pulse" />
+      <div className="space-y-4 py-4 sm:py-8">
+        <div className="h-6 w-48 bg-light-subtle/10 dark:bg-[#131721] rounded animate-pulse" />
+        <div className="h-64 w-full bg-white dark:bg-[#0a0e14] border border-light-border dark:border-[#1e2430] rounded-xl animate-pulse" />
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 pb-20 p-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold tracking-tight">Skills</h2>
-        <Button onClick={handleNewSkill}>
-          <Plus className="mr-2 h-4 w-4" />
-          New Skill
-        </Button>
+    <div className="space-y-5 sm:space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 pb-4 border-b border-light-border dark:border-[#1e2430]">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[10px] font-mono font-bold tracking-widest uppercase px-2 py-0.5 rounded bg-amber-500/10 dark:bg-[#e6b450]/15 text-amber-800 dark:text-[#e6b450] border border-amber-500/20">
+              CAPABILITIES &amp; PROFICIENCIES
+            </span>
+            <span className="text-xs font-mono text-light-subtle dark:text-[#8a9199]">
+              {skills.length} Skills
+            </span>
+          </div>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-light-text dark:text-[#bfbdb6]">
+            Skills &amp; Competencies
+          </h1>
+          <p className="text-xs text-light-subtle dark:text-[#8a9199]">
+            Catalog technical proficiencies, domain mastery, and practical experience.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleNewSkill}
+          className="inline-flex items-center justify-center gap-1.5 px-3.5 sm:px-4 py-2 bg-[#e6b450] hover:bg-[#d48b00] text-black font-mono text-xs font-semibold rounded-lg tracking-wider transition-colors shadow-xs w-full sm:w-auto shrink-0"
+        >
+          <Plus className="h-3.5 w-3.5" />
+          <span>NEW SKILL</span>
+        </button>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+        <div className="relative w-full sm:w-80">
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-light-subtle dark:text-[#8a9199]" />
           <Input
             type="search"
             placeholder="Search skills..."
-            className="pl-8"
+            className="pl-8 text-xs"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5">
           <Badge
             variant={selectedDomain === 'all' ? 'default' : 'outline'}
-            className="cursor-pointer"
+            className="cursor-pointer text-xs"
             onClick={() => setSelectedDomain('all')}
           >
             All
@@ -187,7 +208,7 @@ function AdminSkills() {
             <Badge
               key={domain.id}
               variant={selectedDomain === domain.id ? 'default' : 'outline'}
-              className="cursor-pointer"
+              className="cursor-pointer text-xs"
               onClick={() => setSelectedDomain(domain.id)}
             >
               {domain.name}
@@ -196,40 +217,40 @@ function AdminSkills() {
         </div>
       </div>
 
-      <Card>
-        <CardContent className="pt-6">
+      <div className="bg-white dark:bg-[#0a0e14] rounded-xl border border-light-border dark:border-[#1e2430] shadow-xs overflow-hidden">
+        <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>Skill Name</TableHead>
-                <TableHead>Domain</TableHead>
-                <TableHead>Technology</TableHead>
-                <TableHead>Level</TableHead>
-                <TableHead>Years</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
+              <tr className="border-b border-light-border dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/50">
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Skill Name</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Domain</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Technology</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Level</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Years</TableHead>
+                <TableHead className="text-right text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Actions</TableHead>
+              </tr>
             </TableHeader>
             <TableBody>
               {filteredSkills.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                  <TableCell colSpan={6} className="text-center py-8 text-muted-foreground text-xs font-mono">
                     No skills found
                   </TableCell>
                 </TableRow>
               ) : (
                 filteredSkills.map((skill) => (
-                  <TableRow key={skill.id}>
-                    <TableCell className="font-medium">{skill.name}</TableCell>
-                    <TableCell>{getDomainName(skill.category_id)}</TableCell>
-                    <TableCell>{getTechName(skill.technology_id)}</TableCell>
+                  <TableRow key={skill.id} className="hover:bg-light-subtle/5 dark:hover:bg-[#131721]/50 transition-colors">
+                    <TableCell className="font-medium text-xs text-light-text dark:text-[#bfbdb6]">{skill.name}</TableCell>
+                    <TableCell className="text-xs text-light-subtle dark:text-[#8a9199]">{getDomainName(skill.category_id)}</TableCell>
+                    <TableCell className="text-xs text-light-subtle dark:text-[#8a9199]">{getTechName(skill.technology_id)}</TableCell>
                     <TableCell>
-                      <Badge variant="secondary">{skill.level}</Badge>
+                      <Badge variant="secondary" className="text-[10px] font-mono">{skill.level}</Badge>
                     </TableCell>
-                    <TableCell>{skill.years} yrs</TableCell>
+                    <TableCell className="text-xs font-mono text-light-subtle dark:text-[#8a9199]">{skill.years} yrs</TableCell>
                     <TableCell className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon">
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
                             <MoreHorizontal className="h-4 w-4" />
                             <span className="sr-only">Actions</span>
                           </Button>
@@ -254,8 +275,8 @@ function AdminSkills() {
               )}
             </TableBody>
           </Table>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       <Dialog open={isSkillFormOpen} onOpenChange={setIsSkillFormOpen}>
         <DialogContent className="sm:max-w-[550px]">

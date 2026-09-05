@@ -132,33 +132,54 @@ function ProfileAdmin() {
   if (!profile) {
     return (
       <div className="text-center py-10">
-        <p className="text-muted-foreground">No profile data found.</p>
+        <p className="text-muted-foreground text-xs font-mono">No profile data found.</p>
       </div>
     );
   }
 
   return (
-    <div className="p-6 pb-20 space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold tracking-tight">Profile Settings</h1>
-        <Button onClick={handleSubmit} disabled={saving} className="flex items-center gap-2">
-          {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-          Save Changes
+    <div className="space-y-5 sm:space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-light-border dark:border-[#1e2430]">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[10px] font-mono font-bold tracking-widest uppercase px-2 py-0.5 rounded bg-blue-500/10 dark:bg-blue-500/15 text-blue-800 dark:text-[#39bae6] border border-blue-500/20">
+              AUTHOR IDENTITY
+            </span>
+            <span className="text-xs font-mono text-light-subtle dark:text-[#8a9199]">
+              {profile.nickname || profile.full_name}
+            </span>
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-light-text dark:text-[#bfbdb6]">
+            Profile Settings
+          </h1>
+          <p className="text-xs text-light-subtle dark:text-[#8a9199]">
+            Manage author credentials, biography, resume attachment, and SEO metadata.
+          </p>
+        </div>
+
+        <Button
+          onClick={handleSubmit}
+          disabled={saving}
+          className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#e6b450] hover:bg-[#d48b00] text-black font-mono text-xs font-semibold rounded-lg tracking-wider transition-colors shadow-xs w-full sm:w-auto"
+        >
+          {saving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
+          <span>SAVE PROFILE</span>
         </Button>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="mb-6">
-          <TabsTrigger value="general">General</TabsTrigger>
-          <TabsTrigger value="about">About Me</TabsTrigger>
-          <TabsTrigger value="media">Media</TabsTrigger>
-          <TabsTrigger value="seo">SEO</TabsTrigger>
+        <TabsList className="grid grid-cols-2 sm:grid-cols-4 w-full sm:w-auto mb-6 bg-light-background/60 dark:bg-[#131721]/60 border border-light-border dark:border-[#1e2430]">
+          <TabsTrigger value="general" className="text-xs font-mono">General</TabsTrigger>
+          <TabsTrigger value="about" className="text-xs font-mono">About Me</TabsTrigger>
+          <TabsTrigger value="media" className="text-xs font-mono">Media</TabsTrigger>
+          <TabsTrigger value="seo" className="text-xs font-mono">SEO</TabsTrigger>
         </TabsList>
 
         <TabsContent value="general" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Basic Information</CardTitle>
+          <Card className="bg-white dark:bg-[#0a0e14] border-light-border dark:border-[#1e2430] shadow-xs">
+            <CardHeader className="pb-3 border-b border-light-border dark:border-[#1e2430]">
+              <CardTitle className="text-base font-semibold text-light-text dark:text-[#bfbdb6]">Basic Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -229,9 +250,9 @@ function ProfileAdmin() {
         </TabsContent>
 
         <TabsContent value="about" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Bio & Description</CardTitle>
+          <Card className="bg-white dark:bg-[#0a0e14] border-light-border dark:border-[#1e2430] shadow-xs">
+            <CardHeader className="pb-3 border-b border-light-border dark:border-[#1e2430]">
+              <CardTitle className="text-base font-semibold text-light-text dark:text-[#bfbdb6]">Bio & Description</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -267,9 +288,9 @@ function ProfileAdmin() {
         </TabsContent>
 
         <TabsContent value="media" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Media & Images</CardTitle>
+          <Card className="bg-white dark:bg-[#0a0e14] border-light-border dark:border-[#1e2430] shadow-xs">
+            <CardHeader className="pb-3 border-b border-light-border dark:border-[#1e2430]">
+              <CardTitle className="text-base font-semibold text-light-text dark:text-[#bfbdb6]">Media & Images</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-2">
@@ -302,9 +323,9 @@ function ProfileAdmin() {
         </TabsContent>
 
         <TabsContent value="seo" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>SEO Settings</CardTitle>
+          <Card className="bg-white dark:bg-[#0a0e14] border-light-border dark:border-[#1e2430] shadow-xs">
+            <CardHeader className="pb-3 border-b border-light-border dark:border-[#1e2430]">
+              <CardTitle className="text-base font-semibold text-light-text dark:text-[#bfbdb6]">SEO Settings</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">

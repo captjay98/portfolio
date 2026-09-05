@@ -143,39 +143,60 @@ function AdminTechnologies() {
 
   if (isLoading) {
     return (
-      <div className="p-6 space-y-4">
-        <div className="h-8 w-48 bg-muted rounded animate-pulse" />
-        <div className="h-64 w-full bg-muted/30 rounded animate-pulse" />
+      <div className="space-y-4 py-4 sm:py-8">
+        <div className="h-6 w-48 bg-light-subtle/10 dark:bg-[#131721] rounded animate-pulse" />
+        <div className="h-64 w-full bg-white dark:bg-[#0a0e14] border border-light-border dark:border-[#1e2430] rounded-xl animate-pulse" />
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 pb-20 p-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold tracking-tight">Technologies</h2>
-        <Button onClick={handleNewTechnology}>
-          <Plus className="mr-2 h-4 w-4" />
-          New Technology
-        </Button>
+    <div className="space-y-5 sm:space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 pb-4 border-b border-light-border dark:border-[#1e2430]">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[10px] font-mono font-bold tracking-widest uppercase px-2 py-0.5 rounded bg-emerald-500/10 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-400 border border-emerald-500/20">
+              FRAMEWORKS &amp; RUNTIMES
+            </span>
+            <span className="text-xs font-mono text-light-subtle dark:text-[#8a9199]">
+              {technologies.length} Tools
+            </span>
+          </div>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-light-text dark:text-[#bfbdb6]">
+            Technologies &amp; Tools
+          </h1>
+          <p className="text-xs text-light-subtle dark:text-[#8a9199]">
+            Manage frameworks, libraries, database engines, and runtime dependencies.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleNewTechnology}
+          className="inline-flex items-center justify-center gap-1.5 px-3.5 sm:px-4 py-2 bg-[#e6b450] hover:bg-[#d48b00] text-black font-mono text-xs font-semibold rounded-lg tracking-wider transition-colors shadow-xs w-full sm:w-auto shrink-0"
+        >
+          <Plus className="h-3.5 w-3.5" />
+          <span>NEW TECHNOLOGY</span>
+        </button>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+        <div className="relative w-full sm:w-80">
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-light-subtle dark:text-[#8a9199]" />
           <Input
             type="search"
             placeholder="Search technologies..."
-            className="pl-8"
+            className="pl-8 text-xs"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5">
           <Badge
             variant={selectedCategory === 'all' ? 'default' : 'outline'}
-            className="cursor-pointer"
+            className="cursor-pointer text-xs"
             onClick={() => setSelectedCategory('all')}
           >
             All
@@ -184,7 +205,7 @@ function AdminTechnologies() {
             <Badge
               key={category.id}
               variant={selectedCategory === category.id ? 'default' : 'outline'}
-              className="cursor-pointer"
+              className="cursor-pointer text-xs"
               onClick={() => setSelectedCategory(category.id)}
             >
               {category.name}
@@ -193,45 +214,45 @@ function AdminTechnologies() {
         </div>
       </div>
 
-      <Card>
-        <CardContent className="pt-6">
+      <div className="bg-white dark:bg-[#0a0e14] rounded-xl border border-light-border dark:border-[#1e2430] shadow-xs overflow-hidden">
+        <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead className="w-[80px]">Icon</TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Website</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
+              <tr className="border-b border-light-border dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/50">
+                <TableHead className="w-[80px] text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Icon</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Name</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Category</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Website</TableHead>
+                <TableHead className="text-right text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Actions</TableHead>
+              </tr>
             </TableHeader>
             <TableBody>
               {filteredTechnologies.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                  <TableCell colSpan={5} className="text-center py-8 text-muted-foreground text-xs font-mono">
                     No technologies found
                   </TableCell>
                 </TableRow>
               ) : (
                 filteredTechnologies.map((tech) => (
-                  <TableRow key={tech.id}>
+                  <TableRow key={tech.id} className="hover:bg-light-subtle/5 dark:hover:bg-[#131721]/50 transition-colors">
                     <TableCell>
                       {tech.icon ? (
                         <img
                           src={tech.icon}
                           alt={tech.name}
-                          className="h-8 w-8 object-contain rounded"
+                          className="h-7 w-7 object-contain rounded"
                           onError={(e) => (e.currentTarget.style.display = 'none')}
                         />
                       ) : (
-                        <div className="h-8 w-8 rounded bg-muted flex items-center justify-center text-xs">
+                        <div className="h-7 w-7 rounded bg-light-subtle/10 dark:bg-[#131721] flex items-center justify-center text-[10px] font-mono">
                           {tech.name.substring(0, 2).toUpperCase()}
                         </div>
                       )}
                     </TableCell>
-                    <TableCell className="font-medium">{tech.name}</TableCell>
+                    <TableCell className="font-medium text-xs text-light-text dark:text-[#bfbdb6]">{tech.name}</TableCell>
                     <TableCell>
-                      <Badge variant="secondary">{getCategoryName(tech.category_id)}</Badge>
+                      <Badge variant="secondary" className="text-[10px] font-mono">{getCategoryName(tech.category_id)}</Badge>
                     </TableCell>
                     <TableCell>
                       {tech.website ? (
@@ -239,9 +260,9 @@ function AdminTechnologies() {
                           href={tech.website}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center text-xs text-blue-500 hover:underline"
+                          className="inline-flex items-center text-xs text-amber-700 dark:text-[#e6b450] hover:underline"
                         >
-                          Visit <ExternalLink size={12} className="ml-1" />
+                          Visit <ExternalLink size={11} className="ml-1" />
                         </a>
                       ) : (
                         <span className="text-xs text-muted-foreground">-</span>
@@ -250,7 +271,7 @@ function AdminTechnologies() {
                     <TableCell className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon">
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
                             <MoreHorizontal className="h-4 w-4" />
                             <span className="sr-only">Actions</span>
                           </Button>
@@ -275,8 +296,8 @@ function AdminTechnologies() {
               )}
             </TableBody>
           </Table>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       <Dialog open={isTechnologyFormOpen} onOpenChange={setIsTechnologyFormOpen}>
         <DialogContent className="sm:max-w-[550px]">

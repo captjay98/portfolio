@@ -202,8 +202,8 @@ function AdminLayout() {
       {/* Main Workstation Viewport */}
       <div className="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-light-background dark:bg-dark-background">
         {/* Top Minimalist Header */}
-        <header className="h-14 shrink-0 border-b border-light-subtle/15 dark:border-dark-subtle/15 bg-white/70 dark:bg-[#0a0e14]/70 backdrop-blur-md px-4 sm:px-6 flex items-center justify-between z-20">
-          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+        <header className="h-14 shrink-0 border-b border-light-subtle/15 dark:border-dark-subtle/15 bg-white/70 dark:bg-[#0a0e14]/70 backdrop-blur-md px-3 sm:px-6 flex items-center justify-between z-20">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <Sheet open={isMobileOpen} onOpenChange={setIsMobileOpen}>
               <SheetTrigger asChild>
                 <Button
@@ -214,8 +214,8 @@ function AdminLayout() {
                   <Menu className="h-4 w-4" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="p-0 w-72 bg-white dark:bg-[#0a0e14] border-r border-light-subtle/15 dark:border-dark-subtle/15 flex flex-col">
-                <SheetHeader className="p-5 border-b border-light-subtle/15 dark:border-dark-subtle/15 text-left">
+              <SheetContent side="left" className="p-0 w-72 max-w-[85vw] bg-white dark:bg-[#0a0e14] border-r border-light-subtle/15 dark:border-dark-subtle/15 flex flex-col">
+                <SheetHeader className="p-4 sm:p-5 border-b border-light-subtle/15 dark:border-dark-subtle/15 text-left">
                   <SheetTitle className="font-serif italic text-xl text-light-text dark:text-dark-text">
                     Jamal Ibrahim
                   </SheetTitle>
@@ -235,7 +235,7 @@ function AdminLayout() {
                       logout()
                     }}
                     type="button"
-                    className="w-full flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                    className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 transition-colors"
                   >
                     <LogOut className="w-3.5 h-3.5" />
                     <span>Sign out</span>
@@ -245,7 +245,7 @@ function AdminLayout() {
             </Sheet>
 
             {/* Breadcrumbs */}
-            <div className="flex items-center gap-1.5 sm:gap-2 text-xs font-mono text-light-subtle dark:text-dark-subtle truncate min-w-0">
+            <div className="flex items-center gap-1 sm:gap-2 text-xs font-mono text-light-subtle dark:text-dark-subtle truncate min-w-0">
               <span className="shrink-0">Studio</span>
               {currentSection && (
                 <>
@@ -256,7 +256,7 @@ function AdminLayout() {
               {currentItem && (
                 <>
                   <ChevronRight className="w-3 h-3 opacity-40 shrink-0" />
-                  <span className="text-light-text dark:text-dark-text font-medium truncate max-w-[120px] sm:max-w-none">
+                  <span className="text-light-text dark:text-dark-text font-medium truncate max-w-[100px] sm:max-w-none">
                     {currentItem.name}
                   </span>
                 </>
@@ -264,7 +264,7 @@ function AdminLayout() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             <ThemeToggle />
             <div className="h-4 w-px bg-light-subtle/15 dark:border-dark-subtle/15" />
             <a
@@ -281,7 +281,7 @@ function AdminLayout() {
 
         {/* Scrollable Main Content */}
         <main className="flex-1 overflow-y-auto min-h-0 bg-light-background dark:bg-dark-background">
-          <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+          <div className="w-full max-w-5xl mx-auto px-3 sm:px-6 py-4 sm:py-8">
             <Outlet />
           </div>
         </main>

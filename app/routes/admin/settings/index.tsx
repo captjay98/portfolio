@@ -70,91 +70,115 @@ function AdminSettings() {
 
   if (isLoading) {
     return (
-      <div className="p-6 space-y-4">
-        <div className="h-8 w-48 bg-muted rounded animate-pulse" />
-        <div className="h-64 w-full bg-muted/30 rounded animate-pulse" />
+      <div className="space-y-4 py-8">
+        <div className="h-6 w-48 bg-light-subtle/10 dark:bg-[#131721] rounded animate-pulse" />
+        <div className="h-64 w-full bg-white dark:bg-[#0a0e14] border border-light-border dark:border-[#1e2430] rounded-xl animate-pulse" />
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 pb-20 p-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold tracking-tight">Site Settings</h2>
+    <div className="space-y-5 sm:space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-light-border dark:border-[#1e2430]">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[10px] font-mono font-bold tracking-widest uppercase px-2 py-0.5 rounded bg-amber-500/10 dark:bg-[#e6b450]/15 text-amber-800 dark:text-[#e6b450] border border-amber-500/20">
+              CONFIGURATION
+            </span>
+            <span className="text-xs font-mono text-light-subtle dark:text-[#8a9199]">
+              Environment & SEO
+            </span>
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-light-text dark:text-[#bfbdb6]">
+            Site Settings
+          </h1>
+          <p className="text-xs text-light-subtle dark:text-[#8a9199]">
+            Configure site metadata, search indexing tags, OpenGraph previews, and notifications.
+          </p>
+        </div>
       </div>
 
       <Tabs defaultValue="general" className="space-y-6">
-        <TabsList>
-          <TabsTrigger value="general" className="flex items-center gap-2">
-            <Globe className="h-4 w-4" /> General & SEO
+        <TabsList className="grid grid-cols-2 w-full sm:w-80 bg-light-background/60 dark:bg-[#131721]/60 border border-light-border dark:border-[#1e2430]">
+          <TabsTrigger value="general" className="flex items-center gap-2 text-xs font-mono">
+            <Globe className="h-3.5 w-3.5" /> General & SEO
           </TabsTrigger>
-          <TabsTrigger value="notifications" className="flex items-center gap-2">
-            <Bell className="h-4 w-4" /> Notifications
+          <TabsTrigger value="notifications" className="flex items-center gap-2 text-xs font-mono">
+            <Bell className="h-3.5 w-3.5" /> Notifications
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="general">
-          <Card>
-            <CardHeader>
-              <CardTitle>Global Site & SEO Settings</CardTitle>
-              <CardDescription>
+          <Card className="bg-white dark:bg-[#0a0e14] border-light-border dark:border-[#1e2430] shadow-xs">
+            <CardHeader className="pb-3 border-b border-light-border dark:border-[#1e2430]">
+              <CardTitle className="text-base font-semibold text-light-text dark:text-[#bfbdb6]">Global Site & SEO Settings</CardTitle>
+              <CardDescription className="text-xs text-light-subtle dark:text-[#8a9199]">
                 Configure default title, description and social preview images
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-5">
               <form onSubmit={handleSaveSeo} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="siteTitle">Default Page Title</Label>
+                  <Label htmlFor="siteTitle" className="text-xs font-mono text-light-subtle dark:text-[#8a9199]">Default Page Title</Label>
                   <Input
                     id="siteTitle"
                     value={siteTitle}
                     onChange={(e) => setSiteTitle(e.target.value)}
                     required
+                    className="text-xs bg-white dark:bg-[#0a0e14] border-light-border dark:border-[#1e2430]"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="siteDescription">Meta Description</Label>
+                  <Label htmlFor="siteDescription" className="text-xs font-mono text-light-subtle dark:text-[#8a9199]">Meta Description</Label>
                   <Textarea
                     id="siteDescription"
                     value={siteDescription}
                     onChange={(e) => setSiteDescription(e.target.value)}
                     rows={3}
+                    className="text-xs bg-white dark:bg-[#0a0e14] border-light-border dark:border-[#1e2430]"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="ogImage">OpenGraph Image URL</Label>
+                  <Label htmlFor="ogImage" className="text-xs font-mono text-light-subtle dark:text-[#8a9199]">OpenGraph Image URL</Label>
                   <Input
                     id="ogImage"
                     type="url"
                     value={ogImage}
                     onChange={(e) => setOgImage(e.target.value)}
                     placeholder="https://example.com/og-banner.png"
+                    className="text-xs bg-white dark:bg-[#0a0e14] border-light-border dark:border-[#1e2430]"
                   />
                 </div>
 
-                <Button type="submit" disabled={isSaving} className="flex items-center gap-2">
-                  <Save className="h-4 w-4" /> Save Settings
-                </Button>
+                <button
+                  type="submit"
+                  disabled={isSaving}
+                  className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#e6b450] hover:bg-[#d48b00] text-black font-mono text-xs font-semibold rounded-lg tracking-wider transition-colors shadow-xs w-full sm:w-auto"
+                >
+                  <Save className="h-3.5 w-3.5" />
+                  <span>SAVE SETTINGS</span>
+                </button>
               </form>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="notifications">
-          <Card>
-            <CardHeader>
-              <CardTitle>Email Notifications</CardTitle>
-              <CardDescription>
+          <Card className="bg-white dark:bg-[#0a0e14] border-light-border dark:border-[#1e2430] shadow-xs">
+            <CardHeader className="pb-3 border-b border-light-border dark:border-[#1e2430]">
+              <CardTitle className="text-base font-semibold text-light-text dark:text-[#bfbdb6]">Email Notifications</CardTitle>
+              <CardDescription className="text-xs text-light-subtle dark:text-[#8a9199]">
                 Receive alerts when visitors submit messages on your contact form
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between p-4 border rounded-lg">
+            <CardContent className="pt-5 space-y-4">
+              <div className="flex items-center justify-between p-4 border border-light-border dark:border-[#1e2430] rounded-xl bg-light-background/40 dark:bg-[#131721]/40">
                 <div>
-                  <h4 className="font-medium text-sm">Contact Form Submissions</h4>
-                  <p className="text-xs text-muted-foreground">
+                  <h4 className="font-semibold text-xs text-light-text dark:text-[#bfbdb6]">Contact Form Submissions</h4>
+                  <p className="text-xs text-light-subtle dark:text-[#8a9199]">
                     Get an email notification when a new contact message is received
                   </p>
                 </div>
