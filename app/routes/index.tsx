@@ -1,453 +1,313 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import VisitorCounter from '@app/components/home/visitor-counter'
-import { profileService } from '@app/services/profileService'
-import { currentTechStackService } from '@app/services/currentTechStackService'
-import { projectService } from '@app/services/projectService'
-import { blogService } from '@app/services/blogService'
-import LucideIcon from '@app/components/LucideIcon'
-import { ArrowUpRight, BookOpen, Briefcase, Calendar, Clock, ExternalLink, FileText, Github, Sparkles } from 'lucide-react'
-import { getImageSrc } from '@app/utils/imageUtils'
+import { createFileRoute, useNavigate, Link } from '@tanstack/react-router'
+import {
+  FileText,
+  FolderGit2,
+  Mail,
+  Activity,
+  Plus,
+  ArrowRight,
+  Clock,
+  BookOpen,
+} from 'lucide-react'
 import * as React from 'react'
+import Dashboard from '@app/components/admin/dashboard'
+import { blogService } from '@app/services/blogService'
+import { projectService } from '@app/services/projectService'
+import { contactService, ContactSubmission } from '@app/services/contactService'
+import { visitorService } from '@app/services/visitorService'
 
-const fetchData = async () => {
-  try {
-    const [profile, currentTechStack, socialLinks, allProjects, blogPosts] = await Promise.all([
-      profileService.getProfile(),
-      currentTechStackService.getCurrentTechsWithDetails(),
-      profileService.getSocialLinks(),
-      projectService.getProjectsWithDetails(),
-      blogService.getPublishedPosts(),
-    ])
-      const featuredOrder = ['LivestockAI', 'ProJavi', 'HackSteward', 'OneSecOS', 'DeliveryNexus', 'SchoolTry K12'];
-      const rawFeatured = (allProjects || []).filter((p: any) => p.featured && !p.is_archived);
-      const featuredProjects = [...rawFeatured].sort((a: any, b: any) => {
-        const idxA = featuredOrder.indexOf(a.name);
-        const idxB = featuredOrder.indexOf(b.name);
-        if (idxA !== -1 && idxB !== -1) return idxA - idxB;
-        if (idxA !== -1) return -1;
-        if (idxB !== -1) return 1;
-        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-      }).slice(0, 6);
-
-      return {
-        profile,
-        currentTechStack: currentTechStack || [],
-        socialLinks: socialLinks || [],
-        featuredProjects,
-        recentPosts: (blogPosts || []).slice(0, 3),
-      }
-  } catch (error) {
-    console.error('Error fetching home data:', error)
-    return {
-      profile: null,
-      currentTechStack: [],
-      socialLinks: [],
-      featuredProjects: [],
-      recentPosts: [],
-    }
-  }
+const checkAuth = async () => {
+  return { isAuthenticated: true }
 }
 
 export const Route = createFileRoute('/')({
-  loader: () => fetchData(),
-  component: Home,
+  loader: () => checkAuth(),
+  component: AdminDashboard,
 })
 
-function Home() {
-  const { profile, currentTechStack, socialLinks, featuredProjects, recentPosts } = Route.useLoaderData()
+function AdminDashboard() {
+  const navigate = useNavigate()
+  const [blogs, setBlogs] = React.useState<any[]>([])
+  const [inquiries, setInquiries] = React.useState<ContactSubmission[]>([])
+  const [projectsCount, setProjectsCount] = React.useState<number>(0)
+  const [visitorCount, setVisitorCount] = React.useState<number>(0)
+  const [isLoading, setIsLoading] = React.useState(true)
 
-  // Filter for visible social links
-  const visibleSocialLinks = socialLinks ? socialLinks.filter((link: any) => link.is_visible) : []
+  React.useEffect(() => {
+    let isMounted = true
+    async function fetchData() {
+      try {
+        const [blogsRes, projectsRes, inquiriesRes, visitorsRes] = await Promise.allSettled([
+          blogService.getBlogs(),
+          projectService.getProjects(),
+          contactService.getSubmissions(),
+          visitorService.getVisitorCount(),
+        ])
+
+        if (isMounted) {
+          if (blogsRes.status === 'fulfilled') setBlogs(blogsRes.value)
+          if (projectsRes.status === 'fulfilled') setProjectsCount(projectsRes.value.length)
+          if (inquiriesRes.status === 'fulfilled') setInquiries(inquiriesRes.value)
+          if (visitorsRes.status === 'fulfilled') setVisitorCount(visitorsRes.value)
+          setIsLoading(false)
+        }
+      } catch (e) {
+        console.error('Failed to load dashboard data:', e)
+        if (isMounted) setIsLoading(false)
+      }
+    }
+
+    fetchData()
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  const publishedBlogs = blogs.filter((b) => b.status === 'published')
+  const draftBlogs = blogs.filter((b) => b.status !== 'published')
+  const recentPosts = blogs.slice(0, 5)
+  const recentInquiries = inquiries.slice(0, 4)
 
   return (
-    <main className="min-h-screen animate-fade-in pb-24">
-      {/* Hero & Conversational Narrative Section */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 md:pt-20">
+    <Dashboard>
+      <div className="space-y-6 sm:space-y-10 animate-fade-in">
         {/* Editorial Masthead Header */}
-        <div className="space-y-4 border-b border-light-subtle/15 dark:border-dark-subtle/15 pb-8 sm:pb-10">
-          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl text-light-text dark:text-[#ffffff] tracking-tight leading-[1.15] break-words">
-            {profile?.full_name || 'Jamal Ibrahim Umar'}
+        <header className="space-y-2 sm:space-y-3 pb-5 sm:pb-8 border-b border-light-subtle/15 dark:border-dark-subtle/15">
+          <h1 className="font-serif text-2xl sm:text-4xl md:text-5xl text-light-text dark:text-dark-text tracking-tight">
+            Studio Overview
           </h1>
-
-          <p className="font-serif italic text-lg sm:text-2xl text-light-subtle dark:text-[#d9d7d3]/85 leading-relaxed">
-            Software engineer crafting resilient distributed systems, product ecosystems, and thoughtful mobile and web applications.
+          <p className="font-serif italic text-sm sm:text-lg text-light-subtle dark:text-dark-subtle leading-relaxed max-w-3xl">
+            Welcome back, Jamal. Here is a calm summary of your publications, ongoing work, and reader correspondence.
           </p>
 
-          {/* Social Pill Buttons */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 pt-2 sm:pt-4">
-            {visibleSocialLinks.map((link: any) => (
-              <a
-                key={link.id}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-1.5 rounded-full text-xs font-mono text-light-text dark:text-dark-text border border-light-subtle/20 dark:border-dark-subtle/20 bg-light-background/60 dark:bg-[#131721]/70 hover:border-[#e6b450]/60 hover:text-[#e6b450] transition-all duration-200"
-              >
-                <LucideIcon name={link.icon} size={14} />
-                <span>{link.platform}</span>
-                <ArrowUpRight size={12} className="opacity-60" />
-              </a>
-            ))}
-
-            {profile?.resume_url && (
-              <a
-                href={profile.resume_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-1.5 rounded-full text-xs font-mono text-[#0a0e14] bg-[#e6b450] hover:bg-[#e6b450]/90 font-medium transition-all duration-200"
-              >
-                <FileText size={14} />
-                <span>Curriculum Vitae</span>
-                <ArrowUpRight size={12} />
-              </a>
-            )}
-          </div>
-        </div>
-
-        {/* Conversational Narrative */}
-        <div className="py-10 space-y-5 text-base sm:text-lg leading-relaxed text-light-text/90 dark:text-[#d9d7d3]/90">
-          <p>
-            Hello, I&apos;m Jamal (also <span className="text-[#e6b450] font-medium">CaptJay</span>). I am a software engineer who loves the craft of building things. My journey in tech began with tinkering, spending countless hours flashing custom ROMs, bricking, and patiently reviving my devices. I started dabbling in software engineering, which led me to the ALX SWE program (Cohort 5), turning that hands-on curiosity into a lifelong craft.
-          </p>
-
-          <p>
-            Today, I build web applications, cross-platform mobile platforms, and robust backend architectures. I work primarily with{' '}
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium border border-[#39bae6]/40 bg-[#39bae6]/10 text-[#39bae6]">
-              Flutter
-            </span>
-            ,{' '}
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium border border-[#aad94c]/40 bg-[#aad94c]/10 text-[#aad94c]">
-              React
-            </span>
-            ,{' '}
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium border border-[#aad94c]/40 bg-[#aad94c]/10 text-[#aad94c]">
-              TanStack
-            </span>
-            ,{' '}
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium border border-[#e6b450]/40 bg-[#e6b450]/10 text-[#e6b450]">
-              FastAPI
-            </span>
-            , and{' '}
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium border border-[#e6b450]/40 bg-[#e6b450]/10 text-[#e6b450]">
-              Laravel
-            </span>{' '}
-            across{' '}
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium border border-[#f07178]/40 bg-[#f07178]/10 text-[#f07178]">
-              GCP
-            </span>{' '}
-            and{' '}
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium border border-[#f07178]/40 bg-[#f07178]/10 text-[#f07178]">
-              AWS
-            </span>
-            , frequently integrating autonomous agentic workflows and LLMs into production using the{' '}
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium border border-[#d2a6ff]/40 bg-[#d2a6ff]/10 text-[#d2a6ff]">
-              Gemini SDK
-            </span>
-            ,{' '}
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium border border-[#d2a6ff]/40 bg-[#d2a6ff]/10 text-[#d2a6ff]">
-              Strands
-            </span>
-            , and{' '}
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-medium border border-[#d2a6ff]/40 bg-[#d2a6ff]/10 text-[#d2a6ff]">
-              AWS Bedrock
-            </span>
-            . I spend most of my time building systems while thoroughly enjoying the process.
-          </p>
-
-          <p className="text-light-subtle dark:text-dark-subtle text-sm font-serif italic border-l-2 border-[#e6b450]/50 pl-4 py-1">
-            &ldquo;Fate rarely calls upon us at a moment of our choosing.&rdquo; &middot; Optimus Prime
-          </p>
-        </div>
-
-        {/* Current Active Toolchain */}
-        {currentTechStack && currentTechStack.length > 0 && (() => {
-          const validStacks = currentTechStack.filter(
-            (s: any) => s.technologies && s.technologies.length > 0
-          )
-
-          if (validStacks.length === 0) return null
-
-          const getCategoryTheme = (name: string) => {
-            const lower = name.toLowerCase()
-            if (lower.includes('mobile')) return { dot: 'bg-[#39bae6]', text: 'text-[#39bae6]' }
-            if (lower.includes('front') || lower.includes('web') || lower.includes('ui')) return { dot: 'bg-[#aad94c]', text: 'text-[#aad94c]' }
-            if (lower.includes('back') || lower.includes('server') || lower.includes('api')) return { dot: 'bg-[#e6b450]', text: 'text-[#e6b450]' }
-            if (lower.includes('ai') || lower.includes('agent') || lower.includes('ml')) return { dot: 'bg-[#d2a6ff]', text: 'text-[#d2a6ff]' }
-            if (lower.includes('cloud') || lower.includes('devops') || lower.includes('infra')) return { dot: 'bg-[#f07178]', text: 'text-[#f07178]' }
-            if (lower.includes('data') || lower.includes('db')) return { dot: 'bg-[#ff9940]', text: 'text-[#ff9940]' }
-            return { dot: 'bg-[#e6b450]', text: 'text-[#e6b450]' }
-          }
-
-          const renderTechBadge = (tech: any) => (
-            <span
-              key={tech.id}
-              className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-light-background/90 dark:bg-[#0a0e14] border border-light-subtle/15 dark:border-[#1e2430] text-xs font-mono text-light-text dark:text-[#d9d7d3] hover:border-[#e6b450]/40 hover:text-[#e6b450] transition-colors"
+          {/* Quick Actions Row */}
+          <div className="pt-2 sm:pt-4 flex items-center gap-2 sm:gap-3 flex-wrap">
+            <button
+              type="button"
+              onClick={() => navigate({ to: '/admin/blogs/new' as any })}
+              className="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 rounded-lg bg-[#e6b450] hover:bg-[#d48b00] text-black font-mono text-xs font-semibold tracking-wider transition-colors shadow-xs"
             >
-              {tech.icon && (
-                <img
-                  src={tech.icon}
-                  alt=""
-                  aria-hidden="true"
-                  className="w-3.5 h-3.5 object-contain flex-shrink-0"
-                  loading="lazy"
-                  onError={(e) => {
-                    ;(e.target as HTMLElement).style.display = 'none'
-                  }}
-                />
-              )}
-              <span>{tech.name}</span>
-            </span>
-          )
+              <Plus className="w-3.5 h-3.5" />
+              <span>WRITE ESSAY</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate({ to: '/admin/projects/new' as any })}
+              className="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 rounded-lg border border-light-subtle/20 dark:border-dark-subtle/20 bg-white dark:bg-[#0a0e14] text-light-text dark:text-dark-text hover:border-amber-500/40 text-xs font-mono transition-colors"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>NEW PROJECT</span>
+            </button>
+            <Link
+              to="/admin/contact-submissions"
+              className="inline-flex items-center gap-1.5 px-2 py-2 text-xs font-mono text-light-subtle dark:text-dark-subtle hover:text-amber-700 dark:hover:text-[#e6b450] transition-colors w-full sm:w-auto sm:ml-auto"
+            >
+              <span>View Inquiries ({inquiries.length})</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </header>
 
-          return (
-            <div className="py-8 border-t border-light-subtle/15 dark:border-dark-subtle/15 space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
-                <h2 className="font-serif text-xl sm:text-2xl text-light-text dark:text-dark-text">
-                  Curated Active Stack
-                </h2>
-                <p className="text-xs font-mono text-light-subtle dark:text-dark-subtle">
-                  Primary technologies across client and personal product ecosystems
-                </p>
-              </div>
-
-              {/* Slim Colophon Ribbon */}
-              <div className="rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/40 dark:bg-[#131721]/50 divide-y divide-light-subtle/10 dark:divide-[#1e2430] overflow-hidden">
-                {validStacks.map((stack: any) => {
-                  const stackName = (stack.name || stack.category?.name || 'Tooling').trim()
-                  const theme = getCategoryTheme(stackName)
-
-                  return (
-                    <div
-                      key={stack.id}
-                      className="px-4 py-2.5 sm:px-5 sm:py-2.5 flex items-center gap-3 sm:gap-6 hover:bg-light-subtle/5 dark:hover:bg-white/[0.02] transition-colors"
-                    >
-                      <div className="w-24 sm:w-32 flex-shrink-0 flex items-center gap-2">
-                        <span className={`w-1.5 h-1.5 rounded-full ${theme.dot} shrink-0`}></span>
-                        <span className={`text-xs font-mono uppercase tracking-wider font-semibold ${theme.text} truncate`}>
-                          {stackName}
-                        </span>
-                      </div>
-                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                        {stack.technologies?.map(renderTechBadge)}
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
+        {/* Typographic Summary Metrics */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 pb-5 sm:pb-8 border-b border-light-subtle/15 dark:border-dark-subtle/15">
+          <Link
+            to="/admin/blogs"
+            className="group block space-y-1 p-3 sm:p-4 rounded-xl border border-light-subtle/15 dark:border-dark-subtle/15 bg-white/50 dark:bg-[#0a0e14]/50 hover:border-amber-500/40 transition-colors"
+          >
+            <div className="text-xl sm:text-3xl font-serif text-light-text dark:text-dark-text font-normal group-hover:text-amber-700 dark:group-hover:text-[#e6b450] transition-colors">
+              {isLoading ? '...' : blogs.length}
             </div>
-          )
-        })()}
+            <div className="text-[10px] sm:text-xs font-mono uppercase tracking-wider text-light-subtle dark:text-dark-subtle truncate">
+              Essays ({publishedBlogs.length} live)
+            </div>
+          </Link>
 
-        {/* Recent Writings (Moved Above Selected Works) */}
-        {recentPosts && recentPosts.length > 0 && (
-          <div className="py-8 border-t border-light-subtle/15 dark:border-dark-subtle/15 space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
-              <div>
-                <div className="flex items-center gap-2.5">
-                  <h2 className="font-serif text-xl sm:text-2xl text-light-text dark:text-dark-text">
-                    Recent Writings
-                  </h2>
-                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-light-subtle/10 dark:bg-[#131721] text-light-subtle dark:text-dark-subtle border border-light-subtle/15 dark:border-[#1e2430]">
-                    {recentPosts.slice(0, 3).length} entries
-                  </span>
-                </div>
-                <p className="text-xs font-mono text-light-subtle dark:text-dark-subtle mt-0.5">
-                  Essays on architecture, systems, and craftsmanship
-                </p>
-              </div>
+          <Link
+            to="/admin/projects"
+            className="group block space-y-1 p-3 sm:p-4 rounded-xl border border-light-subtle/15 dark:border-dark-subtle/15 bg-white/50 dark:bg-[#0a0e14]/50 hover:border-amber-500/40 transition-colors"
+          >
+            <div className="text-xl sm:text-3xl font-serif text-light-text dark:text-dark-text font-normal group-hover:text-cyan-700 dark:group-hover:text-[#39bae6] transition-colors">
+              {isLoading ? '...' : projectsCount}
+            </div>
+            <div className="text-[10px] sm:text-xs font-mono uppercase tracking-wider text-light-subtle dark:text-dark-subtle truncate">
+              Engineered Projects
+            </div>
+          </Link>
 
+          <Link
+            to="/admin/contact-submissions"
+            className="group block space-y-1 p-3 sm:p-4 rounded-xl border border-light-subtle/15 dark:border-dark-subtle/15 bg-white/50 dark:bg-[#0a0e14]/50 hover:border-amber-500/40 transition-colors"
+          >
+            <div className="text-xl sm:text-3xl font-serif text-light-text dark:text-dark-text font-normal group-hover:text-rose-700 dark:group-hover:text-[#f07178] transition-colors">
+              {isLoading ? '...' : inquiries.length}
+            </div>
+            <div className="text-[10px] sm:text-xs font-mono uppercase tracking-wider text-light-subtle dark:text-dark-subtle truncate">
+              Inquiries Dispatched
+            </div>
+          </Link>
+
+          <Link
+            to="/admin/visitors"
+            className="group block space-y-1 p-3 sm:p-4 rounded-xl border border-light-subtle/15 dark:border-dark-subtle/15 bg-white/50 dark:bg-[#0a0e14]/50 hover:border-amber-500/40 transition-colors"
+          >
+            <div className="text-xl sm:text-3xl font-serif text-light-text dark:text-dark-text font-normal group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
+              {isLoading ? '...' : visitorCount}
+            </div>
+            <div className="text-[10px] sm:text-xs font-mono uppercase tracking-wider text-light-subtle dark:text-dark-subtle truncate">
+              Total Reader Visits
+            </div>
+          </Link>
+        </div>
+
+        {/* Focused Two-Pane Activity Desk */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-8">
+          {/* Left Column: Recent Writing */}
+          <section className="space-y-3 sm:space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-light-subtle/15 dark:border-dark-subtle/15">
+              <h2 className="font-serif italic text-xl text-light-text dark:text-dark-text">
+                Recent Writing
+              </h2>
               <Link
-                to="/blog"
-                className="text-xs font-mono text-light-accent dark:text-[#e6b450] hover:underline inline-flex items-center gap-1 self-start sm:self-auto"
+                to="/admin/blogs"
+                className="text-xs font-mono text-light-subtle dark:text-dark-subtle hover:text-amber-700 dark:hover:text-[#e6b450] flex items-center gap-1 transition-colors"
               >
-                <span>All Articles</span>
-                <ArrowUpRight size={13} />
+                <span>View all</span>
+                <ArrowRight className="w-3 h-3" />
               </Link>
             </div>
 
-            <div className="space-y-3">
-              {recentPosts.slice(0, 3).map((post: any) => {
-                const dateStr = post.published_at
-                  ? new Date(post.published_at).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })
-                  : 'Recent'
-
-                return (
-                  <Link
+            {recentPosts.length === 0 ? (
+              <div className="py-12 text-center text-xs font-mono text-light-subtle dark:text-dark-subtle border border-dashed border-light-subtle/20 dark:border-dark-subtle/20 rounded-xl">
+                No essays in the journal yet.
+              </div>
+            ) : (
+              <div className="divide-y divide-light-subtle/10 dark:divide-dark-subtle/10">
+                {recentPosts.map((post: any) => (
+                  <div
                     key={post.id}
-                    to="/blog/$slug"
-                    params={{ slug: post.slug }}
-                    className="block p-4 sm:p-5 rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/40 dark:bg-[#131721]/40 hover:border-[#e6b450]/40 transition-all duration-200 group"
+                    onClick={() => navigate({ to: `/admin/blogs/edit/${post.id}` as any })}
+                    className="group cursor-pointer py-3.5 flex items-start justify-between gap-4 hover:bg-light-subtle/5 dark:hover:bg-white/5 px-2 rounded-lg transition-colors"
                   >
-                    <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-1.5">
-                      <h3 className="font-serif text-lg md:text-xl text-light-text dark:text-dark-text group-hover:text-[#e6b450] transition-colors font-medium">
+                    <div className="space-y-1 min-w-0">
+                      <div className="font-medium text-sm text-light-text dark:text-dark-text group-hover:text-amber-700 dark:group-hover:text-[#e6b450] transition-colors truncate">
                         {post.title}
-                      </h3>
-                      <div className="flex items-center gap-3 text-xs font-mono text-light-subtle dark:text-dark-subtle shrink-0">
-                        <span className="flex items-center gap-1">
-                          <Calendar size={12} />
-                          {dateStr}
+                      </div>
+                      <div className="flex items-center gap-3 text-[11px] font-mono text-light-subtle dark:text-dark-subtle">
+                        <span>
+                          {post.published_at || post.date
+                            ? new Date(post.published_at || post.date).toLocaleDateString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric',
+                              })
+                            : 'Draft'}
                         </span>
-                        {post.reading_time && (
-                          <span className="flex items-center gap-1">
-                            <Clock size={12} />
-                            {post.reading_time.includes('min') ? post.reading_time : `${post.reading_time} min`}
-                          </span>
-                        )}
+                        <span>·</span>
+                        <span className="flex items-center gap-1">
+                          <BookOpen className="w-3 h-3" />
+                          <span>{post.read_count || 0} reads</span>
+                        </span>
                       </div>
                     </div>
-                    {post.excerpt && (
-                      <p className="text-xs sm:text-sm text-light-subtle dark:text-[#949dab] line-clamp-2 leading-relaxed">
-                        {post.excerpt}
-                      </p>
-                    )}
-                  </Link>
-                )
-              })}
-            </div>
-          </div>
-        )}
 
-        {/* Selected Works (Permanent 2x2 Grid, 6 Production Systems) */}
-        {featuredProjects && featuredProjects.length > 0 && (() => {
-          const displayedProjects = featuredProjects.slice(0, 6)
-
-          return (
-            <div className="py-8 border-t border-light-subtle/15 dark:border-dark-subtle/15 space-y-5">
-              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
-                <div>
-                  <div className="flex items-center gap-2.5">
-                    <h2 className="font-serif text-xl sm:text-2xl text-light-text dark:text-dark-text">
-                      Selected Works
-                    </h2>
-                    <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-light-subtle/10 dark:bg-[#131721] text-light-subtle dark:text-dark-subtle border border-light-subtle/15 dark:border-[#1e2430]">
-                      {displayedProjects.length} systems
+                    <span
+                      className={`shrink-0 px-2 py-0.5 text-[10px] font-mono rounded ${
+                        post.status === 'published'
+                          ? 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20'
+                          : 'bg-amber-500/10 text-amber-700 dark:text-[#e6b450] border border-amber-500/20'
+                      }`}
+                    >
+                      {post.status === 'published' ? 'PUBLISHED' : 'DRAFT'}
                     </span>
                   </div>
-                  <p className="text-xs font-mono text-light-subtle dark:text-dark-subtle mt-0.5">
-                    Production systems and engineering highlights
-                  </p>
-                </div>
-
-                <Link
-                  to="/projects"
-                  className="text-xs font-mono text-light-accent dark:text-[#e6b450] hover:underline inline-flex items-center gap-1 self-start sm:self-auto"
-                >
-                  <span>Complete Index</span>
-                  <ArrowUpRight size={13} />
-                </Link>
+                ))}
               </div>
+            )}
+          </section>
 
-              {/* 2x2 Grid Layout */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {displayedProjects.map((project: any, index: number) => {
-                  const year = project.created_at ? new Date(project.created_at).getFullYear() : 2026 - index
-                  const primaryCategory = project.categories?.[0]?.name || 'Systems Architecture'
-
-                  return (
-                    <article
-                      key={project.id}
-                      className="group p-4 sm:p-5 rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/40 dark:bg-[#131721]/40 hover:border-[#e6b450]/40 transition-all duration-200 flex flex-col justify-between overflow-hidden"
-                    >
-                      <div className="flex-1 space-y-3">
-                        {/* Project Image Preview */}
-                        {project.image && (
-                          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-[#0a0e14] border border-light-subtle/15 dark:border-[#1e2430]">
-                            <img
-                              src={getImageSrc(project.image)}
-                              alt={project.name}
-                              className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                              loading="lazy"
-                              onError={(e) => {
-                                (e.target as HTMLImageElement).src = '/project/project-placeholder.jpg';
-                              }}
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-20 transition-opacity pointer-events-none" />
-                          </div>
-                        )}
-
-                        {/* Top Meta Line */}
-                        <div className="flex items-center justify-between gap-2">
-                          <div className="flex items-center gap-1.5 text-xs font-mono text-light-subtle dark:text-dark-subtle">
-                            <span className="text-[#e6b450] font-semibold">{year}</span>
-                            <span>&middot;</span>
-                            <span className="text-[10px] uppercase tracking-wider">{primaryCategory}</span>
-                          </div>
-
-                          {project.featured && (
-                            <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[#e6b450]">
-                              <Sparkles size={11} /> Featured
-                            </span>
-                          )}
-                        </div>
-
-                        {/* Title */}
-                        <h3 className="font-serif text-lg sm:text-xl text-light-text dark:text-dark-text font-medium group-hover:text-[#e6b450] transition-colors">
-                          {project.name}
-                        </h3>
-
-                        {/* Description */}
-                        <p className="text-xs sm:text-sm leading-relaxed text-light-text/75 dark:text-[#d9d7d3]/75 line-clamp-3">
-                          {project.description}
-                        </p>
-
-                        {/* Tech Stack Pills */}
-                        {project.technologies && project.technologies.length > 0 && (
-                          <div className="flex flex-wrap items-center gap-1 pt-1">
-                            {project.technologies.slice(0, 4).map((tech: any) => (
-                              <span
-                                key={tech.id}
-                                className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-light-subtle/5 dark:bg-[#0a0e14]/60 text-light-subtle dark:text-dark-subtle border border-light-subtle/10 dark:border-[#1e2430]"
-                              >
-                                {tech.name}
-                              </span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Fixed Bottom Action Bar: Consistent, Anchored Position */}
-                      <div className="pt-3.5 mt-4 border-t border-light-subtle/10 dark:border-[#1e2430] flex items-center justify-end gap-4 text-xs font-mono">
-                        {project.github && (
-                          <a
-                            href={project.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-light-subtle dark:text-dark-subtle hover:text-[#e6b450] transition-colors"
-                            title="Source Code"
-                          >
-                            <Github size={13} />
-                            <span>Source</span>
-                          </a>
-                        )}
-                        {project.live && (
-                          <a
-                            href={project.live}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-[#e6b450] font-medium hover:underline"
-                          >
-                            <span>Visit Site</span>
-                            <ArrowUpRight size={13} />
-                          </a>
-                        )}
-                      </div>
-                    </article>
-                  )
-                })}
-              </div>
+          {/* Right Column: Recent Inquiries & Letters */}
+          <section className="space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-light-subtle/15 dark:border-dark-subtle/15">
+              <h2 className="font-serif italic text-xl text-light-text dark:text-dark-text">
+                Recent Correspondence
+              </h2>
+              <Link
+                to="/admin/contact-submissions"
+                className="text-xs font-mono text-light-subtle dark:text-dark-subtle hover:text-amber-700 dark:hover:text-[#e6b450] flex items-center gap-1 transition-colors"
+              >
+                <span>View all</span>
+                <ArrowRight className="w-3 h-3" />
+              </Link>
             </div>
-          )
-        })()}
-      </section>
 
-      {/* Signature Visitor Counter - Fixed Position Stationery Stamp */}
-      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-30">
-        <VisitorCounter />
+            {recentInquiries.length === 0 ? (
+              <div className="py-12 text-center text-xs font-mono text-light-subtle dark:text-dark-subtle border border-dashed border-light-subtle/20 dark:border-dark-subtle/20 rounded-xl">
+                No inquiries received yet.
+              </div>
+            ) : (
+              <div className="divide-y divide-light-subtle/10 dark:divide-dark-subtle/10">
+                {recentInquiries.map((sub: ContactSubmission) => (
+                  <Link
+                    key={sub.id}
+                    to="/admin/contact-submissions"
+                    className="group block py-3.5 hover:bg-light-subtle/5 dark:hover:bg-white/5 px-2 rounded-lg transition-colors space-y-1"
+                  >
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-semibold text-light-text dark:text-dark-text group-hover:text-amber-700 dark:group-hover:text-[#e6b450] transition-colors">
+                        {sub.name}
+                      </span>
+                      <span className="text-[11px] font-mono text-light-subtle/70 dark:text-dark-subtle/70">
+                        {new Date(sub.created_at).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                        })}
+                      </span>
+                    </div>
+                    <div className="text-xs text-light-text/90 dark:text-dark-text/90 font-medium truncate">
+                      {sub.subject || 'Direct message'}
+                    </div>
+                    <p className="text-[11px] text-light-subtle dark:text-dark-subtle line-clamp-1">
+                      {sub.message}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </section>
+        </div>
+
+        {/* Studio Quick Directory */}
+        <section className="pt-6 border-t border-light-subtle/15 dark:border-dark-subtle/15">
+          <div className="text-[11px] font-mono uppercase tracking-wider text-light-subtle/70 dark:text-dark-subtle/70 mb-3">
+            Studio Directory
+          </div>
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs font-mono text-light-subtle dark:text-dark-subtle">
+            <Link to="/admin/experience" className="hover:text-amber-700 dark:hover:text-[#e6b450] transition-colors">
+              Experience Timeline
+            </Link>
+            <span>·</span>
+            <Link to="/admin/education" className="hover:text-amber-700 dark:hover:text-[#e6b450] transition-colors">
+              Academic Records
+            </Link>
+            <span>·</span>
+            <Link to="/admin/uses" className="hover:text-amber-700 dark:hover:text-[#e6b450] transition-colors">
+              Uses &amp; Hardware
+            </Link>
+            <span>·</span>
+            <Link to="/admin/profile" className="hover:text-amber-700 dark:hover:text-[#e6b450] transition-colors">
+              Public Bio &amp; Location
+            </Link>
+            <span>·</span>
+            <Link to="/admin/guest-book" className="hover:text-amber-700 dark:hover:text-[#e6b450] transition-colors">
+              Guest Book Signatures
+            </Link>
+            <span>·</span>
+            <Link to="/admin/settings" className="hover:text-amber-700 dark:hover:text-[#e6b450] transition-colors">
+              Settings
+            </Link>
+          </div>
+        </section>
       </div>
-    </main>
+    </Dashboard>
   )
 }

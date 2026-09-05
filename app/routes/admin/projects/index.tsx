@@ -118,7 +118,7 @@ function AdminProjects() {
 
         <button
           onClick={() => navigate({ to: '/admin/projects/new' as any })}
-          className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#e6b450] hover:bg-[#d48b00] text-black font-mono text-xs font-semibold rounded-lg tracking-wider transition-colors shadow-xs"
+          className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#e6b450] hover:bg-[#d48b00] text-black font-mono text-xs font-semibold rounded-lg tracking-wider transition-colors shadow-xs w-full sm:w-auto"
         >
           <Plus className="h-3.5 w-3.5" />
           <span>NEW PROJECT</span>

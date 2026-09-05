@@ -12,7 +12,6 @@ import { toast } from 'sonner';
 import { SocialLinkType } from '@app/types/admin';
 import { Button } from '@app/components/ui/button';
 import { Input } from '@app/components/ui/input';
-import { Card, CardContent } from '@app/components/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -127,44 +126,64 @@ function SocialLinksAdmin() {
 
   if (isLoading) {
     return (
-      <div className="p-6 space-y-4">
-        <div className="h-8 w-48 bg-muted rounded animate-pulse" />
-        <div className="h-64 w-full bg-muted/30 rounded animate-pulse" />
+      <div className="space-y-4 py-8">
+        <div className="h-6 w-48 bg-light-subtle/10 dark:bg-[#131721] rounded animate-pulse" />
+        <div className="h-64 w-full bg-white dark:bg-[#0a0e14] border border-light-border dark:border-[#1e2430] rounded-xl animate-pulse" />
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 pb-20 p-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold tracking-tight">Social Links</h2>
-        <Button onClick={handleNewLink}>
-          <Plus className="mr-2 h-4 w-4" />
-          Add Link
-        </Button>
+    <div className="space-y-5 sm:space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-light-border dark:border-[#1e2430]">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[10px] font-mono font-bold tracking-widest uppercase px-2 py-0.5 rounded bg-cyan-500/10 dark:bg-[#39bae6]/15 text-cyan-800 dark:text-[#39bae6] border border-cyan-500/20">
+              CHANNELS & NETWORKS
+            </span>
+            <span className="text-xs font-mono text-light-subtle dark:text-[#8a9199]">
+              {links.length} Profiles
+            </span>
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-light-text dark:text-[#bfbdb6]">
+            Social Links
+          </h1>
+          <p className="text-xs text-light-subtle dark:text-[#8a9199]">
+            Manage external public profiles, GitHub handles, LinkedIn, and community links.
+          </p>
+        </div>
+
+        <button
+          onClick={handleNewLink}
+          className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#e6b450] hover:bg-[#d48b00] text-black font-mono text-xs font-semibold rounded-lg tracking-wider transition-colors shadow-xs w-full sm:w-auto"
+        >
+          <Plus className="h-3.5 w-3.5" />
+          <span>ADD LINK</span>
+        </button>
       </div>
 
       <div className="relative">
-        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+        <Search className="absolute left-3 top-2.5 h-4 w-4 text-light-subtle dark:text-[#8a9199]" />
         <Input
           type="search"
           placeholder="Search social links..."
-          className="pl-8"
+          className="pl-9 text-xs bg-white dark:bg-[#0a0e14] border-light-border dark:border-[#1e2430]"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
-      <Card>
-        <CardContent className="pt-6">
+      <div className="bg-white dark:bg-[#0a0e14] rounded-xl border border-light-border dark:border-[#1e2430] shadow-xs overflow-hidden">
+        <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>Platform</TableHead>
-                <TableHead>URL</TableHead>
-                <TableHead>Visibility</TableHead>
-                <TableHead>Priority</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+              <TableRow className="border-b border-light-border dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/50">
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Platform</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">URL</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Visibility</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Priority</TableHead>
+                <TableHead className="text-right text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -220,8 +239,8 @@ function SocialLinksAdmin() {
               )}
             </TableBody>
           </Table>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
         <DialogContent className="sm:max-w-[500px]">

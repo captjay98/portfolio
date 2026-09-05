@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useState, useEffect } from 'react';
 import { Input } from '@app/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@app/components/ui/card';
 import { visitorService } from '@app/services/visitorService';
 import {
   Table,
@@ -11,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from '@app/components/ui/table';
-import { Search } from 'lucide-react';
+import { Search, BookOpen } from 'lucide-react';
 
 export const Route = createFileRoute('/admin/guest-book/')({
   component: AdminGuestBook,
@@ -49,61 +48,79 @@ function AdminGuestBook() {
 
   if (isLoading) {
     return (
-      <div className="p-6 space-y-4">
-        <div className="h-8 w-48 bg-muted rounded animate-pulse" />
-        <div className="h-64 w-full bg-muted/30 rounded animate-pulse" />
+      <div className="space-y-4 py-8">
+        <div className="h-6 w-48 bg-light-subtle/10 dark:bg-[#131721] rounded animate-pulse" />
+        <div className="h-64 w-full bg-white dark:bg-[#0a0e14] border border-light-border dark:border-[#1e2430] rounded-xl animate-pulse" />
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 pb-20 p-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-3xl font-bold tracking-tight">Guest Book Messages</h1>
+    <div className="space-y-5 sm:space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-light-border dark:border-[#1e2430]">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[10px] font-mono font-bold tracking-widest uppercase px-2 py-0.5 rounded bg-amber-500/10 dark:bg-[#e6b450]/15 text-amber-800 dark:text-[#e6b450] border border-amber-500/20">
+              COMMUNITY LOG
+            </span>
+            <span className="text-xs font-mono text-light-subtle dark:text-[#8a9199]">
+              {messages.length} Signatures
+            </span>
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-light-text dark:text-[#bfbdb6]">
+            Guest Book Messages
+          </h1>
+          <p className="text-xs text-light-subtle dark:text-[#8a9199]">
+            Visitor notes, peer greetings, and community signatures.
+          </p>
+        </div>
         <div className="relative w-full sm:w-64">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-light-subtle dark:text-[#8a9199]" />
           <Input
-            placeholder="Search messages..."
+            placeholder="Search signatures..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-8 h-9"
+            className="pl-9 text-xs bg-white dark:bg-[#0a0e14] border-light-border dark:border-[#1e2430]"
           />
         </div>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Signed Messages ({filteredMessages.length})</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="bg-white dark:bg-[#0a0e14] rounded-xl border border-light-border dark:border-[#1e2430] shadow-xs overflow-hidden">
+        <div className="px-4 py-3 border-b border-light-border dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/50 flex items-center justify-between">
+          <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">
+            Signed Messages ({filteredMessages.length})
+          </h3>
+        </div>
+        <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>Visitor Name</TableHead>
-                <TableHead>Message</TableHead>
-                <TableHead>Date</TableHead>
+              <TableRow className="border-b border-light-border dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/50">
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Visitor Name</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Message</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Date</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <tbody className="divide-y divide-light-border/60 dark:divide-[#1e2430]/60">
               {filteredMessages.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
+                <tr>
+                  <td colSpan={3} className="text-center py-8 text-xs font-mono text-light-subtle dark:text-[#8a9199]">
                     No guest book messages found
-                  </TableCell>
-                </TableRow>
+                  </td>
+                </tr>
               ) : (
                 filteredMessages.map((message) => (
-                  <TableRow key={message.$id || message.id}>
-                    <TableCell className="font-semibold">{message.name}</TableCell>
-                    <TableCell className="max-w-md">{message.message}</TableCell>
-                    <TableCell className="text-muted-foreground text-sm">{message.date}</TableCell>
-                  </TableRow>
+                  <tr key={message.$id || message.id} className="hover:bg-light-subtle/5 dark:hover:bg-[#131721]/50 transition-colors">
+                    <td className="px-4 py-3 font-semibold text-xs text-light-text dark:text-[#bfbdb6] whitespace-nowrap">{message.name}</td>
+                    <td className="px-4 py-3 text-xs text-light-text dark:text-[#bfbdb6] max-w-md">{message.message}</td>
+                    <td className="px-4 py-3 text-xs font-mono text-light-subtle dark:text-[#8a9199] whitespace-nowrap">{message.date}</td>
+                  </tr>
                 ))
               )}
-            </TableBody>
+            </tbody>
           </Table>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

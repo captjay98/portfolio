@@ -170,93 +170,111 @@ function AdminExperience() {
 
   if (isLoading) {
     return (
-      <div className="p-6 space-y-4">
-        <div className="h-8 w-48 bg-muted rounded animate-pulse" />
-        <div className="h-64 w-full bg-muted/30 rounded animate-pulse" />
+      <div className="space-y-4 py-4 sm:py-8">
+        <div className="h-6 w-48 bg-light-subtle/10 dark:bg-[#131721] rounded animate-pulse" />
+        <div className="h-64 w-full bg-white dark:bg-[#0a0e14] border border-light-border dark:border-[#1e2430] rounded-xl animate-pulse" />
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 pb-20 p-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold tracking-tight">Work Experience</h2>
-        <Button onClick={handleNewExperience}>
-          <Plus className="mr-2 h-4 w-4" />
-          New Experience
-        </Button>
+    <div className="space-y-5 sm:space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 pb-4 border-b border-light-border dark:border-[#1e2430]">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[10px] font-mono font-bold tracking-widest uppercase px-2 py-0.5 rounded bg-blue-500/10 dark:bg-blue-500/15 text-blue-800 dark:text-blue-400 border border-blue-500/20">
+              CAREER TIMELINE
+            </span>
+            <span className="text-xs font-mono text-light-subtle dark:text-[#8a9199]">
+              {experiences.length} Positions
+            </span>
+          </div>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-light-text dark:text-[#bfbdb6]">
+            Work Experience
+          </h1>
+          <p className="text-xs text-light-subtle dark:text-[#8a9199]">
+            Manage professional roles, career milestones, and engineering impact.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleNewExperience}
+          className="inline-flex items-center justify-center gap-1.5 px-3.5 sm:px-4 py-2 bg-[#e6b450] hover:bg-[#d48b00] text-black font-mono text-xs font-semibold rounded-lg tracking-wider transition-colors shadow-xs w-full sm:w-auto shrink-0"
+        >
+          <Plus className="h-3.5 w-3.5" />
+          <span>NEW EXPERIENCE</span>
+        </button>
       </div>
 
-      <div className="relative">
-        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+      <div className="relative w-full sm:w-80">
+        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-light-subtle dark:text-[#8a9199]" />
         <Input
           type="search"
           placeholder="Search experience..."
-          className="pl-8"
+          className="pl-8 text-xs"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
-      <Card>
-        <CardContent className="pt-6">
+      <div className="bg-white dark:bg-[#0a0e14] rounded-xl border border-light-border dark:border-[#1e2430] shadow-xs overflow-hidden">
+        <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead className="w-[200px]">Position</TableHead>
-                <TableHead>Company</TableHead>
-                <TableHead>Location</TableHead>
-                <TableHead>Timeline</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
+              <tr className="border-b border-light-border dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/50">
+                <TableHead className="w-[200px] text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Position</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Company</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Location</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Timeline</TableHead>
+                <TableHead className="text-right text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Actions</TableHead>
+              </tr>
             </TableHeader>
             <TableBody>
               {filteredExperiences.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                  <TableCell colSpan={5} className="text-center py-8 text-muted-foreground text-xs font-mono">
                     No experience entries found
                   </TableCell>
                 </TableRow>
               ) : (
                 filteredExperiences.map((exp) => (
-                  <TableRow key={exp.id}>
+                  <TableRow key={exp.id} className="hover:bg-light-subtle/5 dark:hover:bg-[#131721]/50 transition-colors">
                     <TableCell>
                       <div>
-                        <div className="font-medium">{exp.title}</div>
-                        <div className="text-xs text-muted-foreground line-clamp-1">
+                        <div className="font-medium text-xs text-light-text dark:text-[#bfbdb6]">{exp.title}</div>
+                        <div className="text-[11px] text-light-subtle dark:text-[#8a9199] line-clamp-1">
                           {exp.description}
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell>{exp.company}</TableCell>
-                    <TableCell>{exp.location}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center">
-                        <Calendar size={14} className="mr-1" />
-                        <span>
-                          {formatDate(exp.start_date)} - {formatDate(exp.end_date)}
-                        </span>
-                      </div>
+                    <TableCell className="text-xs text-light-text dark:text-[#bfbdb6]">{exp.company}</TableCell>
+                    <TableCell className="text-xs text-light-subtle dark:text-[#8a9199]">{exp.location}</TableCell>
+                    <TableCell className="text-xs font-mono text-light-subtle dark:text-[#8a9199]">
+                      {formatDate(exp.start_date)} - {formatDate(exp.end_date)}
                     </TableCell>
                     <TableCell className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon">
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
                             <MoreHorizontal className="h-4 w-4" />
-                            <span className="sr-only">Actions</span>
+                            <span className="sr-only">Open menu</span>
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
                           <DropdownMenuItem onClick={() => handleEditExperience(exp)}>
-                            <Edit className="h-4 w-4 mr-2" /> Edit
+                            <Edit className="mr-2 h-4 w-4" />
+                            Edit
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem
                             onClick={() => handleDelete(exp)}
                             className="text-destructive focus:text-destructive"
                           >
-                            <Trash2 className="h-4 w-4 mr-2" /> Delete
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Delete
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -266,8 +284,8 @@ function AdminExperience() {
               )}
             </TableBody>
           </Table>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       <Dialog open={isExperienceFormOpen} onOpenChange={setIsExperienceFormOpen}>
         <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">

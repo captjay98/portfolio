@@ -12,7 +12,6 @@ import { toast } from 'sonner';
 import { contactService, ContactSubmission } from '@app/services/contactService';
 import { Button } from '@app/components/ui/button';
 import { Input } from '@app/components/ui/input';
-import { Card, CardContent } from '@app/components/ui/card';
 import {
   Table,
   TableBody,
@@ -86,49 +85,65 @@ function ContactSubmissionsPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 space-y-4">
-        <div className="h-8 w-48 bg-muted rounded animate-pulse" />
-        <div className="h-64 w-full bg-muted/30 rounded animate-pulse" />
+      <div className="space-y-4 py-8">
+        <div className="h-6 w-48 bg-light-subtle/10 dark:bg-[#131721] rounded animate-pulse" />
+        <div className="h-64 w-full bg-white dark:bg-[#0a0e14] border border-light-border dark:border-[#1e2430] rounded-xl animate-pulse" />
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 pb-20 p-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold tracking-tight">Contact Submissions</h2>
+    <div className="space-y-5 sm:space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-light-border dark:border-[#1e2430]">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[10px] font-mono font-bold tracking-widest uppercase px-2 py-0.5 rounded bg-emerald-500/10 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-400 border border-emerald-500/20">
+              READER INQUIRIES
+            </span>
+            <span className="text-xs font-mono text-light-subtle dark:text-[#8a9199]">
+              {submissions.length} Inquiries
+            </span>
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-light-text dark:text-[#bfbdb6]">
+            Contact Submissions
+          </h1>
+          <p className="text-xs text-light-subtle dark:text-[#8a9199]">
+            Review messages and direct inquiries sent through the portfolio contact form.
+          </p>
+        </div>
       </div>
 
       <div className="relative">
-        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+        <Search className="absolute left-3 top-2.5 h-4 w-4 text-light-subtle dark:text-[#8a9199]" />
         <Input
           type="search"
           placeholder="Search by name, email, subject, or message..."
-          className="pl-8"
+          className="pl-9 text-xs bg-white dark:bg-[#0a0e14] border-light-border dark:border-[#1e2430]"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
       {submissions.length === 0 ? (
-        <div className="flex flex-col items-center justify-center p-12 bg-muted/20 rounded-xl">
-          <Inbox className="h-12 w-12 text-muted-foreground mb-3" />
-          <h3 className="text-xl font-semibold mb-1">No submissions yet</h3>
-          <p className="text-muted-foreground text-center">
+        <div className="flex flex-col items-center justify-center p-12 bg-white dark:bg-[#0a0e14] border border-light-border dark:border-[#1e2430] rounded-xl">
+          <Inbox className="h-10 w-10 text-light-subtle dark:text-[#8a9199] mb-3" />
+          <h3 className="text-base font-semibold mb-1 text-light-text dark:text-[#bfbdb6]">No submissions yet</h3>
+          <p className="text-xs text-light-subtle dark:text-[#8a9199] text-center">
             When visitors submit the contact form, their messages will appear here.
           </p>
         </div>
       ) : (
-        <Card>
-          <CardContent className="pt-6">
+        <div className="bg-white dark:bg-[#0a0e14] rounded-xl border border-light-border dark:border-[#1e2430] shadow-xs overflow-hidden">
+          <div className="overflow-x-auto">
             <Table>
               <TableHeader>
-                <TableRow>
-                  <TableHead>Sender</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Subject</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                <TableRow className="border-b border-light-border dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/50">
+                  <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Sender</TableHead>
+                  <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Email</TableHead>
+                  <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Subject</TableHead>
+                  <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Date</TableHead>
+                  <TableHead className="text-right text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -172,8 +187,8 @@ function ContactSubmissionsPage() {
                 )}
               </TableBody>
             </Table>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )}
 
       {/* View Message Modal */}
