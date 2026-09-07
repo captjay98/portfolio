@@ -181,7 +181,7 @@ function Home() {
           const renderTechBadge = (tech: any) => (
             <span
               key={tech.id}
-              className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-light-background/90 dark:bg-[#0a0e14] border border-light-subtle/15 dark:border-[#1e2430] text-xs font-mono text-light-text dark:text-[#d9d7d3] hover:border-[#e6b450]/40 hover:text-[#e6b450] transition-colors"
+              className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-light-background/90 dark:bg-[#0a0e14] border border-light-subtle/15 dark:border-[#1e2430] text-xs font-mono text-light-text dark:text-[#d9d7d3] hover:border-[#e6b450]/40 hover:text-[#e6b450] transition-colors whitespace-nowrap"
             >
               {tech.icon && (
                 <img
@@ -213,21 +213,22 @@ function Home() {
               {/* Slim Colophon Ribbon */}
               <div className="rounded-xl border border-light-subtle/15 dark:border-[#1e2430] bg-light-background/40 dark:bg-[#131721]/50 divide-y divide-light-subtle/10 dark:divide-[#1e2430] overflow-hidden">
                 {validStacks.map((stack: any) => {
-                  const stackName = (stack.name || stack.category?.name || 'Tooling').trim()
+                  const rawName = (stack.name || stack.category?.name || 'Tooling').trim()
+                  const stackName = rawName.replace(/^Autonomous\s+/i, '').trim()
                   const theme = getCategoryTheme(stackName)
 
                   return (
                     <div
                       key={stack.id}
-                      className="px-4 py-2.5 sm:px-5 sm:py-2.5 flex items-center gap-3 sm:gap-6 hover:bg-light-subtle/5 dark:hover:bg-white/[0.02] transition-colors"
+                      className="px-3.5 py-2 sm:px-5 sm:py-2.5 flex items-center gap-2.5 sm:gap-6 hover:bg-light-subtle/5 dark:hover:bg-white/[0.02] transition-colors"
                     >
-                      <div className="w-24 sm:w-32 flex-shrink-0 flex items-center gap-2">
+                      <div className="w-20 sm:w-28 flex-shrink-0 flex items-center gap-1.5 sm:gap-2">
                         <span className={`w-1.5 h-1.5 rounded-full ${theme.dot} shrink-0`}></span>
                         <span className={`text-xs font-mono uppercase tracking-wider font-semibold ${theme.text} truncate`}>
                           {stackName}
                         </span>
                       </div>
-                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 min-w-0">
                         {stack.technologies?.map(renderTechBadge)}
                       </div>
                     </div>
