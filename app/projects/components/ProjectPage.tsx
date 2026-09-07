@@ -56,6 +56,11 @@ const categoryColorMap: Record<string, { text: string; bg: string; border: strin
     bg: "#e6b45015",
     border: "#e6b45040",
   },
+  "mobile development": {
+    text: "#39bae6",
+    bg: "#39bae615",
+    border: "#39bae640",
+  },
   "fullstack development": {
     text: "#39bae6",
     bg: "#39bae615",
