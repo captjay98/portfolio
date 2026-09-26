@@ -69,8 +69,78 @@ export const Route = createRootRoute({
         name: 'description',
         content: 'Editorial portfolio and writings of Jamal Ibrahim Umar, Fullstack Software Engineer',
       },
+      {
+        name: 'color-scheme',
+        content: 'dark light',
+      },
+      {
+        name: 'theme-color',
+        content: '#0a0e14',
+      },
+      // Open Graph / social sharing
+      {
+        property: 'og:site_name',
+        content: 'Jamal Ibrahim',
+      },
+      {
+        property: 'og:title',
+        content: 'Jamal Ibrahim · Software Engineer',
+      },
+      {
+        property: 'og:description',
+        content: 'Editorial portfolio and writings of Jamal Ibrahim Umar, Fullstack Software Engineer',
+      },
+      {
+        property: 'og:type',
+        content: 'website',
+      },
+      {
+        property: 'og:url',
+        content: 'https://jamalibrahim.dev',
+      },
+      {
+        property: 'og:image',
+        content: 'https://jamalibrahim.dev/og-card.png',
+      },
+      {
+        property: 'og:image:width',
+        content: '1200',
+      },
+      {
+        property: 'og:image:height',
+        content: '630',
+      },
+      {
+        property: 'og:image:alt',
+        content: 'Jamal Ibrahim · Software Engineer',
+      },
+      {
+        name: 'twitter:card',
+        content: 'summary_large_image',
+      },
+      {
+        name: 'twitter:title',
+        content: 'Jamal Ibrahim · Software Engineer',
+      },
+      {
+        name: 'twitter:description',
+        content: 'Editorial portfolio and writings of Jamal Ibrahim Umar, Fullstack Software Engineer',
+      },
+      {
+        name: 'twitter:image',
+        content: 'https://jamalibrahim.dev/og-card.png',
+      },
     ],
     links: [
+      {
+        rel: 'icon',
+        type: 'image/svg+xml',
+        href: '/favicon.svg',
+      },
+      {
+        rel: 'canonical',
+        href: 'https://jamalibrahim.dev',
+      },
       {
         rel: 'preconnect',
         href: 'https://fonts.googleapis.com',

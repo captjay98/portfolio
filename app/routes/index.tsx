@@ -6,7 +6,7 @@ import { projectService } from '@app/services/projectService'
 import { blogService } from '@app/services/blogService'
 import LucideIcon from '@app/components/LucideIcon'
 import { ArrowUpRight, BookOpen, Briefcase, Calendar, Clock, ExternalLink, FileText, Github, Sparkles } from 'lucide-react'
-import { getImageSrc } from '@app/utils/imageUtils'
+import { ProjectImage } from '@app/components/projects/ProjectImage'
 import * as React from 'react'
 
 const fetchData = async () => {
@@ -18,7 +18,7 @@ const fetchData = async () => {
       projectService.getProjectsWithDetails(),
       blogService.getPublishedPosts(),
     ])
-      const featuredOrder = ['LivestockAI', 'ProJavi', 'HackSteward', 'OneSecOS', 'DeliveryNexus', 'SchoolTry K12'];
+      const featuredOrder = ['LivestockAI', 'ClearCut', 'ProJavi', 'OneSecOS', 'DeliveryNexus', 'SchoolTry K12'];
       const rawFeatured = (allProjects || []).filter((p: any) => p.featured && !p.is_archived);
       const featuredProjects = [...rawFeatured].sort((a: any, b: any) => {
         const idxA = featuredOrder.indexOf(a.name);
@@ -357,14 +357,10 @@ function Home() {
                         {/* Project Image Preview */}
                         {project.image && (
                           <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg bg-[#0a0e14] border border-light-subtle/15 dark:border-[#1e2430]">
-                            <img
-                              src={getImageSrc(project.image)}
+                            <ProjectImage
+                              image={project.image}
                               alt={project.name}
                               className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                              loading="lazy"
-                              onError={(e) => {
-                                (e.target as HTMLImageElement).src = '/project/project-placeholder.jpg';
-                              }}
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-20 transition-opacity pointer-events-none" />
                           </div>
