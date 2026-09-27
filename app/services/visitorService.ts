@@ -2,17 +2,6 @@ import { getDb, visitors, guestBook } from "@app/db";
 import { eq, desc, sql, gte, and, notLike, isNotNull } from "drizzle-orm";
 import { VisitorType } from "@app/types/admin";
 
-// High-confidence bot tokens (same semantics as the record-path UA filter —
-// deliberately NO loose substrings like preview/scan/monitor/uptime/fetch)
-const READER_BOT_TOKENS = [
-  "bot", "crawl", "spider", "slurp", "headless", "puppeteer", "playwright",
-  "phantomjs", "lighthouse", "pagespeed", "pingdom", "statuscake", "site24x7",
-  "datadog", "newrelic", "curl", "wget", "python-requests", "axios", "okhttp",
-  "node-fetch", "go-http-client", "libwww", "ahrefs", "semrush",
-  "facebookexternalhit", "whatsapp/", "telegram", "twitterbot", "slackbot",
-  "discord", "embedly", "bingpreview", "fossick", "dataprovider",
-];
-
 export type VisitorSessionGroup = {
   session_id: string;
   hits: number;
@@ -49,6 +38,7 @@ export const visitorService = {
         page: info.page || "/",
         visit_count: 1,
         session_id: info.session_id,
+        scheme: "v2",
         country_code: info.country_code || "Unknown",
         country_name: info.country_name || "Unknown",
         created_at: now,
@@ -185,26 +175,47 @@ export const visitorService = {
     return await res.json();
   },
 
-    // Accurate session grouping across ALL rows (not just the recent window):
-    // Reader sessions = distinct session_ids whose UA is NOT a high-confidence
-    // bot token. Closest defensible proxy for "unique humans" — legacy session
-    // ids are UA-derived, so true unique visitors are unknowable retroactively.
+    // Reader sessions = distinct v2-scheme session ids: one id per real
+    // browser (UUID in localStorage), with bots already excluded at write
+    // time by the record endpoint. Legacy rows (UA-fingerprint ids from the
+    // pre-UUID eras) are excluded; their unique-visitor estimate is IP-based
+    // and served separately via getLegacyUniqueEstimate().
     getReaderSessionCount: async (): Promise<number> => {
       if (isServer) {
         const db = getDb();
-        const tokens = READER_BOT_TOKENS;
         const [res] = await db
           .select({ count: sql<number>`count(distinct ${visitors.session_id})` })
           .from(visitors)
+          .where(eq(visitors.scheme, "v2"));
+        return res?.count || 0;
+      }
+      const res = await fetch("/api/visitors/reader-sessions");
+      if (!res.ok) return 0;
+      const data = await res.json();
+      return typeof data.count === "number" ? data.count : 0;
+    },
+
+    // Unique-visitor estimate for the frozen legacy era: distinct IPs after
+    // removing known-crawler UAs. Legacy session ids were UA fingerprints
+    // (all similar browsers shared one id), so IP is the only defensible
+    // dedup key for that data.
+    getLegacyUniqueEstimate: async (): Promise<number> => {
+      if (isServer) {
+        const db = getDb();
+        const tokens = ["bot", "crawl", "spider", "slurp", "headless", "fossick", "dataprovider", "bingpreview"];
+        const [res] = await db
+          .select({ count: sql<number>`count(distinct ${visitors.ip_address})` })
+          .from(visitors)
           .where(
             and(
-              isNotNull(visitors.user_agent),
+              eq(visitors.scheme, "legacy"),
+              isNotNull(visitors.ip_address),
               ...tokens.map((t) => notLike(visitors.user_agent, `%${t}%`)),
             ),
           );
         return res?.count || 0;
       }
-      const res = await fetch("/api/visitors/reader-sessions");
+      const res = await fetch("/api/visitors/stats?type=legacy-unique");
       if (!res.ok) return 0;
       const data = await res.json();
       return typeof data.count === "number" ? data.count : 0;

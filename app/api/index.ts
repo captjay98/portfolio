@@ -83,7 +83,7 @@ export async function handleApiRequest(request: Request, env: any, ctx: any): Pr
       // real traffic (e.g. Safari Technology Preview, some webview UAs).
       // In-app browsers (Instagram/TikTok/etc.) are real traffic and pass.
       // VPN users pass too — nothing here keys on IP or geography.
-      const BOT_PATTERN = /(?:^|[\s\/\);])(?:bot|crawler|spider|slurp|headless(?:chrome)?|puppeteer|playwright|phantomjs|python-requests|python-urllib|curl\/|wget\b|axios\/|node-fetch\b|go-http-client|java\/|okhttp|libwww-perl|lighthouse|pagespeed|pingdom|uptimebot|statuscake|site24x7|datadog|newrelic|facebookexternalhit|whatsapp\/|telegrambot|twitterbot|slackbot|discordapp|embedly|quora link preview|vkshare|pinterestbot|yandexbot|yandeximages|baiduspider|duckduckbot|bingpreview|sogou|exabot|facebot|ia_archiver)\b|\w+bot\b|(?:preview|fetch|scan|monitor|uptime)\/|(?:^|[\s\/\);])(?:preview|scan)\/\d/i;
+      const BOT_PATTERN = /(?:^|[\s\/\);])(?:bot|crawler|spider|slurp|headless(?:chrome)?|puppeteer|playwright|phantomjs|python-requests|python-urllib|curl\/|wget\b|axios\/|node-fetch\b|go-http-client|java\/|okhttp|libwww-perl|lighthouse|pagespeed|pingdom|uptimebot|statuscake|site24x7|datadog|newrelic|facebookexternalhit|whatsapp\/|telegrambot|twitterbot|slackbot|discordapp|embedly|quora link preview|vkshare|pinterestbot|yandexbot|yandeximages|baiduspider|duckduckbot|bingpreview|sogou|exabot|facebot|ia_archiver|fossick|dataprovider)\b|\w+bot\b|(?:preview|fetch|scan|monitor|uptime)\/|(?:^|[\s\/\);])(?:preview|scan)\/\d/i;
       if (BOT_PATTERN.test(userAgent) || !userAgent) {
         const [botRes] = await db.select({ count: sql<number>`count(distinct ${schema.visitors.session_id})` }).from(schema.visitors);
         return json({ success: true, count: botRes?.count || 0, unique: botRes?.count || 0, skipped: "bot" });
@@ -114,6 +114,7 @@ export async function handleApiRequest(request: Request, env: any, ctx: any): Pr
           page: body.page || "/",
           visit_count: 1,
           session_id: body.session_id || crypto.randomUUID(),
+          scheme: "v2",
           country_code: countryCode,
           country_name: countryName,
           created_at: now,
@@ -134,6 +135,23 @@ export async function handleApiRequest(request: Request, env: any, ctx: any): Pr
       }
       if (type === "unique") {
         const [res] = await db.select({ count: sql<number>`count(distinct ${schema.visitors.session_id})` }).from(schema.visitors);
+        return json({ count: res?.count || 0 });
+      }
+      if (type === "legacy-unique") {
+        // Historical estimate over the frozen legacy era: distinct IPs after
+        // removing known-crawler UAs. Legacy session ids were UA fingerprints,
+        // so IP is the only defensible dedup key for that data.
+        const tokens = ["bot", "crawl", "spider", "slurp", "headless", "fossick", "dataprovider", "bingpreview"];
+        const [res] = await db
+          .select({ count: sql<number>`count(distinct ${schema.visitors.ip_address})` })
+          .from(schema.visitors)
+          .where(
+            and(
+              eq(schema.visitors.scheme, "legacy"),
+              isNotNull(schema.visitors.ip_address),
+              ...tokens.map((t) => notLike(schema.visitors.user_agent, `%${t}%`)),
+            ),
+          );
         return json({ count: res?.count || 0 });
       }
       if (type === "today") {
@@ -206,25 +224,16 @@ export async function handleApiRequest(request: Request, env: any, ctx: any): Pr
       );
     }
 
-    // Reader sessions: distinct session_ids excluding high-confidence bot UAs
+    // Reader sessions: distinct v2-scheme session ids — one per real browser.
+    // Bots are filtered once, at write time (see the record path), so there is
+    // deliberately no read-time UA matching here. Legacy rows (UA-fingerprint
+    // ids, incl. the server-side recording era) are excluded; their unique-
+    // visitor estimate is served separately as stats?type=legacy-unique.
     if (path === "visitors/reader-sessions" && method === "GET") {
-      const tokens = [
-        "bot", "crawl", "spider", "slurp", "headless", "puppeteer", "playwright",
-        "phantomjs", "lighthouse", "pagespeed", "pingdom", "statuscake", "site24x7",
-        "datadog", "newrelic", "curl", "wget", "python-requests", "axios", "okhttp",
-        "node-fetch", "go-http-client", "libwww", "ahrefs", "semrush",
-        "facebookexternalhit", "whatsapp/", "telegram", "twitterbot", "slackbot",
-        "discord", "embedly", "bingpreview", "fossick", "dataprovider",
-      ];
       const [res] = await db
         .select({ count: sql<number>`count(distinct ${schema.visitors.session_id})` })
         .from(schema.visitors)
-        .where(
-          and(
-            isNotNull(schema.visitors.user_agent),
-            ...tokens.map((t) => notLike(schema.visitors.user_agent, `%${t}%`)),
-          ),
-        );
+        .where(eq(schema.visitors.scheme, "v2"));
       return json({ count: res?.count || 0 });
     }
 

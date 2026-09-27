@@ -1,0 +1,16 @@
+-- Split visitor rows into instrumentation eras.
+--
+-- 'legacy'  = UA-fingerprint session ids (base64 of the UA prefix), which
+--             collapsed every similar browser into one shared id. Rows also
+--             include the older server-side recording era (crawlers with no
+--             JS execution).
+-- 'v2'      = random UUID session ids (crypto.randomUUID cached in
+--             localStorage), one per real browser. Written explicitly by the
+--             record endpoint; the column default keeps any row that arrives
+--             without an explicit scheme on the safe side.
+--
+-- SQLite applies the DEFAULT to every existing row, so this single ALTER
+-- backfills all current rows as legacy. Reader Sessions counts v2 only;
+-- the legacy-era unique-visitor estimate is IP-based (see the legacy-unique
+-- stat) and is served separately.
+ALTER TABLE visitors ADD COLUMN scheme TEXT NOT NULL DEFAULT 'legacy';

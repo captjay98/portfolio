@@ -31,6 +31,7 @@ interface VisitorStats {
   recentVisits: any[];
   countryStats: Record<string, number>;
   readerSessions: number;
+  legacyUnique: number;
 }
 
 function AdminVisitors() {
@@ -46,7 +47,7 @@ function AdminVisitors() {
   async function fetchData() {
     setIsLoading(true);
     try {
-      const [totalVisits, uniqueVisitors, recentVisits, countryStats, sessionGroups, readerSessions] =
+      const [totalVisits, uniqueVisitors, recentVisits, countryStats, sessionGroups, readerSessions, legacyUnique] =
         await Promise.all([
           visitorService.getVisitorCount(),
           visitorService.getUniqueVisitorCount(),
@@ -54,6 +55,7 @@ function AdminVisitors() {
           visitorService.getVisitorStatsByCountry(),
           visitorService.getGroupedVisitorSessions(),
           visitorService.getReaderSessionCount(),
+          visitorService.getLegacyUniqueEstimate(),
         ]);
 
       setStats({
@@ -62,6 +64,7 @@ function AdminVisitors() {
         recentVisits,
         countryStats,
         readerSessions,
+        legacyUnique,
       });
       setSessions(sessionGroups || []);
     } catch (error) {
@@ -160,7 +163,7 @@ function AdminVisitors() {
       </div>
 
       {/* Metric Cards */}
-      <div className="grid gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-3">
+      <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
         <div className="bg-white dark:bg-[#0a0e14] rounded-xl border border-light-border dark:border-[#1e2430] p-4 sm:p-5 shadow-xs">
           <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">
             Total Visits
@@ -175,25 +178,37 @@ function AdminVisitors() {
 
         <div className="bg-white dark:bg-[#0a0e14] rounded-xl border border-light-border dark:border-[#1e2430] p-4 sm:p-5 shadow-xs">
           <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">
-            Sessions (browsers)
-          </span>
-          <p className="text-2xl sm:text-3xl font-bold font-mono text-indigo-600 dark:text-[#e6b450] mt-1">
-            {stats?.uniqueVisitors || 0}
-          </p>
-          <p className="text-[10px] font-mono text-light-subtle dark:text-[#8a9199] mt-1">
-            distinct browser fingerprints — not people; legacy ids are UA-derived
-          </p>
-        </div>
-
-        <div className="bg-white dark:bg-[#0a0e14] rounded-xl border border-light-border dark:border-[#1e2430] p-4 sm:p-5 shadow-xs">
-          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">
             Reader Sessions
           </span>
           <p className="text-2xl sm:text-3xl font-bold font-mono text-emerald-600 dark:text-[#7ee0a3] mt-1">
             {stats?.readerSessions || 0}
           </p>
           <p className="text-[10px] font-mono text-light-subtle dark:text-[#8a9199] mt-1">
-            closest proxy for unique humans (known-bot UAs excluded)
+            unique browsers since the UUID session fix; bots blocked at write
+          </p>
+        </div>
+
+        <div className="bg-white dark:bg-[#0a0e14] rounded-xl border border-light-border dark:border-[#1e2430] p-4 sm:p-5 shadow-xs">
+          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">
+            Legacy Unique (est.)
+          </span>
+          <p className="text-2xl sm:text-3xl font-bold font-mono text-amber-600 dark:text-[#e6b450] mt-1">
+            ≈{stats?.legacyUnique || 0}
+          </p>
+          <p className="text-[10px] font-mono text-light-subtle dark:text-[#8a9199] mt-1">
+            pre-UUID era, estimated by distinct IPs, crawlers excluded
+          </p>
+        </div>
+
+        <div className="bg-white dark:bg-[#0a0e14] rounded-xl border border-light-border dark:border-[#1e2430] p-4 sm:p-5 shadow-xs">
+          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">
+            Sessions (all-time)
+          </span>
+          <p className="text-2xl sm:text-3xl font-bold font-mono text-indigo-600 dark:text-[#8f7ff7] mt-1">
+            {stats?.uniqueVisitors || 0}
+          </p>
+          <p className="text-[10px] font-mono text-light-subtle dark:text-[#8a9199] mt-1">
+            distinct session ids ever — mixed schemes, not people
           </p>
         </div>
       </div>

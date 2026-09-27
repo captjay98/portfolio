@@ -193,6 +193,9 @@ export const visitors = sqliteTable('visitors', {
   page: text('page').default('/'),
   visit_count: integer('visit_count').notNull().default(1),
   session_id: text('session_id').notNull(),
+  // 'legacy' = UA-fingerprint ids (default; backfills all pre-v2 rows),
+  // 'v2' = random UUID per browser, written explicitly by the record endpoint.
+  scheme: text('scheme').notNull().default('legacy'),
   country_code: text('country_code').default('Unknown'),
   country_name: text('country_name').default('Unknown'),
   created_at: text('created_at').notNull(),
