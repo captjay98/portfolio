@@ -18,7 +18,7 @@ const fetchData = async () => {
       projectService.getProjectsWithDetails(),
       blogService.getPublishedPosts(),
     ])
-      const featuredOrder = ['LivestockAI', 'ClearCut', 'ProJavi', 'OneSecOS', 'DeliveryNexus', 'SchoolTry K12'];
+      const featuredOrder = ['LivestockAI', 'ClearCut', 'NIPSMAP', 'ProJavi', 'OneSecOS', 'DeliveryNexus', 'SchoolTry K12'];
       const rawFeatured = (allProjects || []).filter((p: any) => p.featured && !p.is_archived);
       const featuredProjects = [...rawFeatured].sort((a: any, b: any) => {
         const idxA = featuredOrder.indexOf(a.name);

@@ -79,12 +79,10 @@ export async function handleApiRequest(request: Request, env: any, ctx: any): Pr
 
       // Skip obvious bots / headless browsers / monitors so human numbers stay honest
       const BOT_PATTERN = /bot|crawl|spider|slurp|bingpreview|headless|puppeteer|playwright|phantom|python-requests|curl|wget|axios|node-fetch|monitor|uptime|lighthouse|pagespeed|preview|fetch|scan/i;
-      const [botHit] = await db.select({ count: sql<number>`count(*)` }).from(schema.visitors);
       if (BOT_PATTERN.test(userAgent) || !userAgent) {
         const [botRes] = await db.select({ count: sql<number>`count(distinct ${schema.visitors.session_id})` }).from(schema.visitors);
         return json({ success: true, count: botRes?.count || 0, unique: botRes?.count || 0, skipped: "bot" });
       }
-      void botHit;
 
       // Dedupe: one record per session+page within a 30-minute window,
       // so refreshes and in-page navigation don't inflate the log
