@@ -2,6 +2,16 @@ import { getDb, visitors, guestBook } from "@app/db";
 import { eq, desc, sql, gte } from "drizzle-orm";
 import { VisitorType } from "@app/types/admin";
 
+export type VisitorSessionGroup = {
+  session_id: string;
+  hits: number;
+  pages: number;
+  first_seen: string;
+  last_seen: string;
+  user_agent: string;
+  country_name: string | null;
+};
+
 const isServer = typeof window === "undefined";
 
 export interface VisitorInfo {
@@ -118,6 +128,32 @@ export const visitorService = {
     }
     const res = await fetch("/api/visitors/stats?type=today");
     if (!res.ok) return { visitors: 0, uniqueVisitors: 0 };
+    return await res.json();
+  },
+
+  // Accurate session grouping across ALL rows (not just the recent window):
+  // one row per session_id with lifetime hits, distinct pages, first/last seen,
+  // and the country from the session's most recent visit.
+  getGroupedVisitorSessions: async (): Promise<VisitorSessionGroup[]> => {
+    if (isServer) {
+      const db = getDb();
+      const rows = await db
+        .select({
+          session_id: visitors.session_id,
+          hits: sql<number>`count(*)`,
+          pages: sql<number>`count(distinct ${visitors.page})`,
+          first_seen: sql<string>`min(${visitors.timestamp})`,
+          last_seen: sql<string>`max(${visitors.timestamp})`,
+          user_agent: sql<string>`max(${visitors.user_agent})`,
+          country_name: sql<string|null>`(select country_name from visitors v2 where v2.session_id = ${visitors.session_id} order by timestamp desc limit 1)`,
+        })
+        .from(visitors)
+        .groupBy(visitors.session_id)
+        .orderBy(desc(sql`max(${visitors.timestamp})`));
+      return rows;
+    }
+    const res = await fetch("/api/visitors/sessions");
+    if (!res.ok) return [];
     return await res.json();
   },
 

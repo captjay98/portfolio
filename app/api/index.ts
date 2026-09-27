@@ -164,6 +164,24 @@ export async function handleApiRequest(request: Request, env: any, ctx: any): Pr
       return json(rows);
     }
 
+    // Accurate session grouping across ALL rows (server-side SQL aggregation)
+    if (path === "visitors/sessions" && method === "GET") {
+      const rows = await db
+        .select({
+          session_id: schema.visitors.session_id,
+          hits: sql<number>`count(*)`,
+          pages: sql<number>`count(distinct ${schema.visitors.page})`,
+          first_seen: sql<string>`min(${schema.visitors.timestamp})`,
+          last_seen: sql<string>`max(${schema.visitors.timestamp})`,
+          user_agent: sql<string>`max(${schema.visitors.user_agent})`,
+          country_name: sql<string|null>`(select country_name from visitors v2 where v2.session_id = ${schema.visitors.session_id} order by timestamp desc limit 1)`,
+        })
+        .from(schema.visitors)
+        .groupBy(schema.visitors.session_id)
+        .orderBy(desc(sql`max(${schema.visitors.timestamp})`));
+      return json(rows);
+    }
+
     if (path === "guest-book") {
       if (method === "GET") {
         const statusFilter = getQueryParam(url, "status");

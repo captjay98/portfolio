@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createFileRoute } from '@tanstack/react-router';
 import { useState, useEffect } from 'react';
-import { visitorService } from '@app/services/visitorService';
+import { visitorService, VisitorSessionGroup } from '@app/services/visitorService';
 import { Input } from '@app/components/ui/input';
 import {
   Table,
@@ -34,6 +34,7 @@ interface VisitorStats {
 
 function AdminVisitors() {
   const [stats, setStats] = useState<VisitorStats | null>(null);
+  const [sessions, setSessions] = useState<VisitorSessionGroup[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
@@ -44,12 +45,13 @@ function AdminVisitors() {
   async function fetchData() {
     setIsLoading(true);
     try {
-      const [totalVisits, uniqueVisitors, recentVisits, countryStats] =
+      const [totalVisits, uniqueVisitors, recentVisits, countryStats, sessionGroups] =
         await Promise.all([
           visitorService.getVisitorCount(),
           visitorService.getUniqueVisitorCount(),
           visitorService.getRecentVisits(500),
           visitorService.getVisitorStatsByCountry(),
+          visitorService.getGroupedVisitorSessions(),
         ]);
 
       setStats({
@@ -58,6 +60,7 @@ function AdminVisitors() {
         recentVisits,
         countryStats,
       });
+      setSessions(sessionGroups || []);
     } catch (error) {
       console.error('Error fetching visitor data:', error);
     } finally {
@@ -71,17 +74,35 @@ function AdminVisitors() {
     return match ? match[1] : ua.slice(0, 20) + (ua.length > 20 ? '...' : '');
   }
 
-  const filteredVisits =
-    stats?.recentVisits.filter((visit) => {
-      const term = searchTerm.toLowerCase();
-      return (
-        visit.timestamp.toLowerCase().includes(term) ||
-        (visit.page || '').toLowerCase().includes(term) ||
-        (visit.user_agent || '').toLowerCase().includes(term) ||
-        (visit.referrer || '').toLowerCase().includes(term) ||
-        (visit.country_name || '').toLowerCase().includes(term)
-      );
-    }) || [];
+  // The session_id is base64 of the browser's user-agent prefix — decode it
+  // into a readable label, with a graceful fallback to the recorded UA.
+  function getSessionLabel(session: VisitorSessionGroup) {
+    try {
+      const decoded = atob(session.session_id);
+      if (decoded && /[\x20-\x7e]/.test(decoded)) {
+        return decoded.slice(0, 34) + (decoded.length > 34 ? '…' : '');
+      }
+    } catch {
+      // not base64 — fall through
+    }
+    return getShortUserAgent(session.user_agent || '');
+  }
+
+  const filteredSessions = sessions.filter((session) => {
+    const term = searchTerm.toLowerCase();
+    let label = '';
+    try {
+      label = atob(session.session_id || '').toLowerCase();
+    } catch {
+      label = '';
+    }
+    return (
+      (session.user_agent || '').toLowerCase().includes(term) ||
+      label.includes(term) ||
+      (session.country_name || '').toLowerCase().includes(term) ||
+      (session.session_id || '').toLowerCase().includes(term)
+    );
+  });
 
   const countryData = Object.entries(stats?.countryStats || {})
     .map(([country, count]) => ({
@@ -182,57 +203,57 @@ function AdminVisitors() {
         </div>
       </div>
 
-      {/* Recent Visits Table */}
+      {/* Grouped Visitor Sessions Table */}
       <div className="bg-white dark:bg-[#0a0e14] rounded-xl border border-light-border dark:border-[#1e2430] shadow-xs overflow-hidden">
         <div className="px-4 py-3 border-b border-light-border dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/50 flex items-center justify-between">
           <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">
-            Recent Access Logs ({filteredVisits.length})
+            Visitor Sessions ({filteredSessions.length})
           </h3>
         </div>
         <div className="overflow-x-auto">
           <Table className="text-xs">
             <TableHeader>
               <TableRow className="border-b border-light-border dark:border-[#1e2430] bg-light-background/60 dark:bg-[#131721]/50">
-                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Date</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Session (Browser)</TableHead>
                 <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Country</TableHead>
-                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Page</TableHead>
-                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Browser / Device</TableHead>
-                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Referrer</TableHead>
-                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Visits</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Hits</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Pages</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">First Seen</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Last Seen</TableHead>
               </TableRow>
             </TableHeader>
             <tbody className="divide-y divide-light-border/60 dark:divide-[#1e2430]/60">
-              {filteredVisits.length === 0 ? (
+              {filteredSessions.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="text-center py-8 text-xs font-mono text-light-subtle dark:text-[#8a9199]">
-                    No visits recorded matching query
+                    No sessions recorded matching query
                   </td>
                 </tr>
               ) : (
-                filteredVisits.map((visit, index) => (
+                filteredSessions.map((session, index) => (
                   <tr key={index} className="hover:bg-light-subtle/5 dark:hover:bg-[#131721]/50 transition-colors">
-                    <td className="px-4 py-3 whitespace-nowrap text-light-text dark:text-[#bfbdb6]">
-                      {new Date(visit.timestamp).toLocaleString()}
+                    <td className="px-4 py-3">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-light-subtle/10 dark:bg-[#131721] text-light-subtle dark:text-[#8a9199] border border-light-border dark:border-[#1e2430]">
+                        {getSessionLabel(session)}
+                      </span>
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap">
                       <div className="flex items-center gap-1 text-light-text dark:text-[#bfbdb6]">
                         <Flag className="w-3 h-3 text-light-subtle dark:text-[#8a9199]" />
-                        <span>{visit.country_name || 'Unknown'}</span>
+                        <span>{session.country_name || 'Unknown'}</span>
                       </div>
                     </td>
-                    <td className="px-4 py-3 font-mono text-light-subtle dark:text-[#8a9199]">
-                      {visit.page || '/'}
-                    </td>
-                    <td className="px-4 py-3 whitespace-nowrap">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-light-subtle/10 dark:bg-[#131721] text-light-subtle dark:text-[#8a9199] border border-light-border dark:border-[#1e2430]">
-                        {getShortUserAgent(visit.user_agent)}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 max-w-[140px] truncate text-light-subtle dark:text-[#8a9199]">
-                      {visit.referrer || 'Direct'}
-                    </td>
                     <td className="px-4 py-3 font-mono text-light-text dark:text-[#bfbdb6]">
-                      {visit.visit_count}
+                      {session.hits}
+                    </td>
+                    <td className="px-4 py-3 font-mono text-light-subtle dark:text-[#8a9199]">
+                      {session.pages}
+                    </td>
+                    <td className="px-4 py-3 whitespace-nowrap text-light-subtle dark:text-[#8a9199]">
+                      {new Date(session.first_seen).toLocaleDateString()}
+                    </td>
+                    <td className="px-4 py-3 whitespace-nowrap text-light-subtle dark:text-[#8a9199]">
+                      {new Date(session.last_seen).toLocaleDateString()}
                     </td>
                   </tr>
                 ))

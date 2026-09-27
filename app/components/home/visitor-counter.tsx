@@ -42,10 +42,9 @@ const VisitorCounter: React.FC<VisitorCounterProps> = ({ className = "" }) => {
         });
         if (res.ok) {
           const data = await res.json();
-          // Prefer UNIQUE visitors over total page loads when available
-          const shown = typeof data.unique === "number" ? data.unique : data.count;
-          if (typeof shown === "number") {
-            setCount(shown);
+          // Total visits count, including bots — per site owner's preference
+          if (typeof data.count === "number") {
+            setCount(data.count);
           }
         }
       } catch (error) {
@@ -66,7 +65,7 @@ const VisitorCounter: React.FC<VisitorCounterProps> = ({ className = "" }) => {
   useEffect(() => {
     const updateCount = async () => {
       try {
-        const total = await visitorService.getUniqueVisitorCount();
+        const total = await visitorService.getVisitorCount();
         setCount(total);
       } catch (error) {
         console.error("Error updating count:", error);
