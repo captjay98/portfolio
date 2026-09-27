@@ -59,7 +59,7 @@ function AdminBlogs() {
     if (!confirm("Are you sure you want to delete this blog post?")) return
 
     try {
-      await blogService.deleteBlog(postId)
+      await blogService.deleteBlogPost(postId)
       setPosts(posts.filter(p => p.id !== postId))
     } catch (error) {
       console.error("Error deleting blog post:", error)

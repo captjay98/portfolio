@@ -57,6 +57,33 @@ const fetchPostBySlug = async ({ data: slug }: { data: string }) => {
 
 export const Route = createFileRoute('/blog/$slug/')({
   loader: ({ params }) => fetchPostBySlug({ data: params.slug }),
+  // Per-essay head meta so every shared essay gets its own card + title
+  head: ({ match }: any) => {
+    const post: any = (match as any)?.loaderData?.post
+    if (!post) return {}
+    const url = `https://jamalibrahim.dev/blog/${post.slug}`
+    const image = post.cover_image
+      ? (post.cover_image.startsWith('http')
+          ? post.cover_image
+          : `https://jamalibrahim.dev/${post.cover_image.replace(/^\//, '')}`)
+      : 'https://jamalibrahim.dev/og-card.png'
+    return {
+      meta: [
+        { title: `${post.title} · Jamal Ibrahim` },
+        { name: 'description', content: post.excerpt || 'Essay by Jamal Ibrahim Umar' },
+        { property: 'og:title', content: `${post.title} · Jamal Ibrahim` },
+        { property: 'og:description', content: post.excerpt || 'Essay by Jamal Ibrahim Umar' },
+        { property: 'og:type', content: 'article' },
+        { property: 'og:url', content: url },
+        { property: 'og:image', content: image },
+        { property: 'og:image:alt', content: post.title },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: post.title },
+        { name: 'twitter:description', content: post.excerpt || '' },
+        { name: 'twitter:image', content: image },
+      ],
+    }
+  },
   component: BlogPost,
 })
 

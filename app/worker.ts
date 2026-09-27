@@ -17,6 +17,48 @@ export default {
       return await handleApiRequest(request, env, ctx);
     }
 
+    // 1b. Dynamic sitemap from published essays + static routes
+    if (url.pathname === "/sitemap.xml") {
+      try {
+        const { getDb } = await import("./db");
+        const { blogPosts } = await import("./db/schema");
+        const { eq } = await import("drizzle-orm");
+        const db = getDb(env?.DB);
+        const posts = await db
+          .select({ slug: blogPosts.slug, updated: blogPosts.updated_at })
+          .from(blogPosts)
+          .where(eq(blogPosts.status, "published"));
+        const staticPaths = ["", "/about", "/about/uses", "/projects", "/blog", "/contact"];
+        const postUrls = posts.map(
+          (p: any) =>
+            `  <url><loc>https://jamalibrahim.dev/blog/${p.slug}</loc><lastmod>${
+              (p.updated || "").slice(0, 10)
+            }</lastmod></url>`,
+        );
+        const xml =
+          `<?xml version="1.0" encoding="UTF-8"?>\n` +
+          `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+          staticPaths
+            .map(
+              (p) =>
+                `  <url><loc>https://jamalibrahim.dev${p}</loc></url>`,
+            )
+            .join("\n") +
+          "\n" +
+          postUrls.join("\n") +
+          `\n</urlset>`;
+        return new Response(xml, {
+          status: 200,
+          headers: {
+            "Content-Type": "application/xml; charset=utf-8",
+            "Cache-Control": "public, max-age=3600",
+          },
+        });
+      } catch {
+        // fall through to SSR if the sitemap generation fails
+      }
+    }
+
     // 2. Admin routes are never cached
     if (url.pathname.startsWith("/admin")) {
       return await startHandler(request, { env, ctx });
