@@ -175,19 +175,31 @@ export const visitorService = {
     return await res.json();
   },
 
-    // Reader sessions = distinct v2-scheme session ids: one id per real
-    // browser (UUID in localStorage), with bots already excluded at write
-    // time by the record endpoint. Legacy rows (UA-fingerprint ids from the
-    // pre-UUID eras) are excluded; their unique-visitor estimate is IP-based
-    // and served separately via getLegacyUniqueEstimate().
+    // Reader sessions, all-time: the legacy-era unique-visitor estimate
+    // (distinct IPs after crawler-UA exclusion) continued by every real
+    // browser recorded since the UUID fix (v2 scheme). Mirrors the
+    // /api/visitors/reader-sessions response exactly.
     getReaderSessionCount: async (): Promise<number> => {
       if (isServer) {
         const db = getDb();
-        const [res] = await db
-          .select({ count: sql<number>`count(distinct ${visitors.session_id})` })
-          .from(visitors)
-          .where(eq(visitors.scheme, "v2"));
-        return res?.count || 0;
+        const tokens = ["bot", "crawl", "spider", "slurp", "headless", "fossick", "dataprovider", "bingpreview"];
+        const [v2Res, legacyRes] = await Promise.all([
+          db
+            .select({ count: sql<number>`count(distinct ${visitors.session_id})` })
+            .from(visitors)
+            .where(eq(visitors.scheme, "v2")),
+          db
+            .select({ count: sql<number>`count(distinct ${visitors.ip_address})` })
+            .from(visitors)
+            .where(
+              and(
+                eq(visitors.scheme, "legacy"),
+                isNotNull(visitors.ip_address),
+                ...tokens.map((t) => notLike(visitors.user_agent, `%${t}%`)),
+              ),
+            ),
+        ]);
+        return (v2Res[0]?.count || 0) + (legacyRes[0]?.count || 0);
       }
       const res = await fetch("/api/visitors/reader-sessions");
       if (!res.ok) return 0;

@@ -224,17 +224,32 @@ export async function handleApiRequest(request: Request, env: any, ctx: any): Pr
       );
     }
 
-    // Reader sessions: distinct v2-scheme session ids — one per real browser.
-    // Bots are filtered once, at write time (see the record path), so there is
-    // deliberately no read-time UA matching here. Legacy rows (UA-fingerprint
-    // ids, incl. the server-side recording era) are excluded; their unique-
-    // visitor estimate is served separately as stats?type=legacy-unique.
+    // Reader sessions, all-time: the legacy-era unique-visitor estimate
+    // (distinct IPs, crawlers excluded — legacy ids were UA fingerprints, so
+    // IP is the only defensible dedup key for that data) continued by every
+    // real browser recorded since the UUID fix. Bots are filtered once, at
+    // write time; there is deliberately no read-time UA matching here.
     if (path === "visitors/reader-sessions" && method === "GET") {
-      const [res] = await db
-        .select({ count: sql<number>`count(distinct ${schema.visitors.session_id})` })
-        .from(schema.visitors)
-        .where(eq(schema.visitors.scheme, "v2"));
-      return json({ count: res?.count || 0 });
+      const tokens = ["bot", "crawl", "spider", "slurp", "headless", "fossick", "dataprovider", "bingpreview"];
+      const [v2Res, legacyRes] = await Promise.all([
+        db
+          .select({ count: sql<number>`count(distinct ${schema.visitors.session_id})` })
+          .from(schema.visitors)
+          .where(eq(schema.visitors.scheme, "v2")),
+        db
+          .select({ count: sql<number>`count(distinct ${schema.visitors.ip_address})` })
+          .from(schema.visitors)
+          .where(
+            and(
+              eq(schema.visitors.scheme, "legacy"),
+              isNotNull(schema.visitors.ip_address),
+              ...tokens.map((t) => notLike(schema.visitors.user_agent, `%${t}%`)),
+            ),
+          ),
+      ]);
+      const v2 = v2Res[0]?.count || 0;
+      const legacy = legacyRes[0]?.count || 0;
+      return json({ count: v2 + legacy, v2, legacy });
     }
 
     if (path === "guest-book") {

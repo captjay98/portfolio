@@ -181,10 +181,10 @@ function AdminVisitors() {
             Reader Sessions
           </span>
           <p className="text-2xl sm:text-3xl font-bold font-mono text-emerald-600 dark:text-[#7ee0a3] mt-1">
-            {stats?.readerSessions || 0}
+            ≈{stats?.readerSessions || 0}
           </p>
           <p className="text-[10px] font-mono text-light-subtle dark:text-[#8a9199] mt-1">
-            unique browsers since the UUID session fix; bots blocked at write
+            all-time unique humans — legacy era IP-estimated + each real browser since the UUID fix
           </p>
         </div>
 
