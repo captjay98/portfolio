@@ -37,3 +37,9 @@ WHERE id = 'proj-onesecos';
 --    LivestockAI, ClearCut, ProJavi, OneSecOS, DeliveryNexus, SchoolTry K12
 UPDATE projects SET featured = 1 WHERE id IN ('proj-livestockai', '67e993b80018c52b6489', 'proj-clearcut', 'proj-onesecos', '68de94810038db064ccc', '67e993b8003a7004d797');
 UPDATE projects SET featured = 0 WHERE id IN ('proj-hacksteward');
+
+-- 5. LivestockAI public marketing site link
+UPDATE projects SET
+  live = 'https://livestockai.app',
+  updated_at = '2026-09-26T23:59:00.000+00:00'
+WHERE id = 'proj-livestockai';
