@@ -78,7 +78,12 @@ export async function handleApiRequest(request: Request, env: any, ctx: any): Pr
       const now = new Date().toISOString();
 
       // Skip obvious bots / headless browsers / monitors so human numbers stay honest
-      const BOT_PATTERN = /bot|crawl|spider|slurp|bingpreview|headless|puppeteer|playwright|phantom|python-requests|curl|wget|axios|node-fetch|monitor|uptime|lighthouse|pagespeed|preview|fetch|scan/i;
+      // High-confidence bot tokens only — deliberately NO loose substrings
+      // like "preview"/"fetch"/"scan"/"monitor"/"uptime", which collided with
+      // real traffic (e.g. Safari Technology Preview, some webview UAs).
+      // In-app browsers (Instagram/TikTok/etc.) are real traffic and pass.
+      // VPN users pass too — nothing here keys on IP or geography.
+      const BOT_PATTERN = /(?:^|[\s\/\);])(?:bot|crawler|spider|slurp|headless(?:chrome)?|puppeteer|playwright|phantomjs|python-requests|python-urllib|curl\/|wget\b|axios\/|node-fetch\b|go-http-client|java\/|okhttp|libwww-perl|lighthouse|pagespeed|pingdom|uptimebot|statuscake|site24x7|datadog|newrelic|facebookexternalhit|whatsapp\/|telegrambot|twitterbot|slackbot|discordapp|embedly|quora link preview|vkshare|pinterestbot|yandexbot|yandeximages|baiduspider|duckduckbot|bingpreview|sogou|exabot|facebot|ia_archiver)\b|\w+bot\b|(?:preview|fetch|scan|monitor|uptime)\/|(?:^|[\s\/\);])(?:preview|scan)\/\d/i;
       if (BOT_PATTERN.test(userAgent) || !userAgent) {
         const [botRes] = await db.select({ count: sql<number>`count(distinct ${schema.visitors.session_id})` }).from(schema.visitors);
         return json({ success: true, count: botRes?.count || 0, unique: botRes?.count || 0, skipped: "bot" });
