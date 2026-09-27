@@ -213,6 +213,7 @@ export const guestBook = sqliteTable('guest_book', {
   name: text('name').notNull(),
   message: text('message').notNull(),
   date: text('date').notNull(),
+  status: text('status').notNull().default('approved'),
   created_at: text('created_at').notNull(),
 });
 

@@ -1,6 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useState, useEffect } from 'react';
 import { Input } from '@app/components/ui/input';
+import { Button } from '@app/components/ui/button';
+import { Badge } from '@app/components/ui/badge';
+import { toast } from 'sonner';
 import { visitorService } from '@app/services/visitorService';
 import {
   Table,
@@ -10,7 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from '@app/components/ui/table';
-import { Search, BookOpen } from 'lucide-react';
+import { Search, BookOpen, Check, X } from 'lucide-react';
 
 export const Route = createFileRoute('/admin/guest-book/')({
   component: AdminGuestBook,
@@ -45,6 +48,22 @@ function AdminGuestBook() {
       (message.date || '').toLowerCase().includes(term)
     );
   });
+
+  const handleModerate = async (message: any, status: 'approved' | 'rejected') => {
+    const id = message.$id || message.id;
+    try {
+      await visitorService.updateGuestBookMessageStatus(id, status);
+      setMessages(
+        messages.map((m) =>
+          (m.$id || m.id) === id ? { ...m, status } : m,
+        ),
+      );
+      toast.success(status === 'approved' ? 'Message approved' : 'Message rejected');
+    } catch (error) {
+      console.error('Error moderating guest book message:', error);
+      toast.error('Failed to update message status');
+    }
+  };
 
   if (isLoading) {
     return (
@@ -99,12 +118,14 @@ function AdminGuestBook() {
                 <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Visitor Name</TableHead>
                 <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Message</TableHead>
                 <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Date</TableHead>
+                <TableHead className="text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Status</TableHead>
+                <TableHead className="text-right text-xs font-mono font-semibold uppercase tracking-wider text-light-subtle dark:text-[#8a9199]">Moderation</TableHead>
               </TableRow>
             </TableHeader>
             <tbody className="divide-y divide-light-border/60 dark:divide-[#1e2430]/60">
               {filteredMessages.length === 0 ? (
                 <tr>
-                  <td colSpan={3} className="text-center py-8 text-xs font-mono text-light-subtle dark:text-[#8a9199]">
+                  <td colSpan={5} className="text-center py-8 text-xs font-mono text-light-subtle dark:text-[#8a9199]">
                     No guest book messages found
                   </td>
                 </tr>
@@ -114,6 +135,35 @@ function AdminGuestBook() {
                     <td className="px-4 py-3 font-semibold text-xs text-light-text dark:text-[#bfbdb6] whitespace-nowrap">{message.name}</td>
                     <td className="px-4 py-3 text-xs text-light-text dark:text-[#bfbdb6] max-w-md">{message.message}</td>
                     <td className="px-4 py-3 text-xs font-mono text-light-subtle dark:text-[#8a9199] whitespace-nowrap">{message.date}</td>
+                    <td className="px-4 py-3">
+                      <Badge variant={(message.status || 'approved') === 'approved' ? 'default' : (message.status === 'rejected' ? 'destructive' : 'secondary')}>
+                        {(message.status || 'approved') === 'approved' ? 'Approved' : (message.status === 'rejected' ? 'Rejected' : 'Pending')}
+                      </Badge>
+                    </td>
+                    <td className="px-4 py-3 text-right whitespace-nowrap">
+                      <div className="flex items-center justify-end gap-1.5">
+                        {(message.status || 'approved') !== 'approved' && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="h-7 px-2 text-xs"
+                            onClick={() => handleModerate(message, 'approved')}
+                          >
+                            <Check className="h-3.5 w-3.5 mr-1" /> Approve
+                          </Button>
+                        )}
+                        {(message.status || 'approved') !== 'rejected' && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="h-7 px-2 text-xs text-destructive hover:text-destructive"
+                            onClick={() => handleModerate(message, 'rejected')}
+                          >
+                            <X className="h-3.5 w-3.5 mr-1" /> Reject
+                          </Button>
+                        )}
+                      </div>
+                    </td>
                   </tr>
                 ))
               )}

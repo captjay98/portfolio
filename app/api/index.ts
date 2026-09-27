@@ -1,6 +1,6 @@
 import { getDb } from "@app/db";
 import * as schema from "@app/db/schema";
-import { eq, desc, asc, sql, gte } from "drizzle-orm";
+import { eq, desc, asc, sql, gte, gt, and } from "drizzle-orm";
 
 function json(data: any, status = 200, headers: Record<string, string> = {}): Response {
   return new Response(JSON.stringify(data), {
@@ -77,23 +77,50 @@ export async function handleApiRequest(request: Request, env: any, ctx: any): Pr
       const referrer = request.headers.get("referer") || body.referrer || "";
       const now = new Date().toISOString();
 
-      await db.insert(schema.visitors).values({
-        id: crypto.randomUUID(),
-        timestamp: now,
-        ip_address: clientIp,
-        user_agent: userAgent,
-        referrer: referrer,
-        page: body.page || "/",
-        visit_count: 1,
-        session_id: body.session_id || crypto.randomUUID(),
-        country_code: countryCode,
-        country_name: countryName,
-        created_at: now,
-        updated_at: now,
-      });
+      // Skip obvious bots / headless browsers / monitors so human numbers stay honest
+      const BOT_PATTERN = /bot|crawl|spider|slurp|bingpreview|headless|puppeteer|playwright|phantom|python-requests|curl|wget|axios|node-fetch|monitor|uptime|lighthouse|pagespeed|preview|fetch|scan/i;
+      const [botHit] = await db.select({ count: sql<number>`count(*)` }).from(schema.visitors);
+      if (BOT_PATTERN.test(userAgent) || !userAgent) {
+        const [botRes] = await db.select({ count: sql<number>`count(distinct ${schema.visitors.session_id})` }).from(schema.visitors);
+        return json({ success: true, count: botRes?.count || 0, unique: botRes?.count || 0, skipped: "bot" });
+      }
+      void botHit;
+
+      // Dedupe: one record per session+page within a 30-minute window,
+      // so refreshes and in-page navigation don't inflate the log
+      const windowStart = new Date(Date.now() - 30 * 60 * 1000).toISOString();
+      const [recent] = await db
+        .select({ id: schema.visitors.id })
+        .from(schema.visitors)
+        .where(
+          and(
+            eq(schema.visitors.session_id, body.session_id || ""),
+            eq(schema.visitors.page, body.page || "/"),
+            gt(schema.visitors.timestamp, windowStart),
+          ),
+        )
+        .limit(1);
+
+      if (!recent) {
+        await db.insert(schema.visitors).values({
+          id: crypto.randomUUID(),
+          timestamp: now,
+          ip_address: clientIp,
+          user_agent: userAgent,
+          referrer: referrer,
+          page: body.page || "/",
+          visit_count: 1,
+          session_id: body.session_id || crypto.randomUUID(),
+          country_code: countryCode,
+          country_name: countryName,
+          created_at: now,
+          updated_at: now,
+        });
+      }
 
       const [res] = await db.select({ count: sql<number>`count(*)` }).from(schema.visitors);
-      return json({ success: true, count: res?.count || 0 });
+      const [uniq] = await db.select({ count: sql<number>`count(distinct ${schema.visitors.session_id})` }).from(schema.visitors);
+      return json({ success: true, count: res?.count || 0, unique: uniq?.count || 0 });
     }
 
     if (path === "visitors/stats" && method === "GET") {
@@ -141,8 +168,9 @@ export async function handleApiRequest(request: Request, env: any, ctx: any): Pr
 
     if (path === "guest-book") {
       if (method === "GET") {
+        const statusFilter = getQueryParam(url, "status");
         const rows = await db.select().from(schema.guestBook).orderBy(desc(schema.guestBook.created_at));
-        return json(rows);
+        return json(statusFilter ? rows.filter(r => (r.status || "approved") === statusFilter) : rows);
       }
       if (method === "POST") {
         const body = await request.json() as any;
@@ -156,6 +184,14 @@ export async function handleApiRequest(request: Request, env: any, ctx: any): Pr
         };
         await db.insert(schema.guestBook).values(item);
         return json(item);
+      }
+      if (method === "PUT") {
+        const body = await request.json() as any;
+        const id = body.id || getQueryParam(url, "id");
+        if (!id) return json({ error: "Missing guest book entry id" }, 400);
+        const status = body.status === "rejected" ? "rejected" : body.status === "pending" ? "pending" : "approved";
+        await db.update(schema.guestBook).set({ status }).where(eq(schema.guestBook.id, id));
+        return json({ success: true, id, status });
       }
     }
 

@@ -98,7 +98,7 @@ const VisitorCounter: React.FC<VisitorCounterProps> = ({ className = "" }) => {
     setIsExpanded(nextState);
     if (nextState && messages.length === 0) {
       try {
-        const msgs = await visitorService.getGuestBookMessages();
+        const msgs = await visitorService.getApprovedGuestBookMessages();
         setMessages(msgs);
       } catch (err) {
         console.error("Error fetching guestbook:", err);
@@ -115,7 +115,7 @@ const VisitorCounter: React.FC<VisitorCounterProps> = ({ className = "" }) => {
       setLoading(true);
       await visitorService.addGuestBookMessage(visitorName, newMessage);
 
-      const updatedMessages = await visitorService.getGuestBookMessages();
+      const updatedMessages = await visitorService.getApprovedGuestBookMessages();
       setMessages(updatedMessages);
 
       setNewMessage("");

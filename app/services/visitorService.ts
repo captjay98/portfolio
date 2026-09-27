@@ -163,22 +163,51 @@ export const visitorService = {
     });
   },
 
-  getGuestBookMessages: async (): Promise<any[]> => {
+  getGuestBookMessages: async (options: { status?: "approved" | "rejected" | "pending" } = {}): Promise<any[]> => {
     if (isServer) {
       const db = getDb();
       const rows = await db.select().from(guestBook).orderBy(desc(guestBook.created_at));
-      return rows.map(r => ({
+      const mapped = rows.map(r => ({
         $id: r.id,
         id: r.id,
         name: r.name,
         message: r.message,
         date: r.date,
+        status: (r.status as "approved" | "rejected" | "pending") || "approved",
         created_at: r.created_at,
       }));
+      return options.status ? mapped.filter(m => m.status === options.status) : mapped;
     }
-    const res = await fetch("/api/guest-book");
+    const params = new URLSearchParams();
+    if (options.status) params.set("status", options.status);
+    const res = await fetch(`/api/guest-book${params.toString() ? `?${params.toString()}` : ""}`);
     if (!res.ok) return [];
-    return await res.json();
+    const json = await res.json();
+    return (Array.isArray(json) ? json : []).map((r: any) => ({
+      ...r,
+      status: r.status || "approved",
+    }));
+  },
+
+  // Public-facing helper: only approved entries are shown to visitors.
+  getApprovedGuestBookMessages: async (): Promise<any[]> => {
+    return visitorService.getGuestBookMessages({ status: "approved" });
+  },
+
+  updateGuestBookMessageStatus: async (
+    id: string,
+    status: "approved" | "rejected" | "pending",
+  ): Promise<void> => {
+    if (isServer) {
+      const db = getDb();
+      await db.update(guestBook).set({ status }).where(eq(guestBook.id, id));
+      return;
+    }
+    await fetch("/api/guest-book", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, status }),
+    });
   },
 };
 

@@ -34,7 +34,11 @@ import { Route as AdminEducationIndexRouteImport } from './routes/admin/educatio
 import { Route as AdminContactSubmissionsIndexRouteImport } from './routes/admin/contact-submissions/index'
 import { Route as AdminCategoriesIndexRouteImport } from './routes/admin/categories/index'
 import { Route as AdminBlogsIndexRouteImport } from './routes/admin/blogs/index'
+import { Route as AdminProjectsNewRouteImport } from './routes/admin/projects/new'
+import { Route as AdminProjectsIdRouteImport } from './routes/admin/projects/$id'
+import { Route as AdminBlogsNewRouteImport } from './routes/admin/blogs/new'
 import { Route as BlogSeriesSlugIndexRouteImport } from './routes/blog/series/$slug/index'
+import { Route as AdminBlogsEditIdRouteImport } from './routes/admin/blogs/edit.$id'
 
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
@@ -162,10 +166,30 @@ const AdminBlogsIndexRoute = AdminBlogsIndexRouteImport.update({
   path: '/blogs/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminProjectsNewRoute = AdminProjectsNewRouteImport.update({
+  id: '/projects/new',
+  path: '/projects/new',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProjectsIdRoute = AdminProjectsIdRouteImport.update({
+  id: '/projects/$id',
+  path: '/projects/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBlogsNewRoute = AdminBlogsNewRouteImport.update({
+  id: '/blogs/new',
+  path: '/blogs/new',
+  getParentRoute: () => AdminRoute,
+} as any)
 const BlogSeriesSlugIndexRoute = BlogSeriesSlugIndexRouteImport.update({
   id: '/blog/series/$slug/',
   path: '/blog/series/$slug/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminBlogsEditIdRoute = AdminBlogsEditIdRouteImport.update({
+  id: '/blogs/edit/$id',
+  path: '/blogs/edit/$id',
+  getParentRoute: () => AdminRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -177,6 +201,9 @@ export interface FileRoutesByFullPath {
   '/blog': typeof BlogIndexRoute
   '/contact': typeof ContactIndexRoute
   '/projects': typeof ProjectsIndexRoute
+  '/admin/blogs/new': typeof AdminBlogsNewRoute
+  '/admin/projects/$id': typeof AdminProjectsIdRoute
+  '/admin/projects/new': typeof AdminProjectsNewRoute
   '/admin/blogs': typeof AdminBlogsIndexRoute
   '/admin/categories': typeof AdminCategoriesIndexRoute
   '/admin/contact-submissions': typeof AdminContactSubmissionsIndexRoute
@@ -194,6 +221,7 @@ export interface FileRoutesByFullPath {
   '/admin/uses': typeof AdminUsesIndexRoute
   '/admin/visitors': typeof AdminVisitorsIndexRoute
   '/blog/$slug': typeof BlogSlugIndexRoute
+  '/admin/blogs/edit/$id': typeof AdminBlogsEditIdRoute
   '/blog/series/$slug': typeof BlogSeriesSlugIndexRoute
 }
 export interface FileRoutesByTo {
@@ -204,6 +232,9 @@ export interface FileRoutesByTo {
   '/blog': typeof BlogIndexRoute
   '/contact': typeof ContactIndexRoute
   '/projects': typeof ProjectsIndexRoute
+  '/admin/blogs/new': typeof AdminBlogsNewRoute
+  '/admin/projects/$id': typeof AdminProjectsIdRoute
+  '/admin/projects/new': typeof AdminProjectsNewRoute
   '/admin/blogs': typeof AdminBlogsIndexRoute
   '/admin/categories': typeof AdminCategoriesIndexRoute
   '/admin/contact-submissions': typeof AdminContactSubmissionsIndexRoute
@@ -221,6 +252,7 @@ export interface FileRoutesByTo {
   '/admin/uses': typeof AdminUsesIndexRoute
   '/admin/visitors': typeof AdminVisitorsIndexRoute
   '/blog/$slug': typeof BlogSlugIndexRoute
+  '/admin/blogs/edit/$id': typeof AdminBlogsEditIdRoute
   '/blog/series/$slug': typeof BlogSeriesSlugIndexRoute
 }
 export interface FileRoutesById {
@@ -233,6 +265,9 @@ export interface FileRoutesById {
   '/blog/': typeof BlogIndexRoute
   '/contact/': typeof ContactIndexRoute
   '/projects/': typeof ProjectsIndexRoute
+  '/admin/blogs/new': typeof AdminBlogsNewRoute
+  '/admin/projects/$id': typeof AdminProjectsIdRoute
+  '/admin/projects/new': typeof AdminProjectsNewRoute
   '/admin/blogs/': typeof AdminBlogsIndexRoute
   '/admin/categories/': typeof AdminCategoriesIndexRoute
   '/admin/contact-submissions/': typeof AdminContactSubmissionsIndexRoute
@@ -250,6 +285,7 @@ export interface FileRoutesById {
   '/admin/uses/': typeof AdminUsesIndexRoute
   '/admin/visitors/': typeof AdminVisitorsIndexRoute
   '/blog/$slug/': typeof BlogSlugIndexRoute
+  '/admin/blogs/edit/$id': typeof AdminBlogsEditIdRoute
   '/blog/series/$slug/': typeof BlogSeriesSlugIndexRoute
 }
 export interface FileRouteTypes {
@@ -263,6 +299,9 @@ export interface FileRouteTypes {
     | '/blog'
     | '/contact'
     | '/projects'
+    | '/admin/blogs/new'
+    | '/admin/projects/$id'
+    | '/admin/projects/new'
     | '/admin/blogs'
     | '/admin/categories'
     | '/admin/contact-submissions'
@@ -280,6 +319,7 @@ export interface FileRouteTypes {
     | '/admin/uses'
     | '/admin/visitors'
     | '/blog/$slug'
+    | '/admin/blogs/edit/$id'
     | '/blog/series/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -290,6 +330,9 @@ export interface FileRouteTypes {
     | '/blog'
     | '/contact'
     | '/projects'
+    | '/admin/blogs/new'
+    | '/admin/projects/$id'
+    | '/admin/projects/new'
     | '/admin/blogs'
     | '/admin/categories'
     | '/admin/contact-submissions'
@@ -307,6 +350,7 @@ export interface FileRouteTypes {
     | '/admin/uses'
     | '/admin/visitors'
     | '/blog/$slug'
+    | '/admin/blogs/edit/$id'
     | '/blog/series/$slug'
   id:
     | '__root__'
@@ -318,6 +362,9 @@ export interface FileRouteTypes {
     | '/blog/'
     | '/contact/'
     | '/projects/'
+    | '/admin/blogs/new'
+    | '/admin/projects/$id'
+    | '/admin/projects/new'
     | '/admin/blogs/'
     | '/admin/categories/'
     | '/admin/contact-submissions/'
@@ -335,6 +382,7 @@ export interface FileRouteTypes {
     | '/admin/uses/'
     | '/admin/visitors/'
     | '/blog/$slug/'
+    | '/admin/blogs/edit/$id'
     | '/blog/series/$slug/'
   fileRoutesById: FileRoutesById
 }
@@ -527,6 +575,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBlogsIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/projects/new': {
+      id: '/admin/projects/new'
+      path: '/projects/new'
+      fullPath: '/admin/projects/new'
+      preLoaderRoute: typeof AdminProjectsNewRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/projects/$id': {
+      id: '/admin/projects/$id'
+      path: '/projects/$id'
+      fullPath: '/admin/projects/$id'
+      preLoaderRoute: typeof AdminProjectsIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/blogs/new': {
+      id: '/admin/blogs/new'
+      path: '/blogs/new'
+      fullPath: '/admin/blogs/new'
+      preLoaderRoute: typeof AdminBlogsNewRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/blog/series/$slug/': {
       id: '/blog/series/$slug/'
       path: '/blog/series/$slug'
@@ -534,11 +603,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSeriesSlugIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/blogs/edit/$id': {
+      id: '/admin/blogs/edit/$id'
+      path: '/blogs/edit/$id'
+      fullPath: '/admin/blogs/edit/$id'
+      preLoaderRoute: typeof AdminBlogsEditIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminBlogsNewRoute: typeof AdminBlogsNewRoute
+  AdminProjectsIdRoute: typeof AdminProjectsIdRoute
+  AdminProjectsNewRoute: typeof AdminProjectsNewRoute
   AdminBlogsIndexRoute: typeof AdminBlogsIndexRoute
   AdminCategoriesIndexRoute: typeof AdminCategoriesIndexRoute
   AdminContactSubmissionsIndexRoute: typeof AdminContactSubmissionsIndexRoute
@@ -555,10 +634,14 @@ interface AdminRouteChildren {
   AdminTechnologiesIndexRoute: typeof AdminTechnologiesIndexRoute
   AdminUsesIndexRoute: typeof AdminUsesIndexRoute
   AdminVisitorsIndexRoute: typeof AdminVisitorsIndexRoute
+  AdminBlogsEditIdRoute: typeof AdminBlogsEditIdRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
+  AdminBlogsNewRoute: AdminBlogsNewRoute,
+  AdminProjectsIdRoute: AdminProjectsIdRoute,
+  AdminProjectsNewRoute: AdminProjectsNewRoute,
   AdminBlogsIndexRoute: AdminBlogsIndexRoute,
   AdminCategoriesIndexRoute: AdminCategoriesIndexRoute,
   AdminContactSubmissionsIndexRoute: AdminContactSubmissionsIndexRoute,
@@ -575,6 +658,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminTechnologiesIndexRoute: AdminTechnologiesIndexRoute,
   AdminUsesIndexRoute: AdminUsesIndexRoute,
   AdminVisitorsIndexRoute: AdminVisitorsIndexRoute,
+  AdminBlogsEditIdRoute: AdminBlogsEditIdRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
