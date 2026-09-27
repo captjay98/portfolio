@@ -214,7 +214,7 @@ export async function handleApiRequest(request: Request, env: any, ctx: any): Pr
         "datadog", "newrelic", "curl", "wget", "python-requests", "axios", "okhttp",
         "node-fetch", "go-http-client", "libwww", "ahrefs", "semrush",
         "facebookexternalhit", "whatsapp/", "telegram", "twitterbot", "slackbot",
-        "discord", "embedly", "bingpreview",
+        "discord", "embedly", "bingpreview", "fossick", "dataprovider",
       ];
       const [res] = await db
         .select({ count: sql<number>`count(distinct ${schema.visitors.session_id})` })

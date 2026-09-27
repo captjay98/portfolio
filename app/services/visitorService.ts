@@ -10,7 +10,7 @@ const READER_BOT_TOKENS = [
   "datadog", "newrelic", "curl", "wget", "python-requests", "axios", "okhttp",
   "node-fetch", "go-http-client", "libwww", "ahrefs", "semrush",
   "facebookexternalhit", "whatsapp/", "telegram", "twitterbot", "slackbot",
-  "discord", "embedly", "bingpreview",
+  "discord", "embedly", "bingpreview", "fossick", "dataprovider",
 ];
 
 export type VisitorSessionGroup = {
