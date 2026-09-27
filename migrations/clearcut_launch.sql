@@ -43,3 +43,10 @@ UPDATE projects SET
   live = 'https://livestockai.app',
   updated_at = '2026-09-26T23:59:00.000+00:00'
 WHERE id = 'proj-livestockai';
+
+-- 6. NIPSMAP (row already exists in remote D1): new landing domain + refreshed screenshots
+UPDATE projects SET
+  live = 'https://nipsmap.com.ng',
+  image = 'project/nipsmap.webp',
+  updated_at = '2026-09-27T01:30:00.000+00:00'
+WHERE name = 'NIPSMAP';
