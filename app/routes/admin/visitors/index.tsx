@@ -79,7 +79,8 @@ function AdminVisitors() {
   function getSessionLabel(session: VisitorSessionGroup) {
     try {
       const decoded = atob(session.session_id);
-      if (decoded && /[\x20-\x7e]/.test(decoded)) {
+      // require ALL characters printable ASCII — legacy seed-era ids decode to binary garbage
+      if (decoded && /^[\x20-\x7e]+$/.test(decoded)) {
         return decoded.slice(0, 34) + (decoded.length > 34 ? '…' : '');
       }
     } catch {

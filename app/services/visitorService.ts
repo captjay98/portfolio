@@ -133,24 +133,41 @@ export const visitorService = {
 
   // Accurate session grouping across ALL rows (not just the recent window):
   // one row per session_id with lifetime hits, distinct pages, first/last seen,
-  // and the country from the session's most recent visit.
+  // and the country from the session's most recent visit. The latest-country
+  // comes from a separate MAX(timestamp) grouped query — SQLite guarantees
+  // bare columns come from the max() row — avoiding correlated subqueries.
   getGroupedVisitorSessions: async (): Promise<VisitorSessionGroup[]> => {
     if (isServer) {
       const db = getDb();
-      const rows = await db
-        .select({
-          session_id: visitors.session_id,
-          hits: sql<number>`count(*)`,
-          pages: sql<number>`count(distinct ${visitors.page})`,
-          first_seen: sql<string>`min(${visitors.timestamp})`,
-          last_seen: sql<string>`max(${visitors.timestamp})`,
-          user_agent: sql<string>`max(${visitors.user_agent})`,
-          country_name: sql<string|null>`(select country_name from visitors v2 where v2.session_id = ${visitors.session_id} order by timestamp desc limit 1)`,
-        })
-        .from(visitors)
-        .groupBy(visitors.session_id)
-        .orderBy(desc(sql`max(${visitors.timestamp})`));
-      return rows;
+      const [groups, latestCountries] = await Promise.all([
+        db
+          .select({
+            session_id: visitors.session_id,
+            hits: sql<number>`count(*)`,
+            pages: sql<number>`count(distinct ${visitors.page})`,
+            first_seen: sql<string>`min(${visitors.timestamp})`,
+            last_seen: sql<string>`max(${visitors.timestamp})`,
+            user_agent: sql<string>`max(${visitors.user_agent})`,
+          })
+          .from(visitors)
+          .groupBy(visitors.session_id)
+          .orderBy(desc(sql`max(${visitors.timestamp})`)),
+        db
+          .select({
+            session_id: visitors.session_id,
+            country_name: visitors.country_name,
+          })
+          .from(visitors)
+          .groupBy(visitors.session_id)
+          .having(sql`max(${visitors.timestamp})`),
+      ]);
+      const countryBySession = new Map(
+        latestCountries.map((r) => [r.session_id, r.country_name]),
+      );
+      return groups.map((g) => ({
+        ...g,
+        country_name: countryBySession.get(g.session_id) ?? null,
+      }));
     }
     const res = await fetch("/api/visitors/sessions");
     if (!res.ok) return [];
