@@ -1,6 +1,6 @@
 import { getDb } from "@app/db";
 import * as schema from "@app/db/schema";
-import { eq, desc, asc, sql, gte, gt, and } from "drizzle-orm";
+import { eq, desc, asc, sql, gte, gt, and, notLike, isNotNull } from "drizzle-orm";
 
 function json(data: any, status = 200, headers: Record<string, string> = {}): Response {
   return new Response(JSON.stringify(data), {
@@ -204,6 +204,28 @@ export async function handleApiRequest(request: Request, env: any, ctx: any): Pr
           country_name: countryBySession.get(g.session_id) ?? null,
         })),
       );
+    }
+
+    // Reader sessions: distinct session_ids excluding high-confidence bot UAs
+    if (path === "visitors/reader-sessions" && method === "GET") {
+      const tokens = [
+        "bot", "crawl", "spider", "slurp", "headless", "puppeteer", "playwright",
+        "phantomjs", "lighthouse", "pagespeed", "pingdom", "statuscake", "site24x7",
+        "datadog", "newrelic", "curl", "wget", "python-requests", "axios", "okhttp",
+        "node-fetch", "go-http-client", "libwww", "ahrefs", "semrush",
+        "facebookexternalhit", "whatsapp/", "telegram", "twitterbot", "slackbot",
+        "discord", "embedly", "bingpreview",
+      ];
+      const [res] = await db
+        .select({ count: sql<number>`count(distinct ${schema.visitors.session_id})` })
+        .from(schema.visitors)
+        .where(
+          and(
+            isNotNull(schema.visitors.user_agent),
+            ...tokens.map((t) => notLike(schema.visitors.user_agent, `%${t}%`)),
+          ),
+        );
+      return json({ count: res?.count || 0 });
     }
 
     if (path === "guest-book") {

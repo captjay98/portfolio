@@ -1,6 +1,17 @@
 import { getDb, visitors, guestBook } from "@app/db";
-import { eq, desc, sql, gte } from "drizzle-orm";
+import { eq, desc, sql, gte, and, notLike, isNotNull } from "drizzle-orm";
 import { VisitorType } from "@app/types/admin";
+
+// High-confidence bot tokens (same semantics as the record-path UA filter —
+// deliberately NO loose substrings like preview/scan/monitor/uptime/fetch)
+const READER_BOT_TOKENS = [
+  "bot", "crawl", "spider", "slurp", "headless", "puppeteer", "playwright",
+  "phantomjs", "lighthouse", "pagespeed", "pingdom", "statuscake", "site24x7",
+  "datadog", "newrelic", "curl", "wget", "python-requests", "axios", "okhttp",
+  "node-fetch", "go-http-client", "libwww", "ahrefs", "semrush",
+  "facebookexternalhit", "whatsapp/", "telegram", "twitterbot", "slackbot",
+  "discord", "embedly", "bingpreview",
+];
 
 export type VisitorSessionGroup = {
   session_id: string;
@@ -174,7 +185,32 @@ export const visitorService = {
     return await res.json();
   },
 
-  getVisitorStatsByCountry: async (): Promise<Record<string, number>> => {
+    // Accurate session grouping across ALL rows (not just the recent window):
+    // Reader sessions = distinct session_ids whose UA is NOT a high-confidence
+    // bot token. Closest defensible proxy for "unique humans" — legacy session
+    // ids are UA-derived, so true unique visitors are unknowable retroactively.
+    getReaderSessionCount: async (): Promise<number> => {
+      if (isServer) {
+        const db = getDb();
+        const tokens = READER_BOT_TOKENS;
+        const [res] = await db
+          .select({ count: sql<number>`count(distinct ${visitors.session_id})` })
+          .from(visitors)
+          .where(
+            and(
+              isNotNull(visitors.user_agent),
+              ...tokens.map((t) => notLike(visitors.user_agent, `%${t}%`)),
+            ),
+          );
+        return res?.count || 0;
+      }
+      const res = await fetch("/api/visitors/reader-sessions");
+      if (!res.ok) return 0;
+      const data = await res.json();
+      return typeof data.count === "number" ? data.count : 0;
+    },
+
+    getVisitorStatsByCountry: async (): Promise<Record<string, number>> => {
     if (isServer) {
       const db = getDb();
       const rows = await db
